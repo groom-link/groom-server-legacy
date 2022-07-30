@@ -10,6 +10,21 @@ import org.springframework.http.ResponseEntity;
 
 import javax.annotation.Nullable;
 
+
+@AllArgsConstructor
+@Builder
+@Getter
+class ExceptionDto{
+    private final HttpStatus status;
+    private final String code;
+    private final String message;
+
+    public ExceptionDto(CustomException e){
+        this.status = e.getErrorCode().getStatus();
+        this.code = e.getErrorCode().name();
+        this.message = e.getErrorCode().getMessage();
+    }
+}
 @AllArgsConstructor
 @Builder
 @Getter
@@ -18,36 +33,18 @@ public class ResponseDto<T> {
     private final T data;
     private final ExceptionDto error;
 
-    @AllArgsConstructor
-    @Builder
-    @Getter
-    class ExceptionDto{
-        private final HttpStatus status;
-        private final String code;
-        private final String message;
 
-        public ExceptionDto(CustomException e){
-            this.status = e.getErrorCode().getStatus();
-            this.code = e.getErrorCode().name();
-            this.message = e.getErrorCode().getMessage();
-        }
-    }
-    public ResponseDto(CustomException e){
-        this.success = false;
-        this.data = null;
-        this.error = new ExceptionDto(e);
-    }
 
-    public ResponseDto(@Nullable Object data){
-        this.success = true;
-        this.data = (T)data;
-        this.error = null;
+    public ResponseDto(@Nullable T data, @Nullable CustomException e){
+        this.success = e == null;
+        this.data = data;
+        this.error = e != null ? new ExceptionDto(e) : null;
     }
 
 
 
-    public static ResponseEntity toResponseEntity(CustomException e){
-        return ResponseEntity.status(e.getErrorCode().getStatus())
-                .body(new ResponseDto(e));
+    public static ResponseEntity<Object> toResponseEntity(ResponseDto<Object> res){
+        return ResponseEntity.status(res.getError().getStatus())
+                .body(res);
     }
 }
