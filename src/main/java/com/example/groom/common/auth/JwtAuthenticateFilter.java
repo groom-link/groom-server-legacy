@@ -6,6 +6,7 @@ import com.example.groom.common.auth.jwt.JwtAuthenticationTokenProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -23,10 +24,10 @@ public class JwtAuthenticateFilter extends OncePerRequestFilter {
     private final JwtAuthenticationTokenProvider jwtAuthenticationTokenProvider;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         AuthenticationToken token = jwtAuthenticationTokenProvider.getTokenFromHeader(request);
         Jws<Claims> claimsJws = jwtAuthenticationTokenProvider.validateToken(token.getAccessToken());
-        SecurityContextHolder.getContext().setAuthentication(new JwtAuthentication(claimsJws));
+        SecurityContextHolder.getContext().setAuthentication(new JwtAuthentication(Long.valueOf(claimsJws.getBody().getSubject())));
         filterChain.doFilter(request,response);
     }
 }
