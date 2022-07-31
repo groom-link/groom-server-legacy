@@ -5,26 +5,11 @@ import com.example.groom.common.exception.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import javax.annotation.Nullable;
 
 
-@AllArgsConstructor
-@Builder
-@Getter
-class ExceptionDto{
-    private final HttpStatus status;
-    private final String code;
-    private final String message;
-
-    public ExceptionDto(CustomException e){
-        this.status = e.getErrorCode().getStatus();
-        this.code = e.getErrorCode().name();
-        this.message = e.getErrorCode().getMessage();
-    }
-}
 @AllArgsConstructor
 @Builder
 @Getter
