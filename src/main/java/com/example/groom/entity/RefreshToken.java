@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Token extends BaseEntity{
+public class RefreshToken extends BaseEntity{
     @Column
     private String refreshToken;
 

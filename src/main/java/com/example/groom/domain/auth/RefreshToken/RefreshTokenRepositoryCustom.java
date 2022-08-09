@@ -1,8 +1,8 @@
 package com.example.groom.domain.auth.RefreshToken;
 
-import com.example.groom.entity.Token;
+import com.example.groom.entity.RefreshToken;
 
 public interface RefreshTokenRepositoryCustom {
-    Token getRefreshTokenFromDB(String refreshToken);
+    RefreshToken getRefreshTokenFromDB(String refreshToken);
 
 }

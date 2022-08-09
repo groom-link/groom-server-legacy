@@ -2,7 +2,7 @@ package com.example.groom.domain.auth.RefreshToken;
 
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
-import com.example.groom.entity.Token;
+import com.example.groom.entity.RefreshToken;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -28,8 +28,8 @@ public class RefreshTokenRepositoryImpl implements RefreshTokenRepositoryCustom 
 
 
     @Override
-    public Token getRefreshTokenFromDB(String refreshToken) {
-        Token existsToken = query.selectFrom(refreshToken1)
+    public RefreshToken getRefreshTokenFromDB(String refreshToken) {
+        RefreshToken existsToken = query.selectFrom(refreshToken1)
                 .where(refreshToken1.refreshToken.eq(refreshToken))
                 .fetchOne();
         if (existsToken == null) throw new CustomException(ErrorCode.REFRESH_TOKEN_INVALID);
