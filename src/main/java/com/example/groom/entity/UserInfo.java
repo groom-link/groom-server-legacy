@@ -1,36 +1,37 @@
 package com.example.groom.entity;
 
 
-import com.example.groom.entity.enums.Gender;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+
+
+
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserInfo extends BaseEntity {
+
+
     @JoinColumn
     @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
-    @Column
-    private String kakaoCode;
+    @JoinColumn
+    @OneToOne(fetch = FetchType.LAZY)
+    private KakaoInfo kakao;
 
-    @Column
-    private String kakaoEmail;
-
-    @Column
-    private String profileThumbnailImageUrl;
-
-    @Column
-    private String nickname;
-
-    @Column
-    private String name;
-    @Column
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
-
-    @Column
-    private String ageRange;
+    public UserInfo(KakaoInfo kakao, User user){
+        this.user = user;
+        this.kakao = kakao;
+    }
 }

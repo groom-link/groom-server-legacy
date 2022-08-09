@@ -20,16 +20,15 @@ public class ResponseDto<T> {
 
 
 
-    public ResponseDto(@Nullable T data, @Nullable CustomException e){
-        this.success = e == null;
+    public ResponseDto(@Nullable T data){
+        this.success = true;
         this.data = data;
-        this.error = e != null ? new ExceptionDto(e) : null;
+        this.error = null;
     }
 
 
-
-    public static ResponseEntity<Object> toResponseEntity(ResponseDto<Object> res){
-        return ResponseEntity.status(res.getError().getStatus())
-                .body(res);
+    public static ResponseEntity<Object> toResponseEntity(CustomException e){
+        return ResponseEntity.status(e.getErrorCode().getStatus())
+                .body(ResponseDto.builder().data(null).error(new ExceptionDto(e)).success(false));
     }
 }

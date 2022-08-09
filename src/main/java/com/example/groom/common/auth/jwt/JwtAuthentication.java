@@ -14,6 +14,7 @@ import java.util.Collection;
 @AllArgsConstructor
 public class JwtAuthentication implements Authentication {
     Long userInfoId;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
@@ -26,12 +27,12 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public Object getDetails() {
-        return userInfoId;
+        return null;
     }
 
     @Override
     public Object getPrincipal() {
-        return null;
+        return userInfoId;
     }
 
     @Override

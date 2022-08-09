@@ -1,9 +1,6 @@
 package com.example.groom;
 
 
-import com.example.groom.domain.auth.UserInfo.UserInfoService;
-import com.example.groom.entity.UserInfo;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -14,14 +11,12 @@ import java.util.Optional;
 
 @Configuration
 @EnableJpaAuditing
-@RequiredArgsConstructor
-public class SpringSecurityAuditorAware implements AuditorAware<UserInfo> {
-    private final UserInfoService userInfoService;
+public class SpringSecurityAuditorAware implements AuditorAware<Object> {
 
     @Override
-    public Optional<UserInfo> getCurrentAuditor() {
+    public Optional<Object> getCurrentAuditor() {
         return Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
-                .map(authentication -> userInfoService.getUserInfo((Long) authentication.getDetails()));
+                .map(authentication -> authentication.getPrincipal());
     }
 }

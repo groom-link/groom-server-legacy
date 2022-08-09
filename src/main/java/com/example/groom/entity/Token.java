@@ -11,9 +11,10 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RefreshToken extends BaseEntity{
+public class Token extends BaseEntity{
     @Column
     private String refreshToken;
+
 
     @JoinColumn(unique = true)
     @OneToOne(fetch = FetchType.LAZY)
