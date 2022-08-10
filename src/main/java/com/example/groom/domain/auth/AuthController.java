@@ -38,7 +38,7 @@ public class AuthController {
     public AuthenticationTokenResponseDTO refreshAuthenticationToken(
             @Parameter(description = "refresh token")
             @RequestBody  RefreshTokenDto refreshTokenDto){
-        if(refreshTokenDto.getRefreshToken() == null || refreshTokenDto.getRefreshToken().isBlank())throw new CustomException(ErrorCode.REFRESH_TOKEN_REQUIRED);
+        if(refreshTokenDto.getRefreshToken() == null || refreshTokenDto.getRefreshToken().isEmpty())throw new CustomException(ErrorCode.REFRESH_TOKEN_REQUIRED);
         return new AuthenticationTokenResponseDTO(this.authService.tokenRefresh(refreshTokenDto.getRefreshToken()));
     }
 
