@@ -11,7 +11,7 @@ public class Room extends OwnEntity{
     @Column
     private String name;
 
-//    @JoinColumn
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private RoomCategory category;
+    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
+    private RoomCategory category;
 }
