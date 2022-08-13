@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
+
     @JsonProperty("id")
     @Id @GeneratedValue
     private Long id;

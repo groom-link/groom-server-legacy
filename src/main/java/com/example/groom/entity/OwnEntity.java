@@ -18,4 +18,5 @@ import javax.persistence.MappedSuperclass;
 public class OwnEntity extends BaseEntity{
     @CreatedBy
     private Long ownerId;
+
 }
