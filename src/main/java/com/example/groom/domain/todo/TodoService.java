@@ -7,6 +7,7 @@ import com.example.groom.entity.Todo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class TodoService {
         return this.todoRepository.save(todo);
     }
 
+    @Transactional
     public Todo updateTodo(Todo todo) {
         Todo existTodo = getTodo(todo.getId());
 
@@ -38,7 +40,4 @@ public class TodoService {
 
         return existTodo;
     }
-
-
-
 }

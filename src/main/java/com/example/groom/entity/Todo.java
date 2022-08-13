@@ -33,4 +33,12 @@ public class Todo extends CoopEntity {
 //    @JoinColumn
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    private Long room_id;
+
+    public void updateTodo(Todo todo) {
+        this.title = todo.getTitle();
+        this.content = todo.getContent();
+        this.todoBox = todo.getTodoBox();
+        this.userInfo = todo.getUserInfo();
+        this.roomSlot = todo.getRoomSlot();
+    }
 }
