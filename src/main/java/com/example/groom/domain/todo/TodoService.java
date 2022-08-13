@@ -34,7 +34,11 @@ public class TodoService {
     public Todo updateTodo(Todo todo) {
         Todo existTodo = getTodo(todo.getId());
 
-        existTodo
+        existTodo.updateTodo(todo);
+
+        return existTodo;
     }
+
+
 
 }
