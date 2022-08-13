@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class TodoAttatchment extends CoopEntity {
+public class TodoAttachment extends CoopEntity {
 
     @Column
     private String name;

@@ -2,6 +2,7 @@ package com.example.groom.entity;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,4 +27,16 @@ public class Todo extends CoopEntity {
     @JoinColumn(name = "userInfo_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private UserInfo userInfo;
+
+//    @JoinColumn
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Long room_id;
+
+    @Builder
+    public UpdateTodo(String title, String content, TodoBox todoBox, UserInfo userInfo) {
+        this.title = title;
+        this.content = content;
+        this.todoBox = todoBox;
+        this.userInfo = userInfo;
+    }
 }
