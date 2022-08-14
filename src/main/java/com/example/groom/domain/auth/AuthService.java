@@ -31,7 +31,7 @@ public class AuthService {
     }
 
     public UserInfo getMe(Authentication authentication){
-        return this.userInfoService.getUserInfo((Long) authentication.getDetails());
+        return this.userInfoService.getUserInfo((Long) authentication.getPrincipal());
     }
 
 }
