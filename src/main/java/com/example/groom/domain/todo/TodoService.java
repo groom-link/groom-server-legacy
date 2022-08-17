@@ -28,8 +28,19 @@ public class TodoService {
         return this.todoRepository.findAllByRoomId(id);
     }
 
+    @Transactional
+    public List<Todo> getTodoListByUserInfoRoomId(Long roomId, Long userInfoId) {
+        return this.todoRepository.findAllByUserIdRoomId(roomId, userInfoId);
+    }
+
     public Todo createTodo(Todo todo) {
         return this.todoRepository.save(todo);
+    }
+
+    public void deleteTodo(Long id) {
+        Todo todo = getTodo(id);
+
+        this.todoRepository.delete(todo);
     }
 
     @Transactional

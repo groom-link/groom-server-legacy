@@ -26,6 +26,12 @@ public class ResponseDto<T> {
         this.error = null;
     }
 
+    public ResponseDto(){
+        this.success = true;
+        this.data = null;
+        this.error = null;
+    }
+
 
     public static ResponseEntity<Object> toResponseEntity(CustomException e){
         return ResponseEntity.status(e.getErrorCode().getStatus())
