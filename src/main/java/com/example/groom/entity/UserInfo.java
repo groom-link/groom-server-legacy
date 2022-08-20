@@ -1,6 +1,7 @@
 package com.example.groom.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,10 +25,12 @@ public class UserInfo extends BaseEntity {
 
     @JoinColumn
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User user;
 
     @JoinColumn
     @OneToOne(fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private KakaoInfo kakao;
 
     public UserInfo(KakaoInfo kakao, User user){

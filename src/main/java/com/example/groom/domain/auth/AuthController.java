@@ -2,6 +2,7 @@ package com.example.groom.domain.auth;
 
 
 import com.example.groom.common.auth.jwt.AuthenticationToken;
+import com.example.groom.common.auth.jwt.JwtAuthentication;
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.auth.dto.AuthenticationTokenResponseDTO;
@@ -15,7 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -71,7 +71,7 @@ public class AuthController {
                     content = @Content(schema = @Schema(implementation = UserInfo.class))),
     })
     @GetMapping("/me")
-    public UserInfo getMe(Authentication authentication){
-        return authService.getMe(authentication);
+    public UserInfo getMe(JwtAuthentication authentication){
+        return this.authService.getMe( authentication);
     }
 }
