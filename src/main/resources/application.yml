@@ -6,11 +6,16 @@ server:
 spring:
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     generate-ddl: true
     show-sql: false
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
   datasource:
     url: jdbc:mysql://database-1.cnnpvjpnseuj.ap-northeast-2.rds.amazonaws.com:3306/groom?serverTimezone=UTC&characterEncoding=UTF-8
     username: admin
