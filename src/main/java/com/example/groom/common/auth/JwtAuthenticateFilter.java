@@ -1,15 +1,13 @@
 package com.example.groom.common.auth;
 
+import com.example.groom.common.auth.jwt.AuthenticationToken;
 import com.example.groom.common.auth.jwt.JwtAuthentication;
 import com.example.groom.common.auth.jwt.JwtAuthenticationTokenProvider;
-import com.example.groom.common.auth.jwt.AuthenticationToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -19,15 +17,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 
-@RequiredArgsConstructor
-@Component
 public class JwtAuthenticateFilter extends OncePerRequestFilter {
-    private final JwtAuthenticationTokenProvider jwtAuthenticationTokenProvider;
+    @Autowired
+    private JwtAuthenticationTokenProvider jwtAuthenticationTokenProvider;
 
-    private Authentication getAuthentication(String token){
+    private JwtAuthentication getAuthentication(String token){
         Jws<Claims> claimsJws = jwtAuthenticationTokenProvider.validateAccessToken(token);
-        return new JwtAuthentication(Long.valueOf(claimsJws.getBody().getAudience()));
-
+        return new JwtAuthentication(Long.valueOf(claimsJws.getBody().getSubject()));
     }
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
