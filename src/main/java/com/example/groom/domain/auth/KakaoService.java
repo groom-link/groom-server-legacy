@@ -64,7 +64,7 @@ public class KakaoService {
     private KakaoTokenDto getKakaoToken(String kakaoCode){
         RestTemplate template = new RestTemplate();
         HttpHeaders headers = getHeader(MediaType.APPLICATION_FORM_URLENCODED);
-        HttpEntity<MultiValueMap> entity = new HttpEntity<>(headers);
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(headers);
         ResponseEntity<KakaoTokenDto> exchange = template.exchange("https://kauth.kakao.com/oauth/token"+getTokenUriParams(kakaoCode), HttpMethod.POST, entity, KakaoTokenDto.class);
         return exchange.getBody();
     }

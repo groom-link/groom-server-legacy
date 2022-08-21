@@ -72,6 +72,6 @@ public class AuthController {
     })
     @GetMapping("/me")
     public UserInfo getMe(JwtAuthentication authentication){
-        return this.authService.getMe( authentication);
+        return this.authService.getMe(authentication);
     }
 }

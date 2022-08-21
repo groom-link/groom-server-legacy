@@ -34,7 +34,4 @@ public class Room extends OwnEntity{
     @OneToMany
     @LazyCollection(LazyCollectionOption.EXTRA)
     private List<RoomParticipants> roomParticipants = new ArrayList<>();
-
-
-
 }

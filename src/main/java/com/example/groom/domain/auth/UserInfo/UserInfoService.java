@@ -21,13 +21,13 @@ public class UserInfoService {
     private final UserRepository userRepository;
     public UserInfo getUserInfo(Long id){
         Optional<UserInfo> userInfo = this.userInfoRepository.findById(id);
-        if(!userInfo.isPresent())throw new CustomException(ErrorCode.USER_NOT_FOUND);
+        if(userInfo.isEmpty())throw new CustomException(ErrorCode.USER_NOT_FOUND);
         return userInfo.get();
     }
 
     public UserInfo getUserInfoByKakaoId(Long kakaoId) throws CustomException{
         Optional<UserInfo> userInfo = this.userInfoRepository.findByKakaoId(kakaoId);
-        if(!userInfo.isPresent())throw new CustomException(ErrorCode.JOIN_REQUIRED);
+        if(userInfo.isEmpty())throw new CustomException(ErrorCode.JOIN_REQUIRED);
         return userInfo.get();
     }
 
