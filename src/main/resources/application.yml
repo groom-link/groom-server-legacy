@@ -1,21 +1,44 @@
+host:
+  url: http://localhost:8080
+
+server:
+  port: 8081
 spring:
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    generate-ddl: false
+      ddl-auto: update
+    generate-ddl: true
     show-sql: false
-    database: h2
-    database-platform: org.hibernate.dialect.H2Dialect
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
   datasource:
-    url: jdbc:h2:tcp://localhost/~/security
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://database-1.cnnpvjpnseuj.ap-northeast-2.rds.amazonaws.com:3306/groom?serverTimezone=UTC&characterEncoding=UTF-8
+    username: admin
+    password: as661899
+    driver-class-name: com.mysql.cj.jdbc.Driver
 springdoc:
+  api-docs:
+    path: /api-docs
   swagger-ui:
     use-root-path: true
+    disable-swagger-default-url: true
+    path: /swagger-ui
+  paths-to-match:
+    - /auth/**
+    - /room/**
+    - /schedule/**
+    - /groom/**
+    - /todo/**
 jwt:
   access:
     expirationMs: 600000
   refresh:
     expirationDay: 14
+kakao:
+  client_id: 248c0f042143239e8aff41927befcf0a
+  redirect_uri: http://localhost:8080/auth/kakao/login

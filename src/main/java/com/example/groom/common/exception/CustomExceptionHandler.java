@@ -13,8 +13,7 @@ public class CustomExceptionHandler {
     @ExceptionHandler(value = {CustomException.class})
     protected ResponseEntity<Object> handleException(CustomException e){
         log.error("handleCustomException throw CustomException : {}", e.getErrorCode());
-        ResponseDto<Object> responseDto = new ResponseDto<>(null, e);
-        return ResponseDto.toResponseEntity(responseDto);
+        return ResponseDto.toResponseEntity(e);
     }
 
 }
