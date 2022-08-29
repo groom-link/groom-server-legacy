@@ -15,6 +15,7 @@ public class RefreshToken extends BaseEntity{
     @Column
     private String refreshToken;
 
+
     @JoinColumn(unique = true)
     @OneToOne(fetch = FetchType.LAZY)
     private UserInfo userInfo;

@@ -1,19 +1,12 @@
 package com.example.groom.common.auth.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Nullable;
 import javax.crypto.SecretKey;
 import javax.servlet.http.HttpServletRequest;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -82,17 +75,26 @@ public class JwtAuthenticationTokenProvider implements AuthenticationTokenProvid
     }
 
     @Override
-    public Jws<Claims> validateToken(String token) {
+    public Jws<Claims> validateAccessToken(String token) {
         if(!token.isEmpty()){
             try{
                 return Jwts.parserBuilder().setSigningKey(accessKey).build()
                         .parseClaimsJws(token);
-            }catch(Exception e){//헤더, 페이로드, 시그니쳐 중 시그니쳐가 해석 불가능할 때
+            }catch(ExpiredJwtException e){//헤더, 페이로드, 시그니쳐 중 시그니쳐가 해석 불가능할 때
                 return null;
             }
         }
         return null;
     }
 
+    @Override
+    public void validateRefreshToken(String token) {
+        if(!token.isEmpty())return;
+        try{
+            Jwts.parserBuilder().setSigningKey(refreshKey).build()
+                    .parseClaimsJws(token);
+        }catch(ExpiredJwtException e){//헤더, 페이로드, 시그니쳐 중 시그니쳐가 해석 불가능할 때
 
+        }
+    }
 }

@@ -2,26 +2,27 @@ package com.example.groom.common.auth.jwt;
 
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 
 
-@RequiredArgsConstructor
 @AllArgsConstructor
 public class JwtAuthentication implements Authentication {
     Long userInfoId;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        return authorities;
     }
 
     @Override
     public Object getCredentials() {
-        return null;
+        return userInfoId;
     }
 
     @Override
@@ -30,13 +31,13 @@ public class JwtAuthentication implements Authentication {
     }
 
     @Override
-    public Object getPrincipal() {
-        return null;
+    public Long getPrincipal() {
+        return userInfoId;
     }
 
     @Override
     public boolean isAuthenticated() {
-        return false;
+        return true;
     }
 
     @Override
