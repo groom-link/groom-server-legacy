@@ -1,46 +1,43 @@
 package com.example.groom.common.auth.jwt;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
+
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 
 
-@RequiredArgsConstructor
 @AllArgsConstructor
 public class JwtAuthentication implements Authentication {
-    Jws<Claims> claimsJws;
-
-
+    Long userInfoId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        return authorities;
     }
 
     @Override
     public Object getCredentials() {
-        return claimsJws;
+        return userInfoId;
     }
 
     @Override
     public Object getDetails() {
-        return null;
+        return userInfoId;
     }
 
     @Override
-    public Object getPrincipal() {
-        return null;
+    public Long getPrincipal() {
+        return userInfoId;
     }
 
     @Override
     public boolean isAuthenticated() {
-        return false;
+        return true;
     }
 
     @Override
@@ -50,6 +47,6 @@ public class JwtAuthentication implements Authentication {
 
     @Override
     public String getName() {
-        return claimsJws.getBody().getSubject();
+        return null;
     }
 }

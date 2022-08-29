@@ -1,24 +1,23 @@
 package com.example.groom;
 
 import com.example.groom.common.auth.JwtAuthenticateFilter;
-import com.example.groom.common.auth.jwt.JwtAuthenticationTokenProvider;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@RequiredArgsConstructor
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
-
-    private final JwtAuthenticationTokenProvider jwtAuthenticationTokenProvider;
-
-    private final JwtAuthenticateFilter jwtAuthenticateFilter;
+    @Bean
+    public JwtAuthenticateFilter jwtAuthenticateFilter(){
+        return new JwtAuthenticateFilter();
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -26,9 +25,10 @@ public class SecurityConfig {
     }
 
     private static final String[] PUBLIC_URI = {
-            "/auth/**",
+            "/auth/**","/swagger-ui/**", "/v3/**", "/api-docs","/**", "/auth/me"
     };
 
+    @Bean
     protected SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http
                 // 개발 편의성을 위해 CSRF 프로텍션을 비활성화
@@ -51,9 +51,9 @@ public class SecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilterBefore(jwtAuthenticateFilter, UsernamePasswordAuthenticationFilter.class);// 인증 오류 발생 시 처리를 위한 핸들러 추가
+                .addFilterBefore(jwtAuthenticateFilter(), UsernamePasswordAuthenticationFilter.class);// 인증 오류 발생 시 처리를 위한 핸들러 추가
 
-        ;
+
         return http.build();
     }
 
