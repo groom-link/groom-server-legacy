@@ -6,7 +6,6 @@ import com.example.groom.domain.tag.dto.TagPostDto;
 import com.example.groom.domain.tag.dto.TagSearchCondition;
 import com.example.groom.entity.Tag;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ public class TagService {
 
     private final TagRepository tagRepository;
 
-    private final ModelMapper modelMapper;
 
 
     public TagDto getTagDetailById(Long id) {

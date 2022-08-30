@@ -34,7 +34,6 @@ public class TagRepositoryImpl implements TagRepositoryCustom {
     public TagDto getTagDetailDto(Long id) {
         TagDto tagDto = query.select(Projections.constructor(TagDto.class, tag.id, tag.name, tag.colorHex
         )).from(tag).where(tag.deletedAt.isNull().and(tag.id.eq(id))).fetchOne();
-
         return tagDto;
     }
 
@@ -44,7 +43,6 @@ public class TagRepositoryImpl implements TagRepositoryCustom {
         if (!tagSearchCondition.getName().isEmpty()) builder.and(tag.name.contains(tagSearchCondition.getName()));
         if (tagSearchCondition.getDateLoe() != null) builder.and(tag.updatedAt.loe(tagSearchCondition.getDateLoe()));
         if (tagSearchCondition.getDateGoe() != null) builder.and(tag.updatedAt.goe(tagSearchCondition.getDateGoe()));
-
         List<TagDto> tagDtos = query
                 .select(Projections
                         .constructor(TagDto.class, tag.id, tag.name, tag.colorHex))
