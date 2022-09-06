@@ -5,6 +5,8 @@ import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.todo.Repository.TodoRepository;
 import com.example.groom.entity.Todo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,14 +25,14 @@ public class TodoService {
         return todo.get();
     }
 
-    public List<Todo> getTodoListByRoomId(Long id) {
+    public Slice<Todo> getTodoListByRoomId(Long id, Pageable pageable) {
         // 리스트는 널값 체크 안해도 됨
-        return this.todoRepository.findAllByRoomId(id);
+        return this.todoRepository.findAllByRoomId(id, pageable);
     }
 
     @Transactional
-    public List<Todo> getTodoListByUserInfoRoomId(Long roomId, Long userInfoId) {
-        return this.todoRepository.findAllByUserIdRoomId(roomId, userInfoId);
+    public Slice<Todo> getTodoListByUserInfoRoomId(Long roomId, Long userInfoId, Pageable pageable) {
+        return this.todoRepository.findAllByUserIdRoomId(roomId, userInfoId, pageable);
     }
 
     public Todo createTodo(Todo todo) {

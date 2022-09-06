@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface TodoRepository extends JpaRepository<Todo, Long>, TodoRepositoryCustom {
 
-    List<Todo> findAllByRoomId(Long roomId);
 }
