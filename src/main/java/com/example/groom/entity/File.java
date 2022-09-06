@@ -21,4 +21,7 @@ public class File extends OwnEntity{
 
     @Column
     private String uuid;
+
+    @Column
+    private String url;
 }

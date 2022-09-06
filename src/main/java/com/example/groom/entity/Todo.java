@@ -18,15 +18,15 @@ public class Todo extends CoopEntity {
     @Column
     private String content;
 
-    @JoinColumn(name = "todoBox_id")
+    @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private TodoBox todoBox;
 
-    @JoinColumn(name = "userInfo_id")
+    @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private UserInfo userInfo;
 
-    @JoinColumn(name = "roomSlot_id")
+    @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private RoomSlot roomSlot;
 
