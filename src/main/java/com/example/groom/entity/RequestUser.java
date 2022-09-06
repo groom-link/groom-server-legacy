@@ -24,7 +24,7 @@ public class RequestUser {
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
-    private Request excuse;
+    private Request request;
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
