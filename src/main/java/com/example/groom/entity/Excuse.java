@@ -27,7 +27,7 @@ public class Excuse extends CoopEntity{
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    private Long roomid;//bigint [ref: > room.id]
 
-    @JoinColumn(name = "todo_id")
+    @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private Todo todo;
 }

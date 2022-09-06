@@ -22,11 +22,11 @@ public class ExcuseUser {
     @Column
     private RequestStatus status;
 
-    @JoinColumn(name = "excuse_id")
+    @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private Excuse excuse;
 
-    @JoinColumn(name = "userInfo_id")
+    @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private UserInfo userInfo;
 }
