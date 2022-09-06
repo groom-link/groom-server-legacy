@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExcuseUser {
+public class RequestUser {
 
     @JsonProperty("id")
     @Id
@@ -24,7 +24,7 @@ public class ExcuseUser {
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
-    private Excuse excuse;
+    private Request excuse;
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)

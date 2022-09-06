@@ -12,7 +12,9 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Excuse extends CoopEntity{
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name="Request_Type")
+public abstract class Request extends CoopEntity{
 
     @Column
     private String content;
