@@ -17,7 +17,7 @@ public class File extends OwnEntity{
     private String ext;
 
     @Column
-    private String origin_name;
+    private String originName;
 
     @Column
     private String uuid;
