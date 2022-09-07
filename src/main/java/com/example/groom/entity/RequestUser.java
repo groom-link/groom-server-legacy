@@ -14,12 +14,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class RequestUser {
 
-    @JsonProperty("id")
     @Id
     @GeneratedValue
     private Long id;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private RequestStatus status;
 
     @JoinColumn
