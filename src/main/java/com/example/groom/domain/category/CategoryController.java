@@ -4,7 +4,7 @@ package com.example.groom.domain.category;
 import com.example.groom.domain.category.dto.CategoryDto;
 import com.example.groom.domain.category.dto.CategoryPostDto;
 import com.example.groom.domain.category.dto.CategorySearchCondition;
-import com.example.groom.entity.Category;
+import com.example.groom.entity.domain.category.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
