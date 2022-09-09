@@ -4,7 +4,7 @@ package com.example.groom.domain.tag;
 import com.example.groom.domain.tag.dto.TagDto;
 import com.example.groom.domain.tag.dto.TagPostDto;
 import com.example.groom.domain.tag.dto.TagSearchCondition;
-import com.example.groom.entity.Tag;
+import com.example.groom.entity.domain.tag.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
