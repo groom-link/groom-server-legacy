@@ -20,8 +20,8 @@ public class TodoService {
     private final TodoRepository todoRepository;
 
     public Todo getTodo(Long id) {
-        Todo todo = this.todoRepository.findById(id).orElseThrow(e->CustomException(ErrorCode.TODO_NOT_FOUND))
-        return todo.get();
+        Todo todo = this.todoRepository.findById(id).orElseThrow(()->new CustomException(ErrorCode.TODO_NOT_FOUND));
+        return todo;
     }
 
     public Slice<Todo> getTodoListByRoomId(Long id, Pageable pageable) {

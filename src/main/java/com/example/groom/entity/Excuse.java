@@ -30,5 +30,10 @@ public class Excuse extends CoopEntity{
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
-    private Todo todo;
+    private Todo missedTodo;
+
+    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Room room;
+
 }
