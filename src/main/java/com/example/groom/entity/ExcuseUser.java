@@ -1,7 +1,6 @@
 package com.example.groom.entity;
 
 import com.example.groom.entity.enums.RequestStatus;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,21 +11,17 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExcuseUser {
+public class ExcuseUser extends CoopEntity{
 
-    @JsonProperty("id")
     @Id
     @GeneratedValue
     private Long id;
 
     @Column
+    @Enumerated(EnumType.STRING)
     private RequestStatus status;
 
-    @JoinColumn(name = "excuse_id")
+    @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private Excuse excuse;
-
-    @JoinColumn(name = "userInfo_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserInfo userInfo;
 }

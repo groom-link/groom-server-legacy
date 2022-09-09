@@ -1,32 +1,34 @@
 package com.example.groom.entity;
 
 import com.example.groom.entity.enums.RequestStatus;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestUser {
+public class Excuse extends CoopEntity{
 
-    @Id
-    @GeneratedValue
-    private Long id;
+    @Column
+    private String content;
+
+    @Column
+    private LocalDateTime dueDate;
 
     @Column
     @Enumerated(EnumType.STRING)
-    private RequestStatus status;
+    private RequestStatus requestStatus;
+
+//    @JoinColumn
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Long roomid;//bigint [ref: > room.id]
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
-    private Request request;
-
-    @JoinColumn
-    @ManyToOne(fetch = FetchType.LAZY)
-    private UserInfo userInfo;
+    private Todo todo;
 }

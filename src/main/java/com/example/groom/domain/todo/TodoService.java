@@ -20,8 +20,7 @@ public class TodoService {
     private final TodoRepository todoRepository;
 
     public Todo getTodo(Long id) {
-        Optional<Todo> todo = this.todoRepository.findById(id);
-        if(!todo.isPresent()) throw new CustomException(ErrorCode.TODO_NOT_FOUND);
+        Todo todo = this.todoRepository.findById(id).orElseThrow(e->CustomException(ErrorCode.TODO_NOT_FOUND))
         return todo.get();
     }
 
