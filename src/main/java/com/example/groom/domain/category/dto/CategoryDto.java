@@ -1,7 +1,7 @@
 package com.example.groom.domain.category.dto;
 
 
-import com.example.groom.entity.Category;
+import com.example.groom.entity.domain.category.Category;
 import lombok.Data;
 
 import java.util.List;
@@ -13,12 +13,6 @@ public class CategoryDto {
     private Long depth;
 
     private List<CategoryDto> children;
-
-    public CategoryDto(String name, Long depth, List<Category> children) {
-        this.name = name;
-        this.depth = depth;
-        this.children = children.stream().map(CategoryDto::new).toList();
-    }
 
     public CategoryDto(Category category) {
         this.name = category.getName();
