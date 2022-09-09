@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.example.groom.entity.QCategory.category;
+성import static com.example.groom.entity.domain.category.QCategory.category;
+
 
 @RequiredArgsConstructor
 public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
