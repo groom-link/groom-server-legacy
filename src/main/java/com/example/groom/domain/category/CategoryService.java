@@ -5,7 +5,7 @@ import com.example.groom.common.exception.CustomException;
 import com.example.groom.domain.category.dto.CategoryDto;
 import com.example.groom.domain.category.dto.CategoryPostDto;
 import com.example.groom.domain.category.dto.CategorySearchCondition;
-import com.example.groom.entity.Category;
+import com.example.groom.entity.domain.category.Category;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +32,7 @@ public class CategoryService {
     }
 
     public Category postCategory(CategoryPostDto categoryPostDto) {
-        Category parent = getCategoryById(categoryPostDto.getParent_id());
-        Category category = Category.of(categoryPostDto, parent);
+        Category category = Category.of(categoryPostDto);
         return this.categoryRepository.save(category);
     }
 }
