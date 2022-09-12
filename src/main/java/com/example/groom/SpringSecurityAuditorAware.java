@@ -4,6 +4,7 @@ package com.example.groom;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -17,6 +18,6 @@ public class SpringSecurityAuditorAware implements AuditorAware<Object> {
     public Optional<Object> getCurrentAuditor() {
         return Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
-                .map(authentication -> authentication.getPrincipal());
+                .map(Authentication::getPrincipal);
     }
 }
