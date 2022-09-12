@@ -34,7 +34,8 @@ public class TodoService {
     }
 
     public Todo createTodo(TodoDto todoDto) {
-        Todo todo = new Todo()
+        Todo todo = new Todo();
+        todo.updateTodo(todoDto);
         return this.todoRepository.save(todo);
     }
 
