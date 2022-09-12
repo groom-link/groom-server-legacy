@@ -22,7 +22,7 @@ public class OwnEntity extends BaseEntity{
     @CreatedBy
     @JoinColumn
     @ManyToOne
-    private UserInfo ownerId;
+    private UserInfo owner;
 
     protected OwnEntity(Long id) {
         super(id);
