@@ -1,9 +1,9 @@
 package com.example.groom.domain.todo;
 
 import com.example.groom.common.ResponseDto;
+import com.example.groom.domain.todo.Dto.TodoDto;
 import com.example.groom.domain.todo.Dto.TodoListResponseDto;
 import com.example.groom.domain.todo.Dto.TodoResponseDto;
-import com.example.groom.entity.Todo;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +35,8 @@ public class TodoController {
 
     @PostMapping
     public TodoResponseDto createTodo(@Parameter(description = "생성할 할 일")
-                                          @RequestBody Todo todo) {
-        return new TodoResponseDto(todoService.createTodo(todo));
+                                          @RequestBody TodoDto todoDto) {
+        return new TodoResponseDto(todoService.createTodo(todoDto));
     }
 
     // TodoResponseDto/TodoListResponseDto, room을 제외한 다른거는 id만 반환하도록(dto를 따로 만들어서)
@@ -44,12 +44,12 @@ public class TodoController {
     public ResponseDto deleteTodo(@Parameter(description = "삭제할 할 일 id")
                                            @RequestParam("todoId") Long id) {
         todoService.deleteTodo(id);
-        return new ResponseDto(null);
+        return new ResponseDto(id);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public TodoResponseDto updateTodo(@Parameter(description = "업데이트할 할 일")
-    @RequestBody Todo todo) {
-        return new TodoResponseDto(todoService.updateTodo(todo));
+    @RequestBody TodoDto todoDto, @PathVariable Long id) {
+        return new TodoResponseDto(todoService.updateTodo(id, todoDto));
     }
 }

@@ -2,6 +2,7 @@ package com.example.groom.domain.todo;
 
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
+import com.example.groom.domain.todo.Dto.TodoDto;
 import com.example.groom.domain.todo.Repository.TodoRepository;
 import com.example.groom.entity.Todo;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +11,6 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +33,8 @@ public class TodoService {
         return this.todoRepository.findAllByUserIdRoomId(roomId, userInfoId, pageable);
     }
 
-    public Todo createTodo(Todo todo) {
+    public Todo createTodo(TodoDto todoDto) {
+        Todo todo = new Todo()
         return this.todoRepository.save(todo);
     }
 
@@ -45,10 +45,10 @@ public class TodoService {
     }
 
     @Transactional
-    public Todo updateTodo(Todo todo) {
-        Todo existTodo = getTodo(todo.getId());
+    public Todo updateTodo(Long id, TodoDto todoDto) {
+        Todo existTodo = getTodo(id);
 
-        existTodo.updateTodo(todo);
+        existTodo.updateTodo(todoDto);
 
         return existTodo;
     }

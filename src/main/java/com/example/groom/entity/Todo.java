@@ -1,6 +1,7 @@
 package com.example.groom.entity;
 
 
+import com.example.groom.domain.todo.Dto.TodoDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,11 +35,11 @@ public class Todo extends CoopEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
 
-    public void updateTodo(Todo todo) {
-        this.title = todo.getTitle();
-        this.content = todo.getContent();
-        this.todoBox = todo.getTodoBox();
-        this.userInfo = todo.getUserInfo();
-        this.roomSlot = todo.getRoomSlot();
+    public void updateTodo(TodoDto todoDto) {
+        this.title = todoDto.getTitle();
+        this.content = todoDto.getContent();
+        this.todoBox = todoDto.getTodoBox();
+        this.userInfo = todoDto.getTodoOwner();
+        this.roomSlot = todoDto.getRoomSlot();
     }
 }
