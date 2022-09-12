@@ -15,9 +15,9 @@ public class TodoDto {
     
     private TodoBox todoBox;
 
-    private UserInfo todoOwner;
+    private Long todoOwnerId;
 
-    private RoomSlot roomSlot;
+    private Long roomSlotId;
 
-    private Room room;
+    private Long roomId;
 }
