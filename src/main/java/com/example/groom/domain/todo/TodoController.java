@@ -1,13 +1,12 @@
 package com.example.groom.domain.todo;
 
-import com.example.groom.common.ResponseDto;
 import com.example.groom.domain.todo.Dto.TodoDto;
-import com.example.groom.domain.todo.Dto.TodoListResponseDto;
-import com.example.groom.domain.todo.Dto.TodoResponseDto;
+import com.example.groom.entity.Todo;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,37 +18,37 @@ public class TodoController {
     private final TodoService todoService;
 
     @GetMapping("/room")
-    public TodoListResponseDto getRoomTodoList(@Parameter(description = "할 일 목록을 조회할 모임 id")
+    public Slice<Todo> getRoomTodoList(@Parameter(description = "할 일 목록을 조회할 모임 id")
                                                @RequestParam("id") Long id, @RequestParam Pageable pageable) {
-        return new TodoListResponseDto(todoService.getTodoListByRoomId(id, pageable));
+        return todoService.getTodoListByRoomId(id, pageable);
     }
 
     @GetMapping("/user")
-    public TodoListResponseDto getUserTodoList(@Parameter(description = "할 일 목록을 조회할 모임 id")
+    public Slice<Todo> getUserTodoList(@Parameter(description = "할 일 목록을 조회할 모임 id")
                                            @RequestParam("roomgId") Long roomgId,
                                                @Parameter(description = "할 일 목록을 조회할 유저 id")
                                            @RequestParam("userId") Long userInfoId,
                                                @RequestParam Pageable pageable) {
-        return new TodoListResponseDto(todoService.getTodoListByUserInfoRoomId(roomgId, userInfoId, pageable));
+        return todoService.getTodoListByUserInfoRoomId(roomgId, userInfoId, pageable);
     }
 
     @PostMapping
-    public TodoResponseDto createTodo(@Parameter(description = "생성할 할 일")
+    public Todo createTodo(@Parameter(description = "생성할 할 일")
                                           @RequestBody TodoDto todoDto) {
-        return new TodoResponseDto(todoService.createTodo(todoDto));
+        return todoService.createTodo(todoDto);
     }
 
     // TodoResponseDto/TodoListResponseDto, room을 제외한 다른거는 id만 반환하도록(dto를 따로 만들어서)
     @DeleteMapping
-    public ResponseDto deleteTodo(@Parameter(description = "삭제할 할 일 id")
+    public Long deleteTodo(@Parameter(description = "삭제할 할 일 id")
                                            @RequestParam("todoId") Long id) {
         todoService.deleteTodo(id);
-        return new ResponseDto(id);
+        return id;
     }
 
     @PutMapping("/{id}")
-    public TodoResponseDto updateTodo(@Parameter(description = "업데이트할 할 일")
+    public Todo updateTodo(@Parameter(description = "업데이트할 할 일")
     @RequestBody TodoDto todoDto, @PathVariable Long id) {
-        return new TodoResponseDto(todoService.updateTodo(id, todoDto));
+        return todoService.updateTodo(id, todoDto);
     }
 }
