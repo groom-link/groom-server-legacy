@@ -13,8 +13,8 @@ import javax.persistence.EntityManager;
 
 import java.util.List;
 
-import static com.example.groom.entity.domain.gifticon.QGifticon.product;
 import static com.example.groom.entity.domain.organization.QOrganization.organization;
+import static com.example.groom.entity.domain.product.QProduct.product;
 
 public class ProductRepositoryImpl implements ProductRepositoryCustom {
     @Autowired
@@ -22,7 +22,7 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     private final JPAQueryFactory query;
 
-    public ProductRepositoryImpl(EntityManager em){
+    protected ProductRepositoryImpl(EntityManager em){
         this.query = new JPAQueryFactory(em);
     }
 
