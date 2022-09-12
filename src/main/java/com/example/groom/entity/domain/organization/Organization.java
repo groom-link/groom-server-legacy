@@ -1,5 +1,6 @@
 package com.example.groom.entity.domain.organization;
 
+import com.example.groom.domain.organization.dto.OrganizationPostDto;
 import com.example.groom.entity.common.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -28,7 +29,17 @@ public class Organization extends BaseEntity {
         super(organizationId);
     }
 
+    public Organization(OrganizationPostDto organizationPostDto) {
+        this.category = OrganizationCategory.of(organizationPostDto.getCategoryId());
+        this.name = organizationPostDto.getName();
+        this.description = organizationPostDto.getDescription();
+    }
+
     public static Organization of(Long organizationId) {
         return new Organization(organizationId);
+    }
+
+    public static Organization of(OrganizationPostDto organizationPostDto) {
+        return new Organization(organizationPostDto);
     }
 }
