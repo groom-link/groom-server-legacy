@@ -30,7 +30,7 @@ public class Gifticon extends OwnEntity {
 
     protected Gifticon(GifticonPostDto gifticonPostDto) {
         this.receiver = UserInfo.of(gifticonPostDto.getReceiverId());
-        this.product = Product.of(gifticonPostDto.getGifticonId());
+        this.product = Product.of(gifticonPostDto.getProductId());
         this.message = gifticonPostDto.getMessage();
     }
 
