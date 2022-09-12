@@ -11,17 +11,18 @@ import javax.persistence.Entity;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class File extends OwnEntity{
+public class RoomSlot extends CoopEntity {
 
     @Column
-    private String ext;
+    private String colorHex;
 
     @Column
-    private String originName;
+    private String name;
 
     @Column
-    private String uuid;
+    private Long order;
 
-    @Column
-    private String url;
+//    @JoinColumn
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Long room_id;
 }

@@ -12,18 +12,17 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="Request_Type")
-public abstract class Request extends CoopEntity{
+public class Excuse extends CoopEntity{
 
     @Column
     private String content;
 
     @Column
-    private LocalDateTime due_date;
+    private LocalDateTime dueDate;
 
     @Column
-    private RequestStatus request_status;
+    @Enumerated(EnumType.STRING)
+    private RequestStatus requestStatus;
 
 //    @JoinColumn
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -31,5 +30,10 @@ public abstract class Request extends CoopEntity{
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
-    private Todo todo;
+    private Todo missedTodo;
+
+    @JoinColumn
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Room room;
+
 }
