@@ -3,7 +3,7 @@ package com.example.groom.entity.domain.product;
 
 import com.example.groom.domain.product.dto.ProductPostDto;
 import com.example.groom.entity.common.BaseEntity;
-import com.example.groom.entity.domain.company.Company;
+import com.example.groom.entity.domain.organization.Organization;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,12 +28,12 @@ public class Product extends BaseEntity {
 
     @JoinColumn
     @ManyToOne
-    private Company company;
+    private Organization organization;
 
     protected Product(ProductPostDto productPostDto) {
         this.price = productPostDto.getPrice();
         this.name = productPostDto.getName();
-        this.company = Company.of(productPostDto.getCompanyId());
+        this.organization = Organization.of(productPostDto.getCompanyId());
         this.thumbnailImage = productPostDto.getThumbnailImage();
     }
 
