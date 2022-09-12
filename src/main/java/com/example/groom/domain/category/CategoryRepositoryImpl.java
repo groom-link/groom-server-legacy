@@ -2,10 +2,14 @@ package com.example.groom.domain.category;
 
 import com.example.groom.domain.category.dto.CategoryDto;
 import com.example.groom.domain.category.dto.CategorySearchCondition;
+import com.example.groom.entity.domain.category.QCategory;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -30,13 +34,15 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
 
     @Override
     @Transactional
-    public List<CategoryDto> search(CategorySearchCondition condition) {
-        return query.select(Projections.constructor(CategoryDto.class, category.name, category.depth, category.children))
+    public Slice<CategoryDto> search(Pageable pageable, CategorySearchCondition condition) {
+        List<CategoryDto> categoryDtos = query.select(Projections.constructor(CategoryDto.class, category.name, category.depth, category.children))
                 .from(category)
-                .where(category.name.contains(condition.getName()),
-                        category.depth.eq(condition.getDepth()),
-                        category.parent.id.eq(condition.getParent_id())
-                )
+                .join(category.parent, new QCategory("parent"))
+                .where(condition.getAllCondition())
                 .fetch();
+
+        Long count = query.select(category.count()).from(category).where(condition.getAllCondition())
+                .fetchOne();
+        return new PageImpl<>(categoryDtos,pageable,  count);
     }
 }

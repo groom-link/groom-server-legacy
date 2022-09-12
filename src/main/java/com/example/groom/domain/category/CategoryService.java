@@ -7,9 +7,10 @@ import com.example.groom.domain.category.dto.CategoryPostDto;
 import com.example.groom.domain.category.dto.CategorySearchCondition;
 import com.example.groom.entity.domain.category.Category;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 import static com.example.groom.common.exception.ErrorCode.CATEGORY_NOT_FOUND;
@@ -27,12 +28,25 @@ public class CategoryService {
     }
 
 
-    public List<CategoryDto> search(CategorySearchCondition condition) {
-        return this.categoryRepository.search(condition);
+    public Slice<CategoryDto> search(Pageable pageable, CategorySearchCondition condition) {
+        return this.categoryRepository.search(pageable, condition);
     }
 
-    public Category postCategory(CategoryPostDto categoryPostDto) {
+    public CategoryDto save(CategoryPostDto categoryPostDto) {
         Category category = Category.of(categoryPostDto);
-        return this.categoryRepository.save(category);
+        category = this.categoryRepository.save(category);
+        return CategoryDto.of(category);
+    }
+
+
+    public CategoryDto findById(Long id) {
+        Category category = this.categoryRepository.findById(id).orElseThrow(() -> new CustomException(CATEGORY_NOT_FOUND));
+        return CategoryDto.of(category);
+
+    }
+
+    public Long deleteById(Long id) {
+        this.categoryRepository.deleteById(id);
+        return id;
     }
 }

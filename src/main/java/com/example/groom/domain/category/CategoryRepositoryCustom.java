@@ -2,9 +2,12 @@ package com.example.groom.domain.category;
 
 import com.example.groom.domain.category.dto.CategoryDto;
 import com.example.groom.domain.category.dto.CategorySearchCondition;
-
-import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface CategoryRepositoryCustom {
-    List<CategoryDto> search(CategorySearchCondition condition);
+
+    @Transactional
+    Slice<CategoryDto> search(Pageable pageable, CategorySearchCondition condition);
 }
