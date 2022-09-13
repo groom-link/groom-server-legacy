@@ -21,6 +21,10 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND(HttpStatus.NOT_FOUND, "상품을 찾을 수 없습니다."),
     GIFTICON_NOT_FOUND(HttpStatus.NOT_FOUND, "기프티콘을 찾을 수 없습니다."),
     KAKAO_INFO_GET_REQUEST_FAILD(HttpStatus.NOT_ACCEPTABLE, "카카오 정보 가져오기에 실패했습니다."),
+    // Todo error
+    TODO_NOT_FOUND(HttpStatus.NOT_FOUND, "할 일을 찾을 수 없습니다."),
+
+
 
     ;
     private final HttpStatus status;

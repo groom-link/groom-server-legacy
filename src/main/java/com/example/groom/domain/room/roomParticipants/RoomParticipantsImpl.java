@@ -12,7 +12,7 @@ import static com.example.groom.entity.domain.auth.QUserInfo.userInfo;
 import static com.example.groom.entity.domain.room.QRoomParticipants.roomParticipants;
 
 
-public class RoomParticipantsImpl implements RoomParticipantsCustom{
+public class RoomParticipantsImpl implements RoomParticipantsCustom {
 
     @Autowired
     private EntityManager em;

@@ -14,11 +14,9 @@ public class RoomDto {
     private String summary;
     private Long maxPeopleNumber;
     private Long nowPeopleNumber;
-
     private List<String> roomCategory;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
     private UserInfo owner;
 
     public RoomDto(Long id, String name, String summary, Long maxPeopleNumber, LocalDateTime createdAt, LocalDateTime updatedAt, Integer nowPeopleNumber, Long ownerId) {

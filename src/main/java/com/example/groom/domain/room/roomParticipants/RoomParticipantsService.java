@@ -1,7 +1,6 @@
 package com.example.groom.domain.room.roomParticipants;
 
 import com.example.groom.entity.domain.auth.UserInfo;
-import com.example.groom.entity.domain.room.RoomParticipants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +20,4 @@ public class RoomParticipantsService {
         return this.roomParticipantsRepository.countParticipantsByRoomId(roomId);
     }
 
-    public List<RoomParticipants> save(List<Long> roomParticipantIds) {
-        List<RoomParticipants> participants = roomParticipantIds.stream().map(RoomParticipants::of).toList();
-        return this.roomParticipantsRepository.saveAllAndFlush(participants);
-    }
 }

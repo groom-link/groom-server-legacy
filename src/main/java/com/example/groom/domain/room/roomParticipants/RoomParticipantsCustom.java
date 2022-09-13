@@ -5,7 +5,7 @@ import com.example.groom.entity.domain.auth.UserInfo;
 import java.util.List;
 
 public interface RoomParticipantsCustom{
-    List<UserInfo> getParticipantsListUserInfosByRoomId(Long roomId);
+    public List<UserInfo> getParticipantsListUserInfosByRoomId(Long roomId);
 
     Long countParticipantsByRoomId(Long roomId);
 }

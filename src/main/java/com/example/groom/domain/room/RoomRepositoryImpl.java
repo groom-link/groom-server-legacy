@@ -28,7 +28,7 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
     private RoomParticipantsRepository roomParticipantsRepository;
     private final JPAQueryFactory query;
 
-    public RoomRepositoryImpl(EntityManager em) {
+    public RoomRepositoryImpl(EntityManager em){
         this.query = new JPAQueryFactory(em);
     }
 
@@ -37,11 +37,11 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
     public RoomDetailDto getRoomDetailDtoByRoomId(Long id) {
         RoomDetailDto roomDetailDto =
                 query
-                        .select(Projections.constructor
-                                (RoomDetailDto.class, room.id, room.name, room.summary, room.description, room.mainImageUrl))
-                        .from(room)
-                        .where(room.id.eq(id))
-                        .fetchOne();
+                .select(Projections.constructor
+                        (RoomDetailDto.class, room.id, room.name, room.summary, room.description, room.mainImageUrl))
+                .from(room)
+                .where(room.id.eq(id))
+                .fetchOne();
 
         List<UserInfo> participants = this.roomParticipantsRepository.getParticipantsListUserInfosByRoomId(id);
         roomDetailDto.setRoomParticipants(participants);
@@ -61,17 +61,23 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
                         room.updatedAt,
                         room.roomParticipants.size(),
                         room.owner
-                ))
+                        ))
                 .from(room)
-                .where(condition.getCondition())
-
-
+                .where(room.name.contains(condition.getName()),
+                        room.createdAt.between(condition.getDateGoe(), condition.getDateLoe()),
+                        room.summary.contains(condition.getSummary()),
+                        room.description.contains(condition.getDescription())
+//                        room.category.in(condition.getCategory())
+                )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
         int size = query
                 .selectFrom(room)
-                .where(condition.getCondition()
+                .where(room.name.contains(condition.getName()),
+                        room.createdAt.between(condition.getDateGoe(), condition.getDateLoe()),
+                        room.summary.contains(condition.getSummary()),
+                        room.description.contains(condition.getDescription())
 //                        room.category.in(condition.getCategory())
                 )
                 .offset(pageable.getOffset())

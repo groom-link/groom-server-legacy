@@ -23,4 +23,10 @@ public class CoopEntity extends OwnEntity{
     @JoinColumn
     @ManyToOne
     private UserInfo modifier;
+
+    protected CoopEntity(Long roomSlotId) {
+        super(roomSlotId);
+    }
+
+
 }
