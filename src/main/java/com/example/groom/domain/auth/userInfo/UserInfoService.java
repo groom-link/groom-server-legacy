@@ -26,9 +26,8 @@ public class UserInfoService {
     }
 
     public UserInfo getUserInfoByKakaoId(Long kakaoId) throws CustomException{
-        Optional<UserInfo> userInfo = this.userInfoRepository.findByKakaoId(kakaoId);
-        if(userInfo.isEmpty())throw new CustomException(ErrorCode.JOIN_REQUIRED);
-        return userInfo.get();
+        return this.userInfoRepository.findByKakaoId(kakaoId)
+                .orElseThrow(()->new CustomException(ErrorCode.JOIN_REQUIRED));
     }
 
     public UserInfo joinUserWithKakaoInfo(KakaoInfo kakaoInfo){

@@ -34,9 +34,9 @@ public class RefreshTokenService {
         return refreshTokenFromDB.getUserInfo();
     }
 
-    public void refreshTokenAssign(String refreshToken, UserInfo userInfo){
-        if(this.refreshTokenRepository.existsByUserInfo(userInfo))this.refreshTokenRepository.deleteByUserInfo(userInfo);
-        this.refreshTokenRepository.save(new RefreshToken(refreshToken, userInfo));
+
+    public void assignRefreshToken(String refreshToken, UserInfo userInfo){
+        this.refreshTokenRepository.assignRefreshToken(refreshToken,userInfo);
     }
 
     public AuthenticationToken reissue(String refreshToken){

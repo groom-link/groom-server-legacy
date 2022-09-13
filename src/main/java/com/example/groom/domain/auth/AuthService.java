@@ -28,7 +28,7 @@ public class AuthService {
     public AuthenticationToken login(String kakaoCode){
         UserInfo userInfo = this.kakaoService.getUserInfoByKakaoAccessToken(kakaoCode);
         AuthenticationToken issuedToken = this.authenticationTokenProvider.issue(userInfo.getId());
-        this.refreshTokenService.refreshTokenAssign(issuedToken.getRefreshToken(), userInfo);
+        this.refreshTokenService.assignRefreshToken(issuedToken.getRefreshToken(), userInfo);
         return issuedToken;
     }
 

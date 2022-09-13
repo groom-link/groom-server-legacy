@@ -3,6 +3,7 @@ package com.example.groom.common.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.apache.http.HttpException;
 import org.springframework.http.HttpStatus;
 
 @Getter
@@ -23,10 +24,12 @@ public enum ErrorCode {
     KAKAO_INFO_GET_REQUEST_FAILD(HttpStatus.NOT_ACCEPTABLE, "카카오 정보 가져오기에 실패했습니다."),
     // Todo error
     TODO_NOT_FOUND(HttpStatus.NOT_FOUND, "할 일을 찾을 수 없습니다."),
-
-
-
     ;
+
+    ErrorCode(HttpException e){
+        this.message = e.getMessage();
+        this.status = HttpStatus.INTERNAL_SERVER_ERROR;
+    }
     private final HttpStatus status;
     private final String message;
 }

@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Where;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -19,7 +18,6 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
-@Where(clause = "deletedAt != null")
 public class BaseEntity {
 
     @JsonProperty("id")
@@ -32,9 +30,6 @@ public class BaseEntity {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
-    @Column
-    private LocalDateTime deletedAt;
 
     public BaseEntity(Long categoryId) {
         this.id = categoryId;

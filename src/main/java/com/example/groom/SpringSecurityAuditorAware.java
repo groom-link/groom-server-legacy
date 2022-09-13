@@ -19,6 +19,11 @@ public class SpringSecurityAuditorAware implements AuditorAware<UserInfo> {
     public Optional<UserInfo> getCurrentAuditor() {
         return Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
-                .map((Authentication t) -> (Long)t.getPrincipal()).map(UserInfo::of);
+                .map((Authentication t) -> t.getPrincipal()).map(id -> {
+                    if (id.equals("anonymousUser")) return null;
+                    return UserInfo.of(Long.valueOf((String) id));
+                });
+
+
     }
 }
