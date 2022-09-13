@@ -6,19 +6,16 @@ import com.example.groom.domain.tag.dto.TagSearchCondition;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
 import static com.example.groom.entity.domain.tag.QTag.tag;
 
-@RequiredArgsConstructor
 public class TagRepositoryImpl implements TagRepositoryCustom {
 
     @Autowired

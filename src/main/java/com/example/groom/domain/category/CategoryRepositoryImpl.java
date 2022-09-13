@@ -5,7 +5,6 @@ import com.example.groom.domain.category.dto.CategorySearchCondition;
 import com.example.groom.entity.domain.category.QCategory;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +17,6 @@ import java.util.List;
 import static com.example.groom.entity.domain.category.QCategory.category;
 
 
-@RequiredArgsConstructor
 public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
 
     @Autowired
@@ -27,7 +25,6 @@ public class CategoryRepositoryImpl implements CategoryRepositoryCustom {
     private final JPAQueryFactory query;
 
     public CategoryRepositoryImpl(EntityManager em) {
-
         this.query = new JPAQueryFactory(em);
     }
 
