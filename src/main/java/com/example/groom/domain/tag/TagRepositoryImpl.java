@@ -16,7 +16,7 @@ import javax.persistence.EntityManager;
 
 import java.util.List;
 
-import static com.example.groom.entity.QTag.tag;
+import static com.example.groom.entity.domain.tag.QTag.tag;
 
 @RequiredArgsConstructor
 public class TagRepositoryImpl implements TagRepositoryCustom {
@@ -32,9 +32,8 @@ public class TagRepositoryImpl implements TagRepositoryCustom {
 
     @Override
     public TagDto getTagDetailDto(Long id) {
-        TagDto tagDto = query.select(Projections.constructor(TagDto.class, tag.id, tag.name, tag.colorHex
+        return query.select(Projections.constructor(TagDto.class, tag.id, tag.name
         )).from(tag).where(tag.deletedAt.isNull().and(tag.id.eq(id))).fetchOne();
-        return tagDto;
     }
 
     @Override
@@ -45,7 +44,7 @@ public class TagRepositoryImpl implements TagRepositoryCustom {
         if (tagSearchCondition.getDateGoe() != null) builder.and(tag.updatedAt.goe(tagSearchCondition.getDateGoe()));
         List<TagDto> tagDtos = query
                 .select(Projections
-                        .constructor(TagDto.class, tag.id, tag.name, tag.colorHex))
+                        .constructor(TagDto.class, tag.id, tag.name))
                 .from(tag)
                 .where(builder)
                 .offset(pageable.getOffset())
