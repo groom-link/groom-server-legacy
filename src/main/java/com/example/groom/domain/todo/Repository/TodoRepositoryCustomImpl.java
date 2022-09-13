@@ -26,7 +26,7 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom{
     @Override
     public Slice<Todo> findAllByUserIdRoomId(Long roomId, Long userInfoId, Pageable pageable) {
         List<Todo> todoList = query.selectFrom(todo)
-                .where(todo.userInfo.id.eq(userInfoId).and(todo.room.id.eq(roomId)))
+                .where(todo.owner.id.eq(userInfoId).and(todo.room.id.eq(roomId)))
                 .fetch();
 
         boolean hasNext = false;

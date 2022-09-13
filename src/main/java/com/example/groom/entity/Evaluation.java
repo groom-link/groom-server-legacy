@@ -1,5 +1,6 @@
 package com.example.groom.entity;
 
+import com.example.groom.entity.common.CoopEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Evaluation extends CoopEntity{
+public class Evaluation extends CoopEntity {
 
     @Column
     private String content;

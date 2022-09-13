@@ -2,9 +2,13 @@ package com.example.groom.entity;
 
 
 import com.example.groom.domain.todo.Dto.TodoDto;
+import com.example.groom.entity.common.CoopEntity;
+import com.example.groom.entity.domain.auth.UserInfo;
+import com.example.groom.entity.domain.room.Room;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
@@ -39,7 +43,7 @@ public class Todo extends CoopEntity {
         this.title = todoDto.getTitle();
         this.content = todoDto.getContent();
         this.todoBox = todoDto.getTodoBox();
-        this.todoOwner = todoDto.getTodoOwner();
-        this.roomSlot = todoDto.getRoomSlot();
+        this.todoOwner = UserInfo.of(todoDto.getTodoOwnerId());
+        this.roomSlot = RoomSlot.of(todoDto.getRoomSlotId());
     }
 }

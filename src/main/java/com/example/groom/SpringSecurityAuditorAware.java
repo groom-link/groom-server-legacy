@@ -1,6 +1,7 @@
 package com.example.groom;
 
 
+import com.example.groom.entity.domain.auth.UserInfo;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
@@ -12,12 +13,12 @@ import java.util.Optional;
 
 @Configuration
 @EnableJpaAuditing
-public class SpringSecurityAuditorAware implements AuditorAware<Object> {
+public class SpringSecurityAuditorAware implements AuditorAware<UserInfo> {
 
     @Override
-    public Optional<Object> getCurrentAuditor() {
+    public Optional<UserInfo> getCurrentAuditor() {
         return Optional.ofNullable(SecurityContextHolder.getContext())
                 .map(SecurityContext::getAuthentication)
-                .map(Authentication::getPrincipal);
+                .map((Authentication t) -> (Long)t.getPrincipal()).map(UserInfo::of);
     }
 }

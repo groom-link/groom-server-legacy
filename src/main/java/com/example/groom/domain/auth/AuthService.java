@@ -4,9 +4,9 @@ package com.example.groom.domain.auth;
 import com.example.groom.common.auth.jwt.AuthenticationToken;
 import com.example.groom.common.auth.jwt.AuthenticationTokenProvider;
 import com.example.groom.common.auth.jwt.JwtAuthentication;
-import com.example.groom.domain.auth.RefreshToken.RefreshTokenService;
-import com.example.groom.domain.auth.UserInfo.UserInfoService;
-import com.example.groom.entity.UserInfo;
+import com.example.groom.domain.auth.refreshToken.RefreshTokenService;
+import com.example.groom.domain.auth.userInfo.UserInfoService;
+import com.example.groom.entity.domain.auth.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

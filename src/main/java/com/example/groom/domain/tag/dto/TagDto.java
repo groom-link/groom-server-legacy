@@ -8,11 +8,8 @@ public class TagDto {
 
     private String name;
 
-    private String colorHex;
-
-    public TagDto(Long id, String name, String colorHex) {
+    public TagDto(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.colorHex = colorHex;
     }
 }

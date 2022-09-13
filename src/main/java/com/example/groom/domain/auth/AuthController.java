@@ -7,7 +7,7 @@ import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.auth.dto.AuthenticationTokenResponseDTO;
 import com.example.groom.domain.auth.dto.RefreshTokenDto;
-import com.example.groom.entity.UserInfo;
+import com.example.groom.entity.domain.auth.UserInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,7 +37,7 @@ public class AuthController {
     @PostMapping ("/refresh")
     public AuthenticationTokenResponseDTO refreshAuthenticationToken(
             @Parameter(description = "refresh token")
-            @RequestBody  RefreshTokenDto refreshTokenDto){
+            @RequestBody RefreshTokenDto refreshTokenDto){
         if(refreshTokenDto.getRefreshToken() == null || refreshTokenDto.getRefreshToken().isEmpty())throw new CustomException(ErrorCode.REFRESH_TOKEN_REQUIRED);
         return new AuthenticationTokenResponseDTO(this.authService.tokenRefresh(refreshTokenDto.getRefreshToken()));
     }
@@ -72,6 +72,6 @@ public class AuthController {
     })
     @GetMapping("/me")
     public UserInfo getMe(JwtAuthentication authentication){
-        return this.authService.getMe( authentication);
+        return this.authService.getMe(authentication);
     }
 }
