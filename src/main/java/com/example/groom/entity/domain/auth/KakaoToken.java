@@ -1,6 +1,7 @@
-package com.example.groom.entity;
+package com.example.groom.entity.domain.auth;
 
 
+import com.example.groom.entity.common.BaseEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class KakaoToken extends BaseEntity{
+public class KakaoToken extends BaseEntity {
 
     @Column
     private String accessToken;
@@ -20,5 +21,5 @@ public class KakaoToken extends BaseEntity{
 
     @JoinColumn
     @OneToOne(fetch = FetchType.LAZY)
-    private KakaoInfo kakaoInfo;
+    private UserInfo userInfo;
 }

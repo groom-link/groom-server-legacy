@@ -1,6 +1,7 @@
-package com.example.groom.entity;
+package com.example.groom.entity.domain.auth;
 
 
+import com.example.groom.entity.common.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,7 @@ import javax.persistence.Entity;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class User extends BaseEntity{
+public class User extends BaseEntity {
     @Column
     private String username;
 

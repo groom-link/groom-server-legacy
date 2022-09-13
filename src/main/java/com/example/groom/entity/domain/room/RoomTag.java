@@ -1,6 +1,8 @@
-package com.example.groom.entity;
+package com.example.groom.entity.domain.room;
 
 
+import com.example.groom.entity.domain.tag.Tag;
+import com.example.groom.entity.common.BaseEntity;
 import lombok.Getter;
 
 import javax.persistence.Entity;
@@ -10,13 +12,12 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Getter
-public class RoomCategory extends Category{
-
+public class RoomTag extends BaseEntity {
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
-    private Category category;
+    private Tag tag;
 }

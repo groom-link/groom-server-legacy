@@ -1,10 +1,10 @@
-package com.example.groom.domain.Room;
+package com.example.groom.domain.room;
 
-import com.example.groom.domain.Room.Dto.RoomDetailDto;
-import com.example.groom.domain.Room.Dto.RoomDto;
-import com.example.groom.domain.Room.Dto.RoomSearchCondition;
-import com.example.groom.domain.Room.RoomParticipants.RoomParticipantsRepository;
-import com.example.groom.entity.UserInfo;
+import com.example.groom.domain.room.dto.RoomDetailDto;
+import com.example.groom.domain.room.dto.RoomDto;
+import com.example.groom.domain.room.dto.RoomSearchCondition;
+import com.example.groom.domain.room.roomParticipants.RoomParticipantsRepository;
+import com.example.groom.entity.domain.auth.UserInfo;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.example.groom.entity.QRoom.room;
+import static com.example.groom.entity.domain.room.QRoom.room;
+
 
 public class RoomRepositoryImpl implements RoomRepositoryCustom {
 
@@ -27,7 +28,7 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
     private RoomParticipantsRepository roomParticipantsRepository;
     private final JPAQueryFactory query;
 
-    public RoomRepositoryImpl(EntityManager em){
+    public RoomRepositoryImpl(EntityManager em) {
         this.query = new JPAQueryFactory(em);
     }
 
@@ -36,11 +37,11 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
     public RoomDetailDto getRoomDetailDtoByRoomId(Long id) {
         RoomDetailDto roomDetailDto =
                 query
-                .select(Projections.constructor
-                        (RoomDetailDto.class, room.id, room.name, room.summary, room.description, room.mainImageUrl))
-                .from(room)
-                .where(room.id.eq(id))
-                .fetchOne();
+                        .select(Projections.constructor
+                                (RoomDetailDto.class, room.id, room.name, room.summary, room.description, room.mainImageUrl))
+                        .from(room)
+                        .where(room.id.eq(id))
+                        .fetchOne();
 
         List<UserInfo> participants = this.roomParticipantsRepository.getParticipantsListUserInfosByRoomId(id);
         roomDetailDto.setRoomParticipants(participants);
@@ -59,24 +60,18 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
                         room.createdAt,
                         room.updatedAt,
                         room.roomParticipants.size(),
-                        room.ownerId
-                        ))
+                        room.owner
+                ))
                 .from(room)
-                .where(room.name.contains(condition.getName()),
-                        room.createdAt.between(condition.getDateGoe(), condition.getDateLoe()),
-                        room.summary.contains(condition.getSummary()),
-                        room.description.contains(condition.getDescription())
-//                        room.category.in(condition.getCategory())
-                )
+                .where(condition.getCondition())
+
+
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
         int size = query
                 .selectFrom(room)
-                .where(room.name.contains(condition.getName()),
-                        room.createdAt.between(condition.getDateGoe(), condition.getDateLoe()),
-                        room.summary.contains(condition.getSummary()),
-                        room.description.contains(condition.getDescription())
+                .where(condition.getCondition()
 //                        room.category.in(condition.getCategory())
                 )
                 .offset(pageable.getOffset())

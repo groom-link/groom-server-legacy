@@ -1,15 +1,15 @@
-package com.example.groom.domain.Room.RoomParticipants;
+package com.example.groom.domain.room.roomParticipants;
 
-import com.example.groom.entity.UserInfo;
+import com.example.groom.entity.domain.auth.UserInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.example.groom.entity.QKakaoInfo.kakaoInfo;
-import static com.example.groom.entity.QRoomParticipants.roomParticipants;
-import static com.example.groom.entity.QUserInfo.userInfo;
+import static com.example.groom.entity.domain.auth.QKakaoInfo.kakaoInfo;
+import static com.example.groom.entity.domain.auth.QUserInfo.userInfo;
+import static com.example.groom.entity.domain.room.QRoomParticipants.roomParticipants;
 
 
 public class RoomParticipantsImpl implements RoomParticipantsCustom{

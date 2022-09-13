@@ -1,4 +1,4 @@
-package com.example.groom.domain.Room.Dto;
+package com.example.groom.domain.room.roomParticipants.dto;
 
 
 import lombok.Data;
