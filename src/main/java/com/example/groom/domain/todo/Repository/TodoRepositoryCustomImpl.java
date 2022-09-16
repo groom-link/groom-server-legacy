@@ -1,6 +1,6 @@
 package com.example.groom.domain.todo.Repository;
 
-import com.example.groom.entity.Todo;
+import com.example.groom.entity.domain.todo.Todo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
