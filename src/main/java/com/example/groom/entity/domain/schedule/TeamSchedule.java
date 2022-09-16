@@ -1,9 +1,9 @@
-package com.example.groom.entity;
+package com.example.groom.entity.domain.schedule;
 
+import com.example.groom.entity.domain.room.Room;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -16,4 +16,3 @@ public class TeamSchedule extends Schedule {
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
 }
-

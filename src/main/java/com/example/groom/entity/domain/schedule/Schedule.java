@@ -1,5 +1,6 @@
-package com.example.groom.entity;
+package com.example.groom.entity.domain.schedule;
 
+import com.example.groom.entity.common.OwnEntity;
 import lombok.Getter;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package com.example.groom.entity;
+package com.example.groom.entity.domain.schedule;
 
 import javax.persistence.Embeddable;
 
