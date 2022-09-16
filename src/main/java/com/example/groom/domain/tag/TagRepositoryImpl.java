@@ -30,7 +30,7 @@ public class TagRepositoryImpl implements TagRepositoryCustom {
     @Override
     public TagDto getTagDetailDto(Long id) {
         return query.select(Projections.constructor(TagDto.class, tag.id, tag.name
-        )).from(tag).where(tag.deletedAt.isNull().and(tag.id.eq(id))).fetchOne();
+        )).from(tag).where(tag.id.eq(id)).fetchOne();
     }
 
     @Override
