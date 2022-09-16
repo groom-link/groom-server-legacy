@@ -4,9 +4,9 @@ package com.example.groom.domain.auth;
 import com.example.groom.common.auth.jwt.AuthenticationToken;
 import com.example.groom.common.auth.jwt.AuthenticationTokenProvider;
 import com.example.groom.common.auth.jwt.JwtAuthentication;
-import com.example.groom.domain.auth.RefreshToken.RefreshTokenService;
-import com.example.groom.domain.auth.UserInfo.UserInfoService;
-import com.example.groom.entity.UserInfo;
+import com.example.groom.domain.auth.refreshToken.RefreshTokenService;
+import com.example.groom.domain.auth.userInfo.UserInfoService;
+import com.example.groom.entity.domain.auth.UserInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class AuthService {
     public AuthenticationToken login(String kakaoCode){
         UserInfo userInfo = this.kakaoService.getUserInfoByKakaoAccessToken(kakaoCode);
         AuthenticationToken issuedToken = this.authenticationTokenProvider.issue(userInfo.getId());
-        this.refreshTokenService.refreshTokenAssign(issuedToken.getRefreshToken(), userInfo);
+        this.refreshTokenService.assignRefreshToken(issuedToken.getRefreshToken(), userInfo);
         return issuedToken;
     }
 

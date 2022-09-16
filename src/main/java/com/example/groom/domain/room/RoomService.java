@@ -1,9 +1,9 @@
-package com.example.groom.domain.Room;
+package com.example.groom.domain.room;
 
 
-import com.example.groom.domain.Room.Dto.RoomDetailDto;
-import com.example.groom.domain.Room.Dto.RoomDto;
-import com.example.groom.domain.Room.Dto.RoomSearchCondition;
+import com.example.groom.domain.room.dto.RoomDetailDto;
+import com.example.groom.domain.room.dto.RoomDto;
+import com.example.groom.domain.room.dto.RoomSearchCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

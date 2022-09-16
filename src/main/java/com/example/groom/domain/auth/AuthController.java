@@ -7,7 +7,7 @@ import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.auth.dto.AuthenticationTokenResponseDTO;
 import com.example.groom.domain.auth.dto.RefreshTokenDto;
-import com.example.groom.entity.UserInfo;
+import com.example.groom.entity.domain.auth.UserInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -35,11 +35,11 @@ public class AuthController {
             @ApiResponse(responseCode = "401", description = "리프레쉬토큰이 서버에 존재하지 않습니다.")
     })
     @PostMapping ("/refresh")
-    public AuthenticationTokenResponseDTO refreshAuthenticationToken(
+    public AuthenticationToken refreshAuthenticationToken(
             @Parameter(description = "refresh token")
-            @RequestBody  RefreshTokenDto refreshTokenDto){
+            @RequestBody RefreshTokenDto refreshTokenDto){
         if(refreshTokenDto.getRefreshToken() == null || refreshTokenDto.getRefreshToken().isEmpty())throw new CustomException(ErrorCode.REFRESH_TOKEN_REQUIRED);
-        return new AuthenticationTokenResponseDTO(this.authService.tokenRefresh(refreshTokenDto.getRefreshToken()));
+        return this.authService.tokenRefresh(refreshTokenDto.getRefreshToken());
     }
 
 
@@ -58,10 +58,10 @@ public class AuthController {
             @ApiResponse(responseCode = "406", description = "카카오 정보 가져오기에 실패했습니다."),
     })
     @GetMapping("/kakao/login")
-    public AuthenticationTokenResponseDTO loginWithKakaoCode(@Parameter(description = "카카오 로그인에 성공하여 받아진 인가코드")
+    public AuthenticationToken loginWithKakaoCode
+            (@Parameter(description = "카카오 로그인에 성공하여 받아진 인가코드")
                                                                  @RequestParam("code") String kakaoCode){
-        AuthenticationToken authenticationToken = this.authService.login(kakaoCode);
-        return new AuthenticationTokenResponseDTO(authenticationToken);
+        return this.authService.login(kakaoCode);
     }
     @Operation(summary = "유저 정보 가져오기",
             description = "자기 자신의 정보를 열람합니다.",
@@ -72,6 +72,6 @@ public class AuthController {
     })
     @GetMapping("/me")
     public UserInfo getMe(JwtAuthentication authentication){
-        return this.authService.getMe( authentication);
+        return this.authService.getMe(authentication);
     }
 }

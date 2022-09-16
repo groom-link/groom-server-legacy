@@ -1,7 +1,7 @@
-package com.example.groom.domain.Room.Dto;
+package com.example.groom.domain.room.dto;
 
 
-import com.example.groom.entity.UserInfo;
+import com.example.groom.entity.domain.auth.UserInfo;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -6,19 +6,16 @@ import com.example.groom.domain.tag.dto.TagSearchCondition;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 
 import javax.persistence.EntityManager;
-
 import java.util.List;
 
-import static com.example.groom.entity.QTag.tag;
+import static com.example.groom.entity.domain.tag.QTag.tag;
 
-@RequiredArgsConstructor
 public class TagRepositoryImpl implements TagRepositoryCustom {
 
     @Autowired
@@ -32,9 +29,8 @@ public class TagRepositoryImpl implements TagRepositoryCustom {
 
     @Override
     public TagDto getTagDetailDto(Long id) {
-        TagDto tagDto = query.select(Projections.constructor(TagDto.class, tag.id, tag.name, tag.colorHex
+        return query.select(Projections.constructor(TagDto.class, tag.id, tag.name
         )).from(tag).where(tag.deletedAt.isNull().and(tag.id.eq(id))).fetchOne();
-        return tagDto;
     }
 
     @Override
@@ -45,7 +41,7 @@ public class TagRepositoryImpl implements TagRepositoryCustom {
         if (tagSearchCondition.getDateGoe() != null) builder.and(tag.updatedAt.goe(tagSearchCondition.getDateGoe()));
         List<TagDto> tagDtos = query
                 .select(Projections
-                        .constructor(TagDto.class, tag.id, tag.name, tag.colorHex))
+                        .constructor(TagDto.class, tag.id, tag.name))
                 .from(tag)
                 .where(builder)
                 .offset(pageable.getOffset())

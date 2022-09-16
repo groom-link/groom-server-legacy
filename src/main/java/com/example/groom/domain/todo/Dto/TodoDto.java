@@ -1,9 +1,6 @@
 package com.example.groom.domain.todo.Dto;
 
-import com.example.groom.entity.Room;
-import com.example.groom.entity.RoomSlot;
 import com.example.groom.entity.TodoBox;
-import com.example.groom.entity.UserInfo;
 import lombok.Data;
 
 @Data
@@ -15,9 +12,9 @@ public class TodoDto {
     
     private TodoBox todoBox;
 
-    private UserInfo todoOwner;
+    private Long todoOwnerId;
 
-    private RoomSlot roomSlot;
+    private Long roomSlotId;
 
-    private Room room;
+    private Long roomId;
 }

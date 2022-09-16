@@ -1,6 +1,6 @@
-package com.example.groom.domain.Room.RoomParticipants;
+package com.example.groom.domain.room.roomParticipants;
 
-import com.example.groom.entity.RoomParticipants;
+import com.example.groom.entity.domain.room.RoomParticipants;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoomParticipantsRepository extends JpaRepository<RoomParticipants, Long>, RoomParticipantsCustom {

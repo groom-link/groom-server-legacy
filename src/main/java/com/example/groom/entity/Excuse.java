@@ -1,5 +1,7 @@
 package com.example.groom.entity;
 
+import com.example.groom.entity.common.CoopEntity;
+import com.example.groom.entity.domain.room.Room;
 import com.example.groom.entity.enums.RequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Excuse extends CoopEntity{
+public class Excuse extends CoopEntity {
 
     @Column
     private String content;
