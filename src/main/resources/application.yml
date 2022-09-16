@@ -43,3 +43,5 @@ kakao:
   client_id: 248c0f042143239e8aff41927befcf0a
   redirect_uri: http://localhost:8081/auth/kakao/login
 inviteExpireMS: 1000000
+firebase:
+  app-id: groom-3ee3c
