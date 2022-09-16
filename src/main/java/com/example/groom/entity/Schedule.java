@@ -7,7 +7,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Entity
-public class Schedule extends BaseEntity {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Schedule extends OwnEntity {
 
     @Column
     private String title;
@@ -17,11 +18,5 @@ public class Schedule extends BaseEntity {
 
     @Column
     private LocalDateTime endTime;
-
-    @Column
-    private String meetingLocation; // 미팅 일정이 아닌경우 null
-
-    @JoinColumn
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Room room;
 }
+
