@@ -25,4 +25,8 @@ public class TeamSchedule extends Schedule {
         this.meetingLocation = teamScheduleDto.getMeetingLocation();
         this.room = teamScheduleDto.getRoom();
     }
+
+    static public TeamSchedule of(TeamScheduleDto teamScheduleDto) {
+        return new TeamSchedule(teamScheduleDto);
+    }
 }

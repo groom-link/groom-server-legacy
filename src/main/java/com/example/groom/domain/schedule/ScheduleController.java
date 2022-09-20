@@ -17,6 +17,6 @@ public class ScheduleController {
 
     @PostMapping
     public Schedule postSchedule(@RequestBody ScheduleDto scheduleDto) {
-
+        return scheduleService.createSchedule(scheduleDto);
     }
 }
