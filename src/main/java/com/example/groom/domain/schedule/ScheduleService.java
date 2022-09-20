@@ -1,5 +1,7 @@
 package com.example.groom.domain.schedule;
 
+import com.example.groom.common.exception.CustomException;
+import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.entity.domain.schedule.Schedule;
 import lombok.RequiredArgsConstructor;
@@ -17,5 +19,11 @@ public class ScheduleService {
         scheduleRepository.save(schedule);
 
         return schedule;
+    }
+
+    public void deleteSchedule(Long id) {
+        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
+
+        scheduleRepository.delete(schedule);
     }
 }

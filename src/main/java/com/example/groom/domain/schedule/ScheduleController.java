@@ -3,10 +3,7 @@ package com.example.groom.domain.schedule;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.entity.domain.schedule.Schedule;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,5 +15,12 @@ public class ScheduleController {
     @PostMapping
     public Schedule postSchedule(@RequestBody ScheduleDto scheduleDto) {
         return scheduleService.createSchedule(scheduleDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public Long deleteSchedule(@PathVariable Long id) {
+
+
+        return id;
     }
 }

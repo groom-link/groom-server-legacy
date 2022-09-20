@@ -26,10 +26,13 @@ public enum ErrorCode {
     TODO_NOT_FOUND(HttpStatus.NOT_FOUND, "할 일을 찾을 수 없습니다."),
 
     ROOM_NOT_FOUND(HttpStatus.NOT_FOUND, "모임을 찾을 수 없습니다."),
+
+    SCHEDULE_NOT_FOUND(HttpStatus.NOT_FOUND, "일정을 찾을 수 없습니다."),
     ;
 
     private final HttpStatus status;
     private final String message;
+
     ErrorCode(HttpException e) {
         this.message = e.getMessage();
         this.status = HttpStatus.INTERNAL_SERVER_ERROR;
