@@ -3,8 +3,11 @@ package com.example.groom.domain.schedule;
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
+import com.example.groom.domain.schedule.dto.ScheduleSearchCondition;
 import com.example.groom.entity.domain.schedule.Schedule;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,5 +28,9 @@ public class ScheduleService {
         Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         scheduleRepository.delete(schedule);
+    }
+
+    public Page<Schedule> searchSchedule(Pageable pageable, ScheduleSearchCondition scheduleSearchCondition) {
+        return this.scheduleRepository.searchByCondition(pageable, scheduleSearchCondition);
     }
 }
