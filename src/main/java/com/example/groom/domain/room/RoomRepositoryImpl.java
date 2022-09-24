@@ -89,6 +89,7 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
                 .from(room)
                 .where(room.id.eq(id))
                 .fetchOne();
+        int i = 1;
         return roomDetailDto;
     }
 
