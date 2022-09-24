@@ -11,4 +11,10 @@ public class TeamScheduleDto extends ScheduleDto {
     private MeetingLocation meetingLocation;
 
     private Room room;
+
+    public TeamScheduleDto(TeamSchedulePostDto teamSchedulePostDto, Room room) {
+        super(teamSchedulePostDto);
+        this.meetingLocation = teamSchedulePostDto.getMeetingLocation();
+        this.room = room;
+    }
 }
