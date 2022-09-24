@@ -1,7 +1,9 @@
 package com.example.groom.domain.schedule;
 
 import com.example.groom.domain.schedule.dto.ScheduleSearchCondition;
+import com.example.groom.entity.domain.auth.UserInfo;
 import com.example.groom.entity.domain.schedule.Schedule;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.example.groom.entity.domain.schedule.QSchedule.schedule;
@@ -29,24 +32,36 @@ public class ScheduleRepositoryCustomImpl implements ScheduleRepositoryCustom {
     public Page<Schedule> searchByCondition(Pageable pageable, ScheduleSearchCondition scheduleSearchCondition) {
         List<Schedule> scheduleList = query
                 .selectFrom(schedule)
-                .where(schedule.owner.contains(scheduleSearchCondition.getOwner()),
-                        schedule.startTime.between(scheduleSearchCondition.getStartTime(), scheduleSearchCondition.getEndTime()))
-                .or(schedule.owner.contains(scheduleSearchCondition.getOwner()),
-                        schedule.endTime.between(scheduleSearchCondition.getStartTime(), scheduleSearchCondition.getEndTime()))
+                .where(containsOwner(scheduleSearchCondition.getOwner()),
+                        betweenScheduleTime(scheduleSearchCondition.getStartTime(), scheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         int size = query
                 .selectFrom(schedule)
-                .where(schedule.owner.contains(scheduleSearchCondition.getOwner()),
-                        schedule.startTime.between(scheduleSearchCondition.getStartTime(), scheduleSearchCondition.getEndTime()))
-                .or(schedule.owner.contains(scheduleSearchCondition.getOwner()),
-                        schedule.endTime.between(scheduleSearchCondition.getStartTime(), scheduleSearchCondition.getEndTime()))
+                .where(containsOwner(scheduleSearchCondition.getOwner()),
+                        betweenScheduleTime(scheduleSearchCondition.getStartTime(), scheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch().size();
 
         return new PageImpl<>(scheduleList, pageable, size);
+    }
+
+    private BooleanExpression containsOwner(UserInfo owner) {
+        return schedule.owner.contains(owner);
+    }
+
+    private BooleanExpression betweenScheduleTime(LocalDateTime startTime, LocalDateTime endTime) {
+        if (startTime != null) {
+            return null;
+        }
+        if (endTime != null) {
+            return null;
+        }
+
+        return schedule.startTime.between(startTime, endTime)
+                .or(schedule.endTime.between(startTime, endTime));
     }
 }
