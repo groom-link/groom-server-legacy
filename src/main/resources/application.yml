@@ -17,7 +17,7 @@ spring:
         format_sql: true
 
   datasource:
-    url: jdbc:mysql://database-1.cnnpvjpnseuj.ap-northeast-2.rds.amazonaws.com:3306/groom?characterEncoding=UTF-8
+    url: jdbc:mysql://database-1.cnnpvjpnseuj.ap-northeast-2.rds.amazonaws.com:3306/groom?
     username: admin
     password: as661899
     driver-class-name: com.mysql.cj.jdbc.Driver
