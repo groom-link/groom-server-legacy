@@ -50,14 +50,14 @@ public class ScheduleRepositoryCustomImpl implements ScheduleRepositoryCustom {
     }
 
     private BooleanExpression containsOwner(UserInfo owner) {
-        return schedule.owner.contains(owner);
+        return schedule.owner.eq(owner);
     }
 
     private BooleanExpression betweenScheduleTime(LocalDateTime startTime, LocalDateTime endTime) {
-        if (startTime != null) {
+        if (startTime == null) {
             return null;
         }
-        if (endTime != null) {
+        if (endTime == null) {
             return null;
         }
 

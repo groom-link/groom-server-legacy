@@ -1,9 +1,9 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
-import com.example.groom.domain.schedule.ScheduleRepositoryCustom;
-import com.example.groom.domain.schedule.dto.ScheduleSearchCondition;
-import com.example.groom.entity.domain.auth.UserInfo;
-import com.example.groom.entity.domain.schedule.Schedule;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
+import com.example.groom.entity.domain.room.Room;
+import com.example.groom.entity.domain.schedule.TeamSchedule;
+import com.example.groom.entity.enums.RequestStatus;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +15,10 @@ import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.example.groom.entity.domain.schedule.QSchedule.schedule;
+import static com.example.groom.entity.domain.schedule.QTeamSchedule.teamSchedule;
+import static com.example.groom.entity.domain.schedule.QTeamScheduleUser.teamScheduleUser;
 
-
-public class TeamScheduleRepositoryCustomImpl implements ScheduleRepositoryCustom {
+public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryCustom {
 
     private final JPAQueryFactory query;
 
@@ -30,39 +30,66 @@ public class TeamScheduleRepositoryCustomImpl implements ScheduleRepositoryCusto
     }
 
     @Override
-    public Page<Schedule> searchByCondition(Pageable pageable, ScheduleSearchCondition scheduleSearchCondition) {
-        List<Schedule> scheduleList = query
-                .selectFrom(schedule)
-                .where(containsOwner(scheduleSearchCondition.getOwner()),
-                        betweenScheduleTime(scheduleSearchCondition.getStartTime(), scheduleSearchCondition.getEndTime()))
+    public Page<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
+        List<TeamSchedule> teamScheduleList = query
+                .selectFrom(teamSchedule)
+                .where(eqRoom(teamScheduleSearchCondition.getRoom()),
+                        betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         int size = query
-                .selectFrom(schedule)
-                .where(containsOwner(scheduleSearchCondition.getOwner()),
-                        betweenScheduleTime(scheduleSearchCondition.getStartTime(), scheduleSearchCondition.getEndTime()))
+                .selectFrom(teamSchedule)
+                .where(eqRoom(teamScheduleSearchCondition.getRoom()),
+                        betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch().size();
 
-        return new PageImpl<>(scheduleList, pageable, size);
+        return new PageImpl<>(teamScheduleList, pageable, size);
     }
 
-    private BooleanExpression containsOwner(UserInfo owner) {
-        return schedule.owner.contains(owner);
+    @Override
+    public void updateParticipation(Long teamScheduleId, Long userId, RequestStatus status) {
+        query.update(teamScheduleUser)
+                .set(teamScheduleUser.status, status)
+                .where(teamScheduleUser.id.eq(teamScheduleId), teamScheduleUser.participant.id.eq(userId))
+                .execute();
+    }
+
+    @Override
+    public Page<TeamSchedule> searchByUserId(Pageable pageable, Long userId) {
+        List<TeamSchedule> teamScheduleList = query
+                .selectFrom(teamSchedule)
+                .where(teamScheduleUser.participant.id.eq(userId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        int size = query
+                .selectFrom(teamSchedule)
+                .where(teamScheduleUser.participant.id.eq(userId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch().size();
+
+        return new PageImpl<>(teamScheduleList, pageable, size);
+    }
+
+    private BooleanExpression eqRoom(Room room) {
+        return teamSchedule.room.eq(room);
     }
 
     private BooleanExpression betweenScheduleTime(LocalDateTime startTime, LocalDateTime endTime) {
-        if (startTime != null) {
+        if (startTime == null) {
             return null;
         }
-        if (endTime != null) {
+        if (endTime == null) {
             return null;
         }
 
-        return schedule.startTime.between(startTime, endTime)
-                .or(schedule.endTime.between(startTime, endTime));
+        return teamSchedule.startTime.between(startTime, endTime)
+                .or(teamSchedule.endTime.between(startTime, endTime));
     }
 }
