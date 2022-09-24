@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 public class RoomPenaltyService {
     private final RoomPenaltyRepository roompenaltyRepository;
 
-    public RoomPenalty save(RoomPenaltyPostDto roomPenaltyPostDto){
-        RoomPenalty roomPenalty = RoomPenalty.of(roomPenaltyPostDto);
+    public RoomPenalty save(Long roomId, RoomPenaltyPostDto roomPenaltyPostDto){
+        RoomPenalty roomPenalty = RoomPenalty.of(roomId, roomPenaltyPostDto);
         return this.roompenaltyRepository.save(roomPenalty);
     }
 }

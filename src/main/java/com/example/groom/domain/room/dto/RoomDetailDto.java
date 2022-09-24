@@ -1,7 +1,8 @@
 package com.example.groom.domain.room.dto;
 
 
-import com.example.groom.entity.domain.auth.UserInfo;
+import com.example.groom.domain.auth.userInfo.dto.UserInfoDto;
+import com.example.groom.domain.category.dto.CategoryDto;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,25 +16,23 @@ public class RoomDetailDto {
     private Long id;
     private String name;
 
-    private List<String> category;
-
+    private CategoryDto category;
     private String description;
 
     private String mainImageUrl;
 
-    private List<String> descriptionImageUrls;
-
     private String summary;
 
-    private List<UserInfo> roomParticipants = new ArrayList<>();
+    private List<UserInfoDto> roomParticipants = new ArrayList<>();
 
-    public RoomDetailDto(Long id, String name, String summary, String description, String mainImageUrl, List<UserInfo> roomParticipants){
+
+    public RoomDetailDto(Long id, String name, CategoryDto category, String description, String mainImageUrl, String summary, List<UserInfoDto> roomParticipants) {
         this.id = id;
         this.name = name;
-        this.summary = summary;
+        this.category = category;
         this.description = description;
         this.mainImageUrl = mainImageUrl;
+        this.summary = summary;
         this.roomParticipants = roomParticipants;
     }
-
 }

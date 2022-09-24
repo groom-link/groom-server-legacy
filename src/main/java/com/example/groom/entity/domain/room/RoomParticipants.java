@@ -18,6 +18,11 @@ public class RoomParticipants extends BaseEntity {
     @JoinColumn
     private Room room;
 
+    public RoomParticipants(Room room, UserInfo userInfo) {
+        this.room = room;
+        this.userInfo = userInfo;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private UserInfo userInfo;

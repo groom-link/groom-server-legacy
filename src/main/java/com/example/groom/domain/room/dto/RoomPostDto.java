@@ -18,8 +18,6 @@ public class RoomPostDto {
 
     private String mainImageUrl;
 
-    private List<String> descriptionImageUrls = new ArrayList<>();
-
     private String summary;
 
     private Long maxPeople;
@@ -29,4 +27,5 @@ public class RoomPostDto {
     private List<Long> roomParticipants = new ArrayList<>();
 
     private RoomPenaltyPostDto roomPenaltyPostDto;
+
 }
