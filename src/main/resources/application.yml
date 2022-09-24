@@ -1,5 +1,5 @@
 host:
-  url: http://localhost:8080
+  url: http://dev.api.groom.link
 
 server:
   port: 8081
@@ -41,5 +41,5 @@ jwt:
     expirationDay: 14
 kakao:
   client_id: 248c0f042143239e8aff41927befcf0a
-  redirect_uri: http://localhost:8081/auth/kakao/login
+  redirect_uri: http://dev.api.groom.link/auth/kakao/login
 inviteExpireMS: 1000000
