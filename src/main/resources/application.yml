@@ -1,5 +1,5 @@
 host:
-  url: http://localhost:8080
+  url: http://dev.api.groom.link
 
 server:
   port: 8081
@@ -17,7 +17,7 @@ spring:
         format_sql: true
 
   datasource:
-    url: jdbc:mysql://database-1.cnnpvjpnseuj.ap-northeast-2.rds.amazonaws.com:3306/groom?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://database-1.cnnpvjpnseuj.ap-northeast-2.rds.amazonaws.com:3306/groom?
     username: admin
     password: as661899
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -41,5 +41,5 @@ jwt:
     expirationDay: 14
 kakao:
   client_id: 248c0f042143239e8aff41927befcf0a
-  redirect_uri: http://localhost:8081/auth/kakao/login
+  redirect_uri: http://dev.api.groom.link/auth/kakao/login
 inviteExpireMS: 1000000
