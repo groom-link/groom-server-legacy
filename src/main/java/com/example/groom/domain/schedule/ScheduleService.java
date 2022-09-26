@@ -25,9 +25,11 @@ public class ScheduleService {
     }
 
     public void deleteSchedule(Long id) {
-        Schedule schedule = scheduleRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
-
-        scheduleRepository.delete(schedule);
+        if (scheduleRepository.existsById(id)) {
+            scheduleRepository.deleteById(id);
+        } else {
+            throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
+        }
     }
 
     public Page<Schedule> searchSchedule(Pageable pageable, ScheduleSearchCondition scheduleSearchCondition) {

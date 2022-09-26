@@ -30,8 +30,10 @@ public class TeamScheduleService {
     }
 
     public void deleteTeamSchedule(Long id) {
-        TeamSchedule teamSchedule = teamScheduleRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
-
-        teamScheduleRepository.delete(teamSchedule);
+        if (teamScheduleRepository.existsById(id)) {
+            teamScheduleRepository.deleteById(id);
+        } else {
+            throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
+        }
     }
 }
