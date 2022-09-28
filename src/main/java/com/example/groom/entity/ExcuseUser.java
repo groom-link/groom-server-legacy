@@ -1,6 +1,6 @@
 package com.example.groom.entity;
 
-import com.example.groom.entity.common.CoopEntity;
+import com.example.groom.entity.common.OwnEntity;
 import com.example.groom.entity.enums.RequestStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,11 +12,7 @@ import javax.persistence.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExcuseUser extends CoopEntity {
-
-    @Id
-    @GeneratedValue
-    private Long id;
+public class ExcuseUser extends OwnEntity {
 
     @Column
     @Enumerated(EnumType.STRING)

@@ -1,6 +1,6 @@
 package com.example.groom.domain.todo.Repository;
 
-import com.example.groom.entity.Todo;
+import com.example.groom.entity.domain.todo.Todo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -10,14 +10,13 @@ import org.springframework.data.domain.SliceImpl;
 import javax.persistence.EntityManager;
 import java.util.List;
 
-import static com.example.groom.entity.QTodo.todo;
+import static com.example.groom.entity.domain.todo.QTodo.todo;
 
-public class TodoRepositoryCustomImpl implements TodoRepositoryCustom{
-
-    @Autowired
-    private EntityManager em;
+public class TodoRepositoryCustomImpl implements TodoRepositoryCustom {
 
     private final JPAQueryFactory query;
+    @Autowired
+    private EntityManager em;
 
     public TodoRepositoryCustomImpl(EntityManager em) {
         this.query = new JPAQueryFactory(em);
