@@ -10,7 +10,7 @@ import javax.persistence.*;
 
 @Getter
 @Entity
-@DiscriminatorValue(value = "TeamSchedule")
+@DiscriminatorValue(value = "teamSchedule")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamSchedule extends Schedule {
 
