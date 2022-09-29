@@ -28,9 +28,7 @@ public class TeamScheduleService {
 
         TeamSchedule teamSchedule = TeamSchedule.of(teamScheduleDto);
 
-        teamScheduleRepository.save(teamSchedule);
-
-        return teamSchedule;
+        return teamScheduleRepository.save(teamSchedule);
     }
 
     public void deleteTeamSchedule(Long id) {

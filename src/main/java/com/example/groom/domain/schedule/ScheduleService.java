@@ -19,9 +19,7 @@ public class ScheduleService {
     public Schedule createSchedule(ScheduleDto scheduleDto) {
         Schedule schedule = Schedule.of(scheduleDto);
 
-        scheduleRepository.save(schedule);
-
-        return schedule;
+        return scheduleRepository.save(schedule);
     }
 
     public void deleteSchedule(Long id) {
