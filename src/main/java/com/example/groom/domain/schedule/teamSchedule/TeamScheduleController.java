@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/team-schedule")
+@RequestMapping("/room/{roomId}/schedule")
 public class TeamScheduleController {
 
     private final TeamScheduleService teamScheduleService;
