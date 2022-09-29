@@ -34,11 +34,8 @@ public class TeamScheduleService {
     }
 
     public void deleteTeamSchedule(Long id) {
-        if (teamScheduleRepository.existsById(id)) {
-            teamScheduleRepository.deleteById(id);
-        } else {
-            throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
-        }
+        if (!teamScheduleRepository.existsById(id)) throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
+        teamScheduleRepository.deleteById(id);
     }
 
     public void updateParticipation(Long teamScheduleId, Long userId, RequestStatus status) {
