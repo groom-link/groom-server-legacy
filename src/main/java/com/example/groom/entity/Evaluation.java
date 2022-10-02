@@ -1,7 +1,6 @@
 package com.example.groom.entity;
 
 import com.example.groom.entity.common.CoopEntity;
-import com.example.groom.entity.domain.todo.Todo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

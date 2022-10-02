@@ -1,8 +1,7 @@
-package com.example.groom.entity.domain.todo;
+package com.example.groom.entity;
 
 
 import com.example.groom.domain.todo.Dto.TodoDto;
-import com.example.groom.entity.RoomSlot;
 import com.example.groom.entity.common.CoopEntity;
 import com.example.groom.entity.domain.auth.UserInfo;
 import com.example.groom.entity.domain.room.Room;

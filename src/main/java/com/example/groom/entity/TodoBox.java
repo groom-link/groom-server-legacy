@@ -1,4 +1,4 @@
-package com.example.groom.entity.domain.todo;
+package com.example.groom.entity;
 
 import com.example.groom.entity.common.CoopEntity;
 import lombok.AllArgsConstructor;

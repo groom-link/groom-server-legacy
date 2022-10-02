@@ -1,7 +1,7 @@
 package com.example.groom.domain.todo;
 
 import com.example.groom.domain.todo.Dto.TodoDto;
-import com.example.groom.entity.domain.todo.Todo;
+import com.example.groom.entity.Todo;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

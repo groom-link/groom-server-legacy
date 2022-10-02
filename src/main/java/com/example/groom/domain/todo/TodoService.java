@@ -4,7 +4,7 @@ import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.todo.Dto.TodoDto;
 import com.example.groom.domain.todo.Repository.TodoRepository;
-import com.example.groom.entity.domain.todo.Todo;
+import com.example.groom.entity.Todo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

@@ -1,6 +1,6 @@
 package com.example.groom.domain.todo.Dto;
 
-import com.example.groom.entity.domain.todo.TodoBox;
+import com.example.groom.entity.TodoBox;
 import lombok.Data;
 
 @Data
