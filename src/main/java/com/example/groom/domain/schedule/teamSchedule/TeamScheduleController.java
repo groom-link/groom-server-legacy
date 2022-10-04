@@ -34,11 +34,6 @@ public class TeamScheduleController {
         teamScheduleService.updateParticipation(teamScheduleId, userId, status);
     }
 
-    @GetMapping("/user/{userId}")
-    public Slice<TeamSchedule> searchByUserId(Pageable pageable, @PathVariable Long userId) {
-        return teamScheduleService.searchByUserId(pageable, userId);
-    }
-
     @GetMapping("/search")
     public Slice<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
         return teamScheduleService.searchByCondition(pageable, teamScheduleSearchCondition);

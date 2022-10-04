@@ -1,7 +1,6 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
-import com.example.groom.entity.domain.room.Room;
 import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -33,7 +32,7 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
     public Page<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
         List<TeamSchedule> teamScheduleList = query
                 .selectFrom(teamSchedule)
-                .where(eqRoom(teamScheduleSearchCondition.getRoom()),
+                .where(teamScheduleUser.participant.id.eq(teamScheduleSearchCondition.getUserId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -41,7 +40,7 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
 
         int size = query
                 .selectFrom(teamSchedule)
-                .where(eqRoom(teamScheduleSearchCondition.getRoom()),
+                .where(teamScheduleUser.participant.id.eq(teamScheduleSearchCondition.getUserId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -56,29 +55,6 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
                 .set(teamScheduleUser.status, status)
                 .where(teamScheduleUser.id.eq(teamScheduleId), teamScheduleUser.participant.id.eq(userId))
                 .execute();
-    }
-
-    @Override
-    public Page<TeamSchedule> searchByUserId(Pageable pageable, Long userId) {
-        List<TeamSchedule> teamScheduleList = query
-                .selectFrom(teamSchedule)
-                .where(teamScheduleUser.participant.id.eq(userId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch();
-
-        int size = query
-                .selectFrom(teamSchedule)
-                .where(teamScheduleUser.participant.id.eq(userId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch().size();
-
-        return new PageImpl<>(teamScheduleList, pageable, size);
-    }
-
-    private BooleanExpression eqRoom(Room room) {
-        return teamSchedule.room.eq(room);
     }
 
     private BooleanExpression betweenScheduleTime(LocalDateTime startTime, LocalDateTime endTime) {
