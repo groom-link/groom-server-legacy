@@ -13,6 +13,7 @@ public class TeamScheduleDto {
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
+
     private MeetingLocation meetingLocation;
 
     public TeamScheduleDto(TeamSchedulePostDto teamSchedulePostDto) {
