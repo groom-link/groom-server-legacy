@@ -18,9 +18,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(responseInterceptor)
-                .addPathPatterns("/**")
                 .excludePathPatterns("/swagger-ui/**")
-                .excludePathPatterns("/api-docs");
+                .excludePathPatterns("/api-docs/**")
+                .addPathPatterns("/**");
     }
 
     @Override
