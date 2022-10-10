@@ -1,5 +1,6 @@
 package com.example.groom.entity.domain.schedule;
 
+import com.example.groom.domain.schedule.teamScheduleUser.dto.TeamScheduleUserDto;
 import com.example.groom.entity.common.BaseEntity;
 import com.example.groom.entity.domain.auth.UserInfo;
 import com.example.groom.entity.enums.RequestStatus;
@@ -24,4 +25,16 @@ public class TeamScheduleUser extends BaseEntity {
     @Column
     @Enumerated(EnumType.STRING)
     private RequestStatus status;
+
+    protected TeamScheduleUser(TeamScheduleUserDto teamScheduleUserDto) {
+        this.teamSchedule = TeamSchedule.of(teamScheduleUserDto.getTeamScheduleId());
+        this.participant = UserInfo.of(teamScheduleUserDto.getUserId());
+        this.status = teamScheduleUserDto.getStatus();
+    }
+
+    static public TeamScheduleUser of(TeamScheduleUserDto teamScheduleUserDto) {
+        return new TeamScheduleUser(teamScheduleUserDto);
+    }
+
+
 }
