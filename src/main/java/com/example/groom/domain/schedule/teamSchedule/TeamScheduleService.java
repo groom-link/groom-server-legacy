@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class TeamScheduleService {
@@ -45,5 +47,9 @@ public class TeamScheduleService {
 
     public Slice<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
         return teamScheduleRepository.searchByCondition(pageable, teamScheduleSearchCondition);
+    }
+
+    public List<Long> getParticipants(Long teamScheduleId) {
+        return teamScheduleRepository.getParticipants(teamScheduleId);
     }
 }

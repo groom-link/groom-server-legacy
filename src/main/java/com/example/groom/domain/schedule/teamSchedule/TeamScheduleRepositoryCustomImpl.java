@@ -6,9 +6,9 @@ import com.example.groom.entity.enums.RequestStatus;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -29,8 +29,8 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
     }
 
     @Override
-    public Page<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
-        List<TeamSchedule> teamScheduleList = query
+    public Slice<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
+        List<TeamSchedule> content = query
                 .selectFrom(teamSchedule)
                 .where(teamScheduleUser.participant.id.eq(teamScheduleSearchCondition.getUserId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
@@ -46,7 +46,9 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
                 .limit(pageable.getPageSize())
                 .fetch().size();
 
-        return new PageImpl<>(teamScheduleList, pageable, size);
+        boolean hasNext = getHasNext(content, pageable);
+
+        return new SliceImpl<>(content, pageable, hasNext);
     }
 
     @Override
@@ -55,6 +57,23 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
                 .set(teamScheduleUser.status, status)
                 .where(teamScheduleUser.id.eq(teamScheduleId), teamScheduleUser.participant.id.eq(userId))
                 .execute();
+    }
+
+    @Override
+    public List<Long> getParticipants(Long teamScheduleId) {
+        return query.select(teamScheduleUser.participant.id)
+                .from(teamScheduleUser)
+                .where(teamScheduleUser.teamSchedule.id.eq(teamScheduleId))
+                .fetch();
+    }
+
+    private <T> boolean getHasNext(List<T> content, Pageable pageable) {
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+        return hasNext;
     }
 
     private BooleanExpression betweenScheduleTime(LocalDateTime startTime, LocalDateTime endTime) {
