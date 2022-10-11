@@ -34,7 +34,8 @@ public class RoomPenalty extends BaseEntity {
         this.product = Product.of(roomPenaltyPostDto.getGifticonId());
     }
 
-    static public RoomPenalty of(RoomPenaltyPostDto roomPenaltyPostDto){
+    static public RoomPenalty of(Long roomId, RoomPenaltyPostDto roomPenaltyPostDto){
+        roomPenaltyPostDto.setRoomId(roomId);
         return new RoomPenalty(roomPenaltyPostDto);
     }
 }

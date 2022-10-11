@@ -31,10 +31,9 @@ public class Room extends OwnEntity {
     private String description;
 
     @Column
-    private String mainImageUrl;
-
-    @Column
     private String summary;
+    @Column
+    private String mainImageUrl;
 
     @OneToMany
     @LazyCollection(LazyCollectionOption.EXTRA)
@@ -52,7 +51,6 @@ public class Room extends OwnEntity {
         this.category = RoomCategory.of(roomPostDto.getRoomCategoryId());
         this.description = roomPostDto.getDescription();
         this.mainImageUrl = roomPostDto.getMainImageUrl();
-        this.summary = roomPostDto.getSummary();
         this.name = roomPostDto.getName();
         this.maxPeople = roomPostDto.getMaxPeople();
     }
