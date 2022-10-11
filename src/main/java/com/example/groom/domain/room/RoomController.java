@@ -3,14 +3,12 @@ package com.example.groom.domain.room;
 
 import com.example.groom.domain.room.dto.RoomDetailDto;
 import com.example.groom.domain.room.dto.RoomDto;
+import com.example.groom.domain.room.dto.RoomPostDto;
 import com.example.groom.domain.room.dto.RoomSearchCondition;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -30,9 +28,9 @@ public class RoomController {
         return this.roomService.getRoomDetailDtoByRoomId(id);
     }
 
-//    @PostMapping
-//    public Room postRoom(@RequestBody RoomPostDto roomPostDto){
-//        return this.roomService.postRoom(roomPostDto);
-//    }
+    @PostMapping
+    public void postRoom(@RequestBody RoomPostDto roomPostDto){
+        this.roomService.postRoom(roomPostDto);
+    }
 
 }
