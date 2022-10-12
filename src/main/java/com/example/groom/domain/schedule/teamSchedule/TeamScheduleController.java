@@ -9,9 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/team-schedule")
+@RequestMapping("/room/{roomId}/schedule")
 public class TeamScheduleController {
 
     private final TeamScheduleService teamScheduleService;
@@ -34,13 +36,14 @@ public class TeamScheduleController {
         teamScheduleService.updateParticipation(teamScheduleId, userId, status);
     }
 
-    @GetMapping("/user/{userId}")
-    public Slice<TeamSchedule> searchByUserId(Pageable pageable, @PathVariable Long userId) {
-        return teamScheduleService.searchByUserId(pageable, userId);
-    }
-
     @GetMapping("/search")
     public Slice<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
         return teamScheduleService.searchByCondition(pageable, teamScheduleSearchCondition);
     }
+
+    @GetMapping("/participants/{teamScheduleId}")
+    public List<Long> getParticipants(@PathVariable Long teamScheduleId) {
+        return teamScheduleService.getParticipants(teamScheduleId);
+    }
+
 }

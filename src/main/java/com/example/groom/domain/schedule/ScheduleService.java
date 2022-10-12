@@ -19,17 +19,12 @@ public class ScheduleService {
     public Schedule createSchedule(ScheduleDto scheduleDto) {
         Schedule schedule = Schedule.of(scheduleDto);
 
-        scheduleRepository.save(schedule);
-
-        return schedule;
+        return scheduleRepository.save(schedule);
     }
 
     public void deleteSchedule(Long id) {
-        if (scheduleRepository.existsById(id)) {
-            scheduleRepository.deleteById(id);
-        } else {
-            throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
-        }
+        if (!scheduleRepository.existsById(id)) throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
+        scheduleRepository.deleteById(id);
     }
 
     public Page<Schedule> searchSchedule(Pageable pageable, ScheduleSearchCondition scheduleSearchCondition) {

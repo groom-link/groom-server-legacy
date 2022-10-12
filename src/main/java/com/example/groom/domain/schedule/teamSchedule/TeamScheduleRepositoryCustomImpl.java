@@ -1,15 +1,14 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
-import com.example.groom.entity.domain.room.Room;
 import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.SliceImpl;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
@@ -30,10 +29,10 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
     }
 
     @Override
-    public Page<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
-        List<TeamSchedule> teamScheduleList = query
+    public Slice<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
+        List<TeamSchedule> content = query
                 .selectFrom(teamSchedule)
-                .where(eqRoom(teamScheduleSearchCondition.getRoom()),
+                .where(teamScheduleUser.participant.id.eq(teamScheduleSearchCondition.getUserId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -41,13 +40,15 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
 
         int size = query
                 .selectFrom(teamSchedule)
-                .where(eqRoom(teamScheduleSearchCondition.getRoom()),
+                .where(teamScheduleUser.participant.id.eq(teamScheduleSearchCondition.getUserId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch().size();
 
-        return new PageImpl<>(teamScheduleList, pageable, size);
+        boolean hasNext = getHasNext(content, pageable);
+
+        return new SliceImpl<>(content, pageable, hasNext);
     }
 
     @Override
@@ -59,26 +60,20 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
     }
 
     @Override
-    public Page<TeamSchedule> searchByUserId(Pageable pageable, Long userId) {
-        List<TeamSchedule> teamScheduleList = query
-                .selectFrom(teamSchedule)
-                .where(teamScheduleUser.participant.id.eq(userId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+    public List<Long> getParticipants(Long teamScheduleId) {
+        return query.select(teamScheduleUser.participant.id)
+                .from(teamScheduleUser)
+                .where(teamScheduleUser.teamSchedule.id.eq(teamScheduleId))
                 .fetch();
-
-        int size = query
-                .selectFrom(teamSchedule)
-                .where(teamScheduleUser.participant.id.eq(userId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch().size();
-
-        return new PageImpl<>(teamScheduleList, pageable, size);
     }
 
-    private BooleanExpression eqRoom(Room room) {
-        return teamSchedule.room.eq(room);
+    private <T> boolean getHasNext(List<T> content, Pageable pageable) {
+        boolean hasNext = false;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            hasNext = true;
+        }
+        return hasNext;
     }
 
     private BooleanExpression betweenScheduleTime(LocalDateTime startTime, LocalDateTime endTime) {

@@ -31,6 +31,10 @@ public class Schedule extends OwnEntity {
         endTime = scheduleDto.getEndTime();
     }
 
+    public Schedule(Long id) {
+        super(id);
+    }
+
     static public Schedule of(ScheduleDto scheduleDto) {
         return new Schedule(scheduleDto);
     }

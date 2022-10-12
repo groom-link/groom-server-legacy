@@ -4,6 +4,7 @@ import com.example.groom.entity.domain.schedule.MeetingLocation;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class TeamSchedulePostDto {
@@ -16,5 +17,6 @@ public class TeamSchedulePostDto {
 
     private MeetingLocation meetingLocation;
 
-    private Long roomId;
+    // 참가 유저 리스트
+    private List<Long> participantsIds;
 }
