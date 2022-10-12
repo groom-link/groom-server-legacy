@@ -38,7 +38,7 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
         RoomDetailDto roomDetailDto =
                 query
                 .select(Projections.constructor
-                        (RoomDetailDto.class, room.id, room.name, room.summary, room.description, room.mainImageUrl))
+                        (RoomDetailDto.class, room.id, room.name, room.description, room.mainImageUrl, room.roomParticipants))
                 .from(room)
                 .where(room.id.eq(id))
                 .fetchOne();
@@ -55,7 +55,7 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
                 .select(Projections.constructor(RoomDto.class,
                         room.id,
                         room.name,
-                        room.summary,
+//                        room.summary,
                         room.maxPeople,
                         room.createdAt,
                         room.updatedAt,
@@ -65,7 +65,7 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
                 .from(room)
                 .where(room.name.contains(condition.getName()),
                         room.createdAt.between(condition.getDateGoe(), condition.getDateLoe()),
-                        room.summary.contains(condition.getSummary()),
+//                        room.summary.contains(condition.getSummary()),
                         room.description.contains(condition.getDescription())
 //                        room.category.in(condition.getCategory())
                 )
@@ -76,7 +76,7 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
                 .selectFrom(room)
                 .where(room.name.contains(condition.getName()),
                         room.createdAt.between(condition.getDateGoe(), condition.getDateLoe()),
-                        room.summary.contains(condition.getSummary()),
+//                        room.summary.contains(condition.getSummary()),
                         room.description.contains(condition.getDescription())
 //                        room.category.in(condition.getCategory())
                 )
