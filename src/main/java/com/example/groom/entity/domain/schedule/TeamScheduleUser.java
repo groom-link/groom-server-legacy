@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"teamSchedule", "participant"})})
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"team_schedule_id", "participant_id"})})
 public class TeamScheduleUser extends BaseEntity {
 
     @JoinColumn
