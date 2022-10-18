@@ -1,6 +1,6 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamSchedulePostDto;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
 import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
@@ -13,14 +13,14 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/room/{roomId}/schedule")
+@RequestMapping("/room/schedule")
 public class TeamScheduleController {
 
     private final TeamScheduleService teamScheduleService;
 
     @PostMapping
-    public TeamSchedule postTeamSchedule(@RequestBody TeamSchedulePostDto teamSchedulePostDto) {
-        return teamScheduleService.createTeamSchedule(teamSchedulePostDto);
+    public TeamSchedule postTeamSchedule(@RequestBody TeamScheduleDto teamScheduleDto) {
+        return teamScheduleService.createTeamSchedule(teamScheduleDto);
     }
 
     @DeleteMapping("/{id}")

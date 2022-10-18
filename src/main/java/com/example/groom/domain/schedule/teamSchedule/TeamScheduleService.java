@@ -3,7 +3,6 @@ package com.example.groom.domain.schedule.teamSchedule;
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamSchedulePostDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
 import com.example.groom.domain.schedule.teamScheduleUser.TeamScheduleUserService;
 import com.example.groom.domain.schedule.teamScheduleUser.dto.TeamScheduleUserDto;
@@ -23,15 +22,14 @@ public class TeamScheduleService {
     private final TeamScheduleRepository teamScheduleRepository;
     private final TeamScheduleUserService teamScheduleUserService;
 
-    public TeamSchedule createTeamSchedule(TeamSchedulePostDto teamSchedulePostDto) {
-        TeamScheduleDto teamScheduleDto = new TeamScheduleDto(teamSchedulePostDto);
+    public TeamSchedule createTeamSchedule(TeamScheduleDto teamScheduleDto) {
 
         TeamSchedule teamSchedule = TeamSchedule.of(teamScheduleDto);
 
         teamScheduleRepository.save(teamSchedule);
 
         // 팀 스케줄 참여자 중간테이블 생성
-        teamSchedulePostDto.getParticipantsIds().forEach(participantId -> {
+        teamScheduleDto.getParticipantsIds().forEach(participantId -> {
             TeamScheduleUserDto teamScheduleUserDto = new TeamScheduleUserDto();
             teamScheduleUserDto.setTeamScheduleId(teamSchedule.getId());
             teamScheduleUserDto.setUserId(participantId);

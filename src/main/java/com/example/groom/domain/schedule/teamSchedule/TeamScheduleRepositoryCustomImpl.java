@@ -32,19 +32,12 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
     public Slice<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
         List<TeamSchedule> content = query
                 .selectFrom(teamSchedule)
-                .where(teamScheduleUser.participant.id.eq(teamScheduleSearchCondition.getUserId()),
+                .where(eqUserId(teamScheduleSearchCondition.getUserId()),
+                        eqRoomId(teamScheduleSearchCondition.getRoomId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-
-        int size = query
-                .selectFrom(teamSchedule)
-                .where(teamScheduleUser.participant.id.eq(teamScheduleSearchCondition.getUserId()),
-                        betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch().size();
 
         boolean hasNext = getHasNext(content, pageable);
 
@@ -86,5 +79,19 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
 
         return teamSchedule.startTime.between(startTime, endTime)
                 .or(teamSchedule.endTime.between(startTime, endTime));
+    }
+
+    private BooleanExpression eqRoomId(Long roomId) {
+        if (roomId == null) {
+            return null;
+        }
+        return teamSchedule.room.id.eq(roomId);
+    }
+
+    private BooleanExpression eqUserId(Long userId) {
+        if (userId == null) {
+            return null;
+        }
+        return teamScheduleUser.participant.id.eq(userId);
     }
 }
