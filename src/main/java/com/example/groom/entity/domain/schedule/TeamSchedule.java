@@ -15,9 +15,6 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamSchedule extends Schedule {
 
-    @Column
-    private String title;
-
     @Embedded
     private MeetingLocation meetingLocation;
 
@@ -26,8 +23,7 @@ public class TeamSchedule extends Schedule {
     private Room room;
 
     protected TeamSchedule(TeamScheduleDto teamScheduleDto) {
-        super(new ScheduleDto(teamScheduleDto.getStartTime(), teamScheduleDto.getEndTime()));
-        this.title = teamScheduleDto.getTitle();
+        super(new ScheduleDto(teamScheduleDto.getStartTime(), teamScheduleDto.getEndTime(), teamScheduleDto.getTitle()));
         this.meetingLocation = teamScheduleDto.getMeetingLocation();
         this.room = Room.of(teamScheduleDto.getRoomId());
     }

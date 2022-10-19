@@ -6,7 +6,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -16,12 +15,8 @@ import javax.persistence.Entity;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PersonalSchedule extends Schedule {
 
-    @Column
-    private String title;
-
     protected PersonalSchedule(PersonalScheduleDto personalScheduleDto) {
-        super(new ScheduleDto(personalScheduleDto.getStartTime(), personalScheduleDto.getEndTime()));
-        this.title = personalScheduleDto.getTitle();
+        super(new ScheduleDto(personalScheduleDto.getStartTime(), personalScheduleDto.getEndTime(), personalScheduleDto.getTitle()));
     }
 
     public PersonalSchedule(Long id) {
