@@ -1,5 +1,7 @@
 package com.example.groom.entity.domain.schedule;
 
+import com.example.groom.domain.schedule.dto.ScheduleDto;
+import com.example.groom.domain.schedule.personalSchedule.dto.PersonalScheduleDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,15 +19,16 @@ public class PersonalSchedule extends Schedule {
     @Column
     private String title;
 
-    protected PersonalSchedule(String title) {
-        this.title = title;
+    protected PersonalSchedule(PersonalScheduleDto personalScheduleDto) {
+        super(new ScheduleDto(personalScheduleDto.getStartTime(), personalScheduleDto.getEndTime()));
+        this.title = personalScheduleDto.getTitle();
     }
 
     public PersonalSchedule(Long id) {
         super(id);
     }
 
-    static public PersonalSchedule of(String title) {
-        return new PersonalSchedule(title);
+    static public PersonalSchedule of(PersonalScheduleDto personalScheduleDto) {
+        return new PersonalSchedule(personalScheduleDto);
     }
 }

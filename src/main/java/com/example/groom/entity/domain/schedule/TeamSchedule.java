@@ -1,5 +1,6 @@
 package com.example.groom.entity.domain.schedule;
 
+import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
 import com.example.groom.entity.domain.room.Room;
 import lombok.AccessLevel;
@@ -25,6 +26,7 @@ public class TeamSchedule extends Schedule {
     private Room room;
 
     protected TeamSchedule(TeamScheduleDto teamScheduleDto) {
+        super(new ScheduleDto(teamScheduleDto.getStartTime(), teamScheduleDto.getEndTime()));
         this.title = teamScheduleDto.getTitle();
         this.meetingLocation = teamScheduleDto.getMeetingLocation();
         this.room = Room.of(teamScheduleDto.getRoomId());

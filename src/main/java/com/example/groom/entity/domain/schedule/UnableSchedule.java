@@ -1,5 +1,6 @@
 package com.example.groom.entity.domain.schedule;
 
+import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.unableSchedule.dto.UnableScheduleDto;
 import com.example.groom.entity.domain.room.Room;
 import lombok.AccessLevel;
@@ -19,6 +20,7 @@ public class UnableSchedule extends Schedule {
     private Room room;
 
     protected UnableSchedule(UnableScheduleDto unableScheduleDto) {
+        super(new ScheduleDto(unableScheduleDto.getStartTime(), unableScheduleDto.getEndTime()));
         this.room = Room.of(unableScheduleDto.getRoomId());
     }
 

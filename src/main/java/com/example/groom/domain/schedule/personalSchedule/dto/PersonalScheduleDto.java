@@ -1,15 +1,15 @@
-package com.example.groom.domain.schedule.unableSchedule.dto;
+package com.example.groom.domain.schedule.personalSchedule.dto;
 
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class UnableScheduleDto {
+public class PersonalScheduleDto {
+
+    private String title;
 
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
-
-    private Long roomId;
 }
