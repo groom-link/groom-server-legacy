@@ -17,16 +17,12 @@ import java.time.LocalDateTime;
 public class Schedule extends OwnEntity {
 
     @Column
-    private String title;
-
-    @Column
     private LocalDateTime startTime;
 
     @Column
     private LocalDateTime endTime;
 
     protected Schedule(ScheduleDto scheduleDto) {
-        title = scheduleDto.getTitle();
         startTime = scheduleDto.getStartTime();
         endTime = scheduleDto.getEndTime();
     }

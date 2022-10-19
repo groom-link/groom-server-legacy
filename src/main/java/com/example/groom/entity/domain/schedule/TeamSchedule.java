@@ -10,9 +10,12 @@ import javax.persistence.*;
 
 @Getter
 @Entity
-@DiscriminatorValue(value = "teamSchedule")
+@DiscriminatorValue(value = "TEAM_SCHEDULE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TeamSchedule extends Schedule {
+
+    @Column
+    private String title;
 
     @Embedded
     private MeetingLocation meetingLocation;
@@ -22,6 +25,7 @@ public class TeamSchedule extends Schedule {
     private Room room;
 
     protected TeamSchedule(TeamScheduleDto teamScheduleDto) {
+        this.title = teamScheduleDto.getTitle();
         this.meetingLocation = teamScheduleDto.getMeetingLocation();
         this.room = Room.of(teamScheduleDto.getRoomId());
     }
