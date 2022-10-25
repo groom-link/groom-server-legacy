@@ -6,12 +6,15 @@ import com.example.groom.entity.common.DateEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Getter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @ToString
 public class KakaoInfo extends DateEntity {
     @Id
@@ -22,5 +25,4 @@ public class KakaoInfo extends DateEntity {
     @Embedded
     private KakaoAccount kakaoAccount;
 }
-
 

@@ -43,26 +43,26 @@ public class AuthController {
     }
 
 
-    @Operation(summary = "카카오 로그인/회원가입",
-            description = "1. 사용자가 카카오 로그인에 성공하면 결과로 클라이언트로부터 인가 코드를 전달받습니다." +
-                    "2. 전달 받은 인증 코드를 카카오 서버에 제출하여 카카오서버 JWT토큰을 발급받습니다. " +
-                    "3. 해당 토큰을 카카오 서버에 제출하여 사용자 id 정보를 받습니다." +
-                    "4-1-1. 해당 id 정보가 DB에 있는지 조회한 후 없다면 회원가입을 실시합니다." +
-                    "4-1-2. 카카오 서버에 토큰을 제출하여 유저정보를 가져와 DB의 UserInfo.kakao에 저장합니다." +
-                    "5. 발급받은 카카오서버 refreshToken accessToken을 UserInfo.kakao에 저장합니다." +
-                    "6. DB에 저장된 UserInfo id값을 토큰에 포함하여 issue하고 반환합니다.",
-            tags = {"인증", "로그인", "회원가입"})
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그인 성공",
-                    content = @Content(schema = @Schema(implementation = AuthenticationTokenResponseDTO.class))),
-            @ApiResponse(responseCode = "406", description = "카카오 정보 가져오기에 실패했습니다."),
-    })
-    @GetMapping("/kakao/login")
-    public AuthenticationToken loginWithKakaoCode
-            (@Parameter(description = "카카오 로그인에 성공하여 받아진 인가코드")
-                                                                 @RequestParam("code") String kakaoCode){
-        return this.authService.login(kakaoCode);
-    }
+//    @Operation(summary = "카카오 로그인/회원가입",
+//            description = "1. 사용자가 카카오 로그인에 성공하면 결과로 클라이언트로부터 인가 코드를 전달받습니다." +
+//                    "2. 전달 받은 인증 코드를 카카오 서버에 제출하여 카카오서버 JWT토큰을 발급받습니다. " +
+//                    "3. 해당 토큰을 카카오 서버에 제출하여 사용자 id 정보를 받습니다." +
+//                    "4-1-1. 해당 id 정보가 DB에 있는지 조회한 후 없다면 회원가입을 실시합니다." +
+//                    "4-1-2. 카카오 서버에 토큰을 제출하여 유저정보를 가져와 DB의 UserInfo.kakao에 저장합니다." +
+//                    "5. 발급받은 카카오서버 refreshToken accessToken을 UserInfo.kakao에 저장합니다." +
+//                    "6. DB에 저장된 UserInfo id값을 토큰에 포함하여 issue하고 반환합니다.",
+//            tags = {"인증", "로그인", "회원가입"})
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "로그인 성공",
+//                    content = @Content(schema = @Schema(implementation = AuthenticationTokenResponseDTO.class))),
+//            @ApiResponse(responseCode = "406", description = "카카오 정보 가져오기에 실패했습니다."),
+//    })
+//    @GetMapping("/kakao/login")
+//    public AuthenticationToken loginWithKakaoCode
+//            (@Parameter(description = "카카오 로그인에 성공하여 받아진 인가코드")
+//                                                                 @RequestParam("code") String kakaoCode){
+//        return this.authService.login(kakaoCode);
+//    }
     @Operation(summary = "유저 정보 가져오기",
             description = "자기 자신의 정보를 열람합니다.",
             tags = {"인증", "본인 정보 보기"})

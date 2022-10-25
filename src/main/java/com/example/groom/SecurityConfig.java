@@ -1,6 +1,8 @@
 package com.example.groom;
 
 import com.example.groom.common.auth.JwtAuthenticateFilter;
+import com.example.groom.domain.auth.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -24,6 +25,8 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Autowired
+    private AuthService authService;
     private static final String[] PUBLIC_URI = {
             "/auth/**","/swagger-ui/**", "/v3/**", "/api-docs","/**", "/auth/me"
     };
@@ -51,7 +54,10 @@ public class SecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilterBefore(jwtAuthenticateFilter(), UsernamePasswordAuthenticationFilter.class);// 인증 오류 발생 시 처리를 위한 핸들러 추가
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(authService)
+                .and().permitAll();
 
 
         return http.build();

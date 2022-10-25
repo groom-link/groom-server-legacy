@@ -18,7 +18,7 @@ import static java.time.LocalDateTime.now;
 @RequiredArgsConstructor
 public class RefreshTokenService {
 
-    @Value("${jwt.refresh.expirationDay}")
+    @Value("${jwt.refresh.expiration-day}")
     private Long expirationDay;
     private final RefreshTokenRepository refreshTokenRepository;
     private final AuthenticationTokenProvider authenticationTokenProvider;
