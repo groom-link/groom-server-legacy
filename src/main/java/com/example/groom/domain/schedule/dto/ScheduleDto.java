@@ -7,14 +7,11 @@ import java.time.LocalDateTime;
 @Data
 public class ScheduleDto {
 
-    private String title;
-
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
 
-    public ScheduleDto(LocalDateTime startTime, LocalDateTime endTime, String title) {
-        this.title = title;
+    public ScheduleDto(LocalDateTime startTime, LocalDateTime endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
     }

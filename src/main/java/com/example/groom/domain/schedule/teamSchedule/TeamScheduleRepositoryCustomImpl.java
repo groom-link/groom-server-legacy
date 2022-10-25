@@ -1,8 +1,10 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
+import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
 import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +46,7 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
         return new SliceImpl<>(content, pageable, hasNext);
     }
 
+
     @Override
     public void updateParticipation(Long teamScheduleId, Long userId, RequestStatus status) {
         query.update(teamScheduleUser)
@@ -57,6 +60,19 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
         return query.select(teamScheduleUser.participant.id)
                 .from(teamScheduleUser)
                 .where(teamScheduleUser.teamSchedule.id.eq(teamScheduleId))
+                .fetch();
+    }
+
+    @Override
+    public List<ScheduleDto> searchByCondition(TeamScheduleSearchCondition teamScheduleSearchCondition) {
+        return query.select(Projections.constructor(ScheduleDto.class,
+                        teamSchedule.startTime,
+                        teamSchedule.endTime
+                ))
+                .from(teamSchedule)
+                .where(eqUserId(teamScheduleSearchCondition.getUserId()),
+                        eqRoomId(teamScheduleSearchCondition.getRoomId()),
+                        betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .fetch();
     }
 

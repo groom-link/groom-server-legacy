@@ -1,5 +1,6 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
+import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
 import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
@@ -18,5 +19,7 @@ public interface TeamScheduleRepositoryCustom {
 
     // 특정 팀스케줄의 참가자 목록 가져오기
     List<Long> getParticipants(Long teamScheduleId);
+
+    List<ScheduleDto> searchByCondition(TeamScheduleSearchCondition teamScheduleSearchCondition);
 
 }

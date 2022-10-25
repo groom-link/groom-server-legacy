@@ -1,5 +1,6 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
+import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
 import com.example.groom.entity.domain.schedule.TeamSchedule;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -46,4 +48,8 @@ public class TeamScheduleController {
         return teamScheduleService.getParticipants(teamScheduleId);
     }
 
+    @GetMapping("/recommend/{roomId}")
+    public List<ScheduleDto> getRecommendSchedule(@PathVariable Long roomId, @RequestParam LocalDate date) {
+        return teamScheduleService.getRecommendSchedule(roomId, date);
+    }
 }
