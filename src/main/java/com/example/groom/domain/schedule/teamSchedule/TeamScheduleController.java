@@ -2,6 +2,7 @@ package com.example.groom.domain.schedule.teamSchedule;
 
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
 import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
@@ -39,7 +40,7 @@ public class TeamScheduleController {
     }
 
     @GetMapping("/search")
-    public Slice<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
+    public Slice<TeamScheduleListDto> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
         return teamScheduleService.searchByCondition(pageable, teamScheduleSearchCondition);
     }
 

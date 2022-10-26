@@ -4,6 +4,7 @@ import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
 import com.example.groom.domain.schedule.teamScheduleUser.TeamScheduleUserService;
 import com.example.groom.domain.schedule.teamScheduleUser.dto.TeamScheduleUserDto;
@@ -61,7 +62,7 @@ public class TeamScheduleService {
         teamScheduleRepository.updateParticipation(teamScheduleId, userId, status);
     }
 
-    public Slice<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
+    public Slice<TeamScheduleListDto> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
         return teamScheduleRepository.searchByCondition(pageable, teamScheduleSearchCondition);
     }
 
@@ -105,7 +106,7 @@ public class TeamScheduleService {
         });
 
         // TODO: 2022-10-24 1. 추천 스케출 리스트 뽑기
-        
+
 
         return recommendSchedule;
     }
