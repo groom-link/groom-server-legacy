@@ -1,10 +1,10 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
 import com.example.groom.domain.schedule.dto.ScheduleDto;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDetailDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
-import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +22,7 @@ public class TeamScheduleController {
     private final TeamScheduleService teamScheduleService;
 
     @PostMapping
-    public TeamSchedule postTeamSchedule(@RequestBody TeamScheduleDto teamScheduleDto) {
+    public TeamScheduleDetailDto postTeamSchedule(@RequestBody TeamScheduleDto teamScheduleDto) {
         return teamScheduleService.createTeamSchedule(teamScheduleDto);
     }
 
@@ -47,6 +47,11 @@ public class TeamScheduleController {
     @GetMapping("/participants/{teamScheduleId}")
     public List<Long> getParticipants(@PathVariable Long teamScheduleId) {
         return teamScheduleService.getParticipants(teamScheduleId);
+    }
+
+    @GetMapping("/{teamScheduleId}")
+    public TeamScheduleDetailDto getTeamSchedule(@PathVariable Long teamScheduleId) {
+        return teamScheduleService.getTeamSchedule(teamScheduleId);
     }
 
     @GetMapping("/recommend/{roomId}")

@@ -3,6 +3,7 @@ package com.example.groom.domain.schedule.teamSchedule;
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDetailDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
@@ -31,7 +32,7 @@ public class TeamScheduleService {
 
     private final UnableScheduleService unableScheduleService;
 
-    public TeamSchedule createTeamSchedule(TeamScheduleDto teamScheduleDto) {
+    public TeamScheduleDetailDto createTeamSchedule(TeamScheduleDto teamScheduleDto) {
 
         TeamSchedule teamSchedule = TeamSchedule.of(teamScheduleDto);
 
@@ -47,7 +48,7 @@ public class TeamScheduleService {
             teamScheduleUserService.createTeamScheduleUser(teamScheduleUserDto);
         });
 
-        return teamSchedule;
+        return TeamScheduleDetailDto.of(teamSchedule);
     }
 
     public void deleteTeamSchedule(Long id) {
@@ -109,5 +110,9 @@ public class TeamScheduleService {
 
 
         return recommendSchedule;
+    }
+
+    public TeamScheduleDetailDto getTeamSchedule(Long teamScheduleId) {
+        return TeamScheduleDetailDto.of(teamScheduleRepository.findById(teamScheduleId).orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND)));
     }
 }
