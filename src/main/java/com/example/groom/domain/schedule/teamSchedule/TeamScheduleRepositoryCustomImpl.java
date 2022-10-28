@@ -1,8 +1,8 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
 import com.example.groom.domain.schedule.dto.ScheduleDto;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
-import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -31,9 +31,15 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
     }
 
     @Override
-    public Slice<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
-        List<TeamSchedule> content = query
-                .selectFrom(teamSchedule)
+    public Slice<TeamScheduleListDto> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
+        List<TeamScheduleListDto> content = query
+                .select(Projections.constructor(TeamScheduleListDto.class,
+                        teamSchedule.title,
+                        teamSchedule.startTime,
+                        teamSchedule.meetingLocation,
+                        teamSchedule.room.roomParticipants.any().userInfo.kakao.kakaoAccount.profile.profileImageUrl.as("profiles")
+                ))
+                .from(teamSchedule)
                 .where(eqUserId(teamScheduleSearchCondition.getUserId()),
                         eqRoomId(teamScheduleSearchCondition.getRoomId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
