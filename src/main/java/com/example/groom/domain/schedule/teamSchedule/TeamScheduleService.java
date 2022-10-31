@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @RequiredArgsConstructor
@@ -96,9 +97,9 @@ public class TeamScheduleService {
             } else if (o1.getStartTime().isAfter(o2.getStartTime())) {
                 return 1;
             } else {
-                if (o1.getEndTime().isAfter(o2.getEndTime())) {
+                if (o1.getEndTime().isBefore(o2.getEndTime())) {
                     return -1;
-                } else if (o1.getEndTime().isBefore(o2.getEndTime())) {
+                } else if (o1.getEndTime().isAfter(o2.getEndTime())) {
                     return 1;
                 } else {
                     return 0;
@@ -107,6 +108,20 @@ public class TeamScheduleService {
         });
 
         // TODO: 2022-10-24 1. 추천 스케출 리스트 뽑기
+        // 시작하는 날 0시 0분이 첫 기준
+        AtomicReference<LocalDateTime> markTime = new AtomicReference<>(LocalDateTime.from(date));
+
+        unableScheduleSet.stream().forEach(scheduleDto -> {
+            // 시작 시간이 마크 시간보다 빠르면 가능한 시간에 추가
+            if (markTime.get().isBefore(scheduleDto.getStartTime())) {
+                recommendSchedule.add(new ScheduleDto(markTime.get(), scheduleDto.getStartTime()));
+            }
+
+            // 마크 시간이 끝나는 시간보다 빠르면 마크 시간을 끝나는 시간으로 변경
+            if (markTime.get().isBefore(scheduleDto.getEndTime())) {
+                markTime.set(scheduleDto.getEndTime());
+            }
+        });
 
 
         return recommendSchedule;
