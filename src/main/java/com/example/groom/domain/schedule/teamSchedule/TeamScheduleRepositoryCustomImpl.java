@@ -1,13 +1,11 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
 import com.example.groom.domain.schedule.dto.ScheduleDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
+import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -33,21 +31,9 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
     }
 
     @Override
-    public Slice<TeamScheduleListDto> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
-        List<TeamScheduleListDto> content = query
-                .select(Projections.constructor(TeamScheduleListDto.class,
-                        teamSchedule.title,
-                        teamSchedule.startTime,
-                        teamSchedule.meetingLocation,
-                        ExpressionUtils.as(
-                                JPAExpressions
-                                        .select(teamScheduleUser.participant.kakao.kakaoAccount.profile.profileImageUrl)
-                                        .from(teamScheduleUser)
-                                        .where(teamScheduleUser.teamSchedule.id.eq(teamSchedule.id)),
-                                "profiles"
-                        )
-                ))
-                .from(teamSchedule)
+    public Slice<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
+        List<TeamSchedule> content = query
+                .selectFrom(teamSchedule)
                 .where(eqUserId(teamScheduleSearchCondition.getUserId()),
                         eqRoomId(teamScheduleSearchCondition.getRoomId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))

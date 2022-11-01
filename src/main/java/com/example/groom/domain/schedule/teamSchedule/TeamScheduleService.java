@@ -62,9 +62,13 @@ public class TeamScheduleService {
     }
 
     public TeamScheduleListResponseDto searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
-        Slice<TeamScheduleListDto> teamScheduleListDtos = teamScheduleRepository.searchByCondition(pageable, teamScheduleSearchCondition);
+        Slice<TeamSchedule> teamScheduleList = teamScheduleRepository.searchByCondition(pageable, teamScheduleSearchCondition);
 
-        return TeamScheduleListResponseDto.of(teamScheduleListDtos.getContent(), teamScheduleListDtos.getNumber(), teamScheduleListDtos.isLast());
+        List<TeamScheduleListDto> teamScheduleListDtoList = teamScheduleList.getContent().stream()
+                .map(TeamScheduleListDto::of)
+                .toList();
+
+        return TeamScheduleListResponseDto.of(teamScheduleListDtoList, teamScheduleList.getNumber(), teamScheduleList.isLast());
     }
 
     public List<Long> getParticipants(Long teamScheduleId) {
