@@ -3,10 +3,7 @@ package com.example.groom.domain.schedule.teamSchedule;
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDetailDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
+import com.example.groom.domain.schedule.teamSchedule.dto.*;
 import com.example.groom.domain.schedule.teamScheduleUser.TeamScheduleUserService;
 import com.example.groom.domain.schedule.teamScheduleUser.dto.TeamScheduleUserDto;
 import com.example.groom.domain.schedule.unableSchedule.UnableScheduleService;
@@ -64,8 +61,10 @@ public class TeamScheduleService {
         teamScheduleRepository.updateParticipation(teamScheduleId, userId, status);
     }
 
-    public Slice<TeamScheduleListDto> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
-        return teamScheduleRepository.searchByCondition(pageable, teamScheduleSearchCondition);
+    public TeamScheduleListResponseDto searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
+        Slice<TeamScheduleListDto> teamScheduleListDtos = teamScheduleRepository.searchByCondition(pageable, teamScheduleSearchCondition);
+
+        return TeamScheduleListResponseDto.of(teamScheduleListDtos.getContent(), teamScheduleListDtos.getNumber(), teamScheduleListDtos.isLast());
     }
 
     public List<Long> getParticipants(Long teamScheduleId) {
