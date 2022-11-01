@@ -97,9 +97,9 @@ public class TeamScheduleService {
             } else if (o1.getStartTime().isAfter(o2.getStartTime())) {
                 return 1;
             } else {
-                if (o1.getEndTime().isBefore(o2.getEndTime())) {
+                if (o1.getEndTime().isAfter(o2.getEndTime())) {
                     return -1;
-                } else if (o1.getEndTime().isAfter(o2.getEndTime())) {
+                } else if (o1.getEndTime().isBefore(o2.getEndTime())) {
                     return 1;
                 } else {
                     return 0;
@@ -122,7 +122,6 @@ public class TeamScheduleService {
                 markTime.set(scheduleDto.getEndTime());
             }
         });
-
 
         return recommendSchedule;
     }
