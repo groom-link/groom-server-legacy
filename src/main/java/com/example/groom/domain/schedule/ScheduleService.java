@@ -4,6 +4,7 @@ import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.dto.ScheduleSearchCondition;
+import com.example.groom.domain.schedule.teamSchedule.TeamScheduleRepository;
 import com.example.groom.entity.domain.schedule.Schedule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final TeamScheduleRepository teamScheduleRepository;
 
     public Schedule createSchedule(ScheduleDto scheduleDto) {
         Schedule schedule = Schedule.of(scheduleDto);
@@ -28,6 +30,6 @@ public class ScheduleService {
     }
 
     public Page<Schedule> searchSchedule(Pageable pageable, ScheduleSearchCondition scheduleSearchCondition) {
-        return this.scheduleRepository.searchByCondition(pageable, scheduleSearchCondition);
+        return scheduleRepository.searchByCondition(pageable, scheduleSearchCondition);
     }
 }

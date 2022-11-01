@@ -26,9 +26,8 @@ public class Schedule extends OwnEntity {
     private LocalDateTime endTime;
 
     protected Schedule(ScheduleDto scheduleDto) {
-        title = scheduleDto.getTitle();
-        startTime = scheduleDto.getStartTime();
-        endTime = scheduleDto.getEndTime();
+        this.startTime = scheduleDto.getStartTime();
+        this.endTime = scheduleDto.getEndTime();
     }
 
     public Schedule(Long id) {

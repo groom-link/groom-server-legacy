@@ -1,8 +1,10 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
+import com.example.groom.domain.schedule.dto.ScheduleDto;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
-import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,27 +31,27 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
     }
 
     @Override
-    public Slice<TeamSchedule> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
-        List<TeamSchedule> content = query
-                .selectFrom(teamSchedule)
-                .where(teamScheduleUser.participant.id.eq(teamScheduleSearchCondition.getUserId()),
+    public Slice<TeamScheduleListDto> searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
+        List<TeamScheduleListDto> content = query
+                .select(Projections.constructor(TeamScheduleListDto.class,
+                        teamSchedule.title,
+                        teamSchedule.startTime,
+                        teamSchedule.meetingLocation,
+                        teamSchedule.room.roomParticipants.any().userInfo.kakao.kakaoAccount.profile.profileImageUrl.as("profiles")
+                ))
+                .from(teamSchedule)
+                .where(eqUserId(teamScheduleSearchCondition.getUserId()),
+                        eqRoomId(teamScheduleSearchCondition.getRoomId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        int size = query
-                .selectFrom(teamSchedule)
-                .where(teamScheduleUser.participant.id.eq(teamScheduleSearchCondition.getUserId()),
-                        betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .fetch().size();
-
         boolean hasNext = getHasNext(content, pageable);
 
         return new SliceImpl<>(content, pageable, hasNext);
     }
+
 
     @Override
     public void updateParticipation(Long teamScheduleId, Long userId, RequestStatus status) {
@@ -64,6 +66,19 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
         return query.select(teamScheduleUser.participant.id)
                 .from(teamScheduleUser)
                 .where(teamScheduleUser.teamSchedule.id.eq(teamScheduleId))
+                .fetch();
+    }
+
+    @Override
+    public List<ScheduleDto> searchByCondition(TeamScheduleSearchCondition teamScheduleSearchCondition) {
+        return query.select(Projections.constructor(ScheduleDto.class,
+                        teamSchedule.startTime,
+                        teamSchedule.endTime
+                ))
+                .from(teamSchedule)
+                .where(eqUserId(teamScheduleSearchCondition.getUserId()),
+                        eqRoomId(teamScheduleSearchCondition.getRoomId()),
+                        betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .fetch();
     }
 
@@ -86,5 +101,19 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
 
         return teamSchedule.startTime.between(startTime, endTime)
                 .or(teamSchedule.endTime.between(startTime, endTime));
+    }
+
+    private BooleanExpression eqRoomId(Long roomId) {
+        if (roomId == null) {
+            return null;
+        }
+        return teamSchedule.room.id.eq(roomId);
+    }
+
+    private BooleanExpression eqUserId(Long userId) {
+        if (userId == null) {
+            return null;
+        }
+        return teamScheduleUser.participant.id.eq(userId);
     }
 }
