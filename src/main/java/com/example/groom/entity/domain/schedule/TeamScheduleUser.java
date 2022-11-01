@@ -4,6 +4,7 @@ import com.example.groom.domain.schedule.teamScheduleUser.dto.TeamScheduleUserDt
 import com.example.groom.entity.common.BaseEntity;
 import com.example.groom.entity.domain.auth.UserInfo;
 import com.example.groom.entity.enums.RequestStatus;
+import com.querydsl.core.annotations.QueryInit;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,6 +22,7 @@ public class TeamScheduleUser extends BaseEntity {
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
+    @QueryInit("kakao.kakaoAccount.profile")
     private UserInfo participant;
 
     @Column
