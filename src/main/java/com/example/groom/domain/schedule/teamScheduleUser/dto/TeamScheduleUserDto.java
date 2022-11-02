@@ -14,5 +14,4 @@ public class TeamScheduleUserDto {
 
     private RequestStatus status;
 
-
 }

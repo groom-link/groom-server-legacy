@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/unableSchedule")
+@RequestMapping("/room/unableSchedule")
 public class UnableScheduleController {
 
     private final UnableScheduleService unableScheduleService;
