@@ -85,16 +85,22 @@ public class TeamScheduleService {
         List<Long> participants = teamScheduleRepository.getParticipants(roomId);
 
         TeamScheduleSearchCondition teamScheduleSearchCondition = new TeamScheduleSearchCondition();
-        teamScheduleSearchCondition.setStartTime(date.atTime(0, 00));
-        teamScheduleSearchCondition.setEndTime(date.plusDays(14).atTime(23, 59));
+        teamScheduleSearchCondition.setStartTime(date.atTime(0, 00, 00));
+        teamScheduleSearchCondition.setEndTime(date.plusDays(14).atTime(23, 59, 59));
 
+        // 제외할 시간의 끝 시간과 비교하기 위해 탐색 끝 시간 추가
+        unableScheduleSet.add(new ScheduleDto(teamScheduleSearchCondition.getEndTime(), teamScheduleSearchCondition.getEndTime()));
+
+        // 팀원들의 불가한 시간
         participants.stream().forEach(participant -> {
             teamScheduleSearchCondition.setUserId(participant);
 
             unableScheduleSet.addAll(teamScheduleRepository.searchByCondition(teamScheduleSearchCondition));
         });
 
+        // 모임의 불가한 시간
         unableScheduleSet.addAll(unableScheduleService.searchUnableSchedule(roomId));
+
 
         unableScheduleSet.stream().sorted((o1, o2) -> {
             if (o1.getStartTime().isBefore(o2.getStartTime())) {
@@ -117,6 +123,8 @@ public class TeamScheduleService {
         AtomicReference<LocalDateTime> markTime = new AtomicReference<>(date.atTime(0, 00));
 
         unableScheduleSet.stream().forEach(scheduleDto -> {
+            System.out.println("sheduleDto = " + scheduleDto);
+
             // 시작 시간이 마크 시간보다 빠르면 가능한 시간에 추가
             if (markTime.get().isBefore(scheduleDto.getStartTime())) {
                 recommendSchedule.add(new ScheduleDto(markTime.get(), scheduleDto.getStartTime()));
