@@ -8,6 +8,7 @@ import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCond
 import com.example.groom.entity.enums.RequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -54,7 +55,7 @@ public class TeamScheduleController {
     }
 
     @GetMapping("/recommend/{roomId}")
-    public List<ScheduleDto> getRecommendSchedule(@PathVariable Long roomId, @RequestParam LocalDate date) {
+    public List<ScheduleDto> getRecommendSchedule(@PathVariable Long roomId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return teamScheduleService.getRecommendSchedule(roomId, date);
     }
 }

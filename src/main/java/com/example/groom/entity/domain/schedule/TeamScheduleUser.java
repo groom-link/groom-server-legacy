@@ -39,5 +39,4 @@ public class TeamScheduleUser extends BaseEntity {
         return new TeamScheduleUser(teamScheduleUserDto);
     }
 
-
 }

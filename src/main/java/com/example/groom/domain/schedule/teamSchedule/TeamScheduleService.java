@@ -83,11 +83,12 @@ public class TeamScheduleService {
 
         List<Long> participants = teamScheduleRepository.getParticipants(roomId);
 
+        TeamScheduleSearchCondition teamScheduleSearchCondition = new TeamScheduleSearchCondition();
+        teamScheduleSearchCondition.setStartTime(date.atTime(0, 00));
+        teamScheduleSearchCondition.setEndTime(date.plusDays(14).atTime(23, 59));
+
         participants.stream().forEach(participant -> {
-            TeamScheduleSearchCondition teamScheduleSearchCondition = new TeamScheduleSearchCondition();
             teamScheduleSearchCondition.setUserId(participant);
-            teamScheduleSearchCondition.setStartTime(LocalDateTime.from(date));
-            teamScheduleSearchCondition.setEndTime(LocalDateTime.from(date.plusDays(14)));
 
             unableScheduleSet.addAll(teamScheduleRepository.searchByCondition(teamScheduleSearchCondition));
         });
@@ -112,7 +113,7 @@ public class TeamScheduleService {
 
         // TODO: 2022-10-24 1. 추천 스케출 리스트 뽑기
         // 시작하는 날 0시 0분이 첫 기준
-        AtomicReference<LocalDateTime> markTime = new AtomicReference<>(LocalDateTime.from(date));
+        AtomicReference<LocalDateTime> markTime = new AtomicReference<>(date.atTime(0, 00));
 
         unableScheduleSet.stream().forEach(scheduleDto -> {
             // 시작 시간이 마크 시간보다 빠르면 가능한 시간에 추가
