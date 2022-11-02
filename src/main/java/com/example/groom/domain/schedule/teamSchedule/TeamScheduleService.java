@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -76,7 +77,7 @@ public class TeamScheduleService {
     }
 
     public List<ScheduleDto> getRecommendSchedule(Long roomId, LocalDate date) {
-        List<ScheduleDto> recommendSchedule = null;
+        List<ScheduleDto> recommendSchedule = new ArrayList<>();
         Set<ScheduleDto> unableScheduleSet = new HashSet<>();
 
         // TODO: 2022-10-21 1. 불가능한 스케줄 리스트 가져오기
