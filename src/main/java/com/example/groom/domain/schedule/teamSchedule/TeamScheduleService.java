@@ -123,9 +123,8 @@ public class TeamScheduleService {
         AtomicReference<LocalDateTime> markTime = new AtomicReference<>(date.atTime(0, 00));
 
         unableScheduleSet.stream().forEach(scheduleDto -> {
-            System.out.println("sheduleDto = " + scheduleDto);
 
-            // 시작 시간이 마크 시간보다 빠르면 가능한 시간에 추가
+            // 시작 시간이 마크 시간보다 나중이면 가능한 시간에 추가
             if (markTime.get().isBefore(scheduleDto.getStartTime())) {
                 recommendSchedule.add(new ScheduleDto(markTime.get(), scheduleDto.getStartTime()));
             }
