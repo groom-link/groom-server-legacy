@@ -1,6 +1,5 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
-import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDetailDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListResponseDto;
@@ -8,15 +7,13 @@ import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCond
 import com.example.groom.entity.enums.RequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/room/schedule")
+@RequestMapping("/team-schedule")
 public class TeamScheduleController {
 
     private final TeamScheduleService teamScheduleService;
@@ -39,7 +36,7 @@ public class TeamScheduleController {
         teamScheduleService.updateParticipation(teamScheduleId, userId, status);
     }
 
-    @GetMapping("/search")
+    @GetMapping
     public TeamScheduleListResponseDto searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
         return teamScheduleService.searchByCondition(pageable, teamScheduleSearchCondition);
     }
@@ -52,10 +49,5 @@ public class TeamScheduleController {
     @GetMapping("/{teamScheduleId}")
     public TeamScheduleDetailDto getTeamSchedule(@PathVariable Long teamScheduleId) {
         return teamScheduleService.getTeamSchedule(teamScheduleId);
-    }
-
-    @GetMapping("/recommend/{roomId}")
-    public List<ScheduleDto> getRecommendSchedule(@PathVariable Long roomId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        return teamScheduleService.getRecommendSchedule(roomId, date);
     }
 }
