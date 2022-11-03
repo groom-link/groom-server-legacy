@@ -34,7 +34,7 @@ public class ResponseInterceptor implements HandlerInterceptor {
                 ResponseDto<Object> objectResponseDto = new ResponseDto<>(data);
                 String wrappedBody = objectMapper.writeValueAsString(objectResponseDto);
                 cachingResponse.resetBuffer();
-                cachingResponse.getOutputStream().write(wrappedBody.getBytes(),0, wrappedBody.length());
+                cachingResponse.getOutputStream().write(wrappedBody.getBytes(), 0, wrappedBody.getBytes().length);
                 log.info("Response Body : {}", wrappedBody);
             }
         }
