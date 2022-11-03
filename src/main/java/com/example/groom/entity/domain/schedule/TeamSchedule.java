@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -24,6 +26,9 @@ public class TeamSchedule extends Schedule {
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
+
+    @OneToMany(mappedBy = "teamSchedule", cascade = CascadeType.ALL)
+    private List<TeamScheduleUser> participants = new ArrayList<>();
 
     protected TeamSchedule(TeamScheduleDto teamScheduleDto) {
         super(new ScheduleDto(teamScheduleDto.getStartTime(), teamScheduleDto.getEndTime()));
