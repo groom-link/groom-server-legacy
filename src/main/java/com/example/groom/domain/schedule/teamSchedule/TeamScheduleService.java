@@ -3,7 +3,10 @@ package com.example.groom.domain.schedule.teamSchedule;
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.*;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDetailDto;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListResponseDto;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
 import com.example.groom.domain.schedule.teamScheduleUser.TeamScheduleUserService;
 import com.example.groom.domain.schedule.teamScheduleUser.dto.TeamScheduleUserDto;
 import com.example.groom.domain.schedule.unableSchedule.UnableScheduleService;
@@ -11,7 +14,6 @@ import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -63,13 +65,7 @@ public class TeamScheduleService {
     }
 
     public TeamScheduleListResponseDto searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
-        Slice<TeamSchedule> teamScheduleList = teamScheduleRepository.searchByCondition(pageable, teamScheduleSearchCondition);
-
-        List<TeamScheduleListDto> teamScheduleListDtoList = teamScheduleList.getContent().stream()
-                .map(TeamScheduleListDto::of)
-                .toList();
-
-        return TeamScheduleListResponseDto.of(teamScheduleListDtoList, teamScheduleList.getNumber(), teamScheduleList.isLast());
+        return teamScheduleRepository.searchByCondition(pageable, teamScheduleSearchCondition);
     }
 
     public List<Long> getParticipants(Long teamScheduleId) {

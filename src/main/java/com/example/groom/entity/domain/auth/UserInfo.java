@@ -4,6 +4,7 @@ package com.example.groom.entity.domain.auth;
 import com.example.groom.entity.common.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.querydsl.core.annotations.QueryInit;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
-
-
 
 
 @Entity
@@ -34,9 +33,10 @@ public class UserInfo extends BaseEntity {
     @JoinColumn
     @OneToOne(fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @QueryInit({"kakaoAccount.profile"})
     private KakaoInfo kakao;
 
-    protected UserInfo(KakaoInfo kakao, User user){
+    protected UserInfo(KakaoInfo kakao, User user) {
         this.user = user;
         this.kakao = kakao;
     }
@@ -49,7 +49,7 @@ public class UserInfo extends BaseEntity {
         return new UserInfo(id);
     }
 
-    public static UserInfo of(KakaoInfo kakao, User user){
-        return new UserInfo(kakao,user);
+    public static UserInfo of(KakaoInfo kakao, User user) {
+        return new UserInfo(kakao, user);
     }
 }

@@ -22,7 +22,7 @@ public class TeamScheduleUser extends BaseEntity {
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
-    @QueryInit("kakao.kakaoAccount.profile")
+    @QueryInit({"kakao.kakaoAccount.profile"})
     private UserInfo participant;
 
     @Column
