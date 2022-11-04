@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,24 @@ public class UnableScheduleService {
 
     public List<ScheduleDto> searchUnableSchedule(Long roomId) {
         return unableScheduleRepository.findByRoomId(roomId);
+    }
+
+    public List<ScheduleDto> searchSortedUnableSchedule(Long roomId) {
+        return unableScheduleRepository.findByRoomId(roomId).stream().sorted((o1, o2) -> {
+            if (o1.getStartTime().isBefore(o2.getStartTime())) {
+                return -1;
+            } else if (o1.getStartTime().isAfter(o2.getStartTime())) {
+                return 1;
+            } else {
+                if (o1.getEndTime().isBefore(o2.getEndTime())) {
+                    return -1;
+                } else if (o1.getEndTime().isAfter(o2.getEndTime())) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }).collect(Collectors.toList());
     }
 
     public void deleteUnableSchedule(Long id) {

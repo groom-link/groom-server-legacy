@@ -7,6 +7,7 @@ import com.example.groom.domain.room.dto.RoomPostDto;
 import com.example.groom.domain.room.dto.RoomSearchCondition;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.TeamScheduleService;
+import com.example.groom.domain.schedule.unableSchedule.UnableScheduleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -25,6 +26,8 @@ public class RoomController {
 
     private final TeamScheduleService teamScheduleService;
 
+    private final UnableScheduleService unableScheduleService;
+
 
     @GetMapping
     public Slice<RoomDto> searchRoom(Pageable pageable, RoomSearchCondition roomSearchCondition) {
@@ -39,6 +42,11 @@ public class RoomController {
     @GetMapping("/{roomId}/schedule/recommend")
     public List<ScheduleDto> getRecommendSchedule(@PathVariable Long roomId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         return teamScheduleService.getRecommendSchedule(roomId, date);
+    }
+
+    @GetMapping("/{roomId}/unable-schedule")
+    public List<ScheduleDto> getUnableSchedule(@PathVariable Long roomId) {
+        return unableScheduleService.searchSortedUnableSchedule(roomId);
     }
 
     @PostMapping
