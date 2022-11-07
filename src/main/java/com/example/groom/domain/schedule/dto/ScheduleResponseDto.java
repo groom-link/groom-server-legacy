@@ -7,13 +7,11 @@ import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
-public class ScheduleDto {
+public class ScheduleResponseDto {
+
+    private Long id;
 
     private LocalDateTime startTime;
 
     private LocalDateTime endTime;
-
-    public static ScheduleDto of(ScheduleResponseDto scheduleResponseDto) {
-        return new ScheduleDto(scheduleResponseDto.getStartTime(), scheduleResponseDto.getEndTime());
-    }
 }

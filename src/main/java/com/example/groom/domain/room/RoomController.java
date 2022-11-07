@@ -6,6 +6,7 @@ import com.example.groom.domain.room.dto.RoomDto;
 import com.example.groom.domain.room.dto.RoomPostDto;
 import com.example.groom.domain.room.dto.RoomSearchCondition;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
+import com.example.groom.domain.schedule.dto.ScheduleResponseDto;
 import com.example.groom.domain.schedule.teamSchedule.TeamScheduleService;
 import com.example.groom.domain.schedule.unableSchedule.UnableScheduleService;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class RoomController {
     }
 
     @GetMapping("/{roomId}/unable-schedule")
-    public List<ScheduleDto> getUnableSchedule(@PathVariable Long roomId) {
+    public List<ScheduleResponseDto> getUnableSchedule(@PathVariable Long roomId) {
         return unableScheduleService.searchSortedUnableSchedule(roomId);
     }
 
