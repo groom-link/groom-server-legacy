@@ -1,6 +1,7 @@
 package com.example.groom.domain.schedule.unableSchedule;
 
 import com.example.groom.domain.schedule.dto.ScheduleDto;
+import com.example.groom.domain.schedule.dto.ScheduleResponseDto;
 import com.example.groom.domain.schedule.unableSchedule.dto.UnableScheduleDto;
 import com.example.groom.entity.domain.schedule.UnableSchedule;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,12 @@ public class UnableScheduleService {
     }
 
     public List<ScheduleDto> searchUnableSchedule(Long roomId) {
-        return unableScheduleRepository.findByRoomId(roomId);
+        return unableScheduleRepository.findByRoomId(roomId).stream()
+                .map(ScheduleDto::of)
+                .collect(Collectors.toList());
     }
 
-    public List<ScheduleDto> searchSortedUnableSchedule(Long roomId) {
+    public List<ScheduleResponseDto> searchSortedUnableSchedule(Long roomId) {
         return unableScheduleRepository.findByRoomId(roomId).stream().sorted((o1, o2) -> {
             if (o1.getStartTime().isBefore(o2.getStartTime())) {
                 return -1;
