@@ -97,6 +97,9 @@ public class TeamScheduleService {
         // 모임의 불가한 시간
         unableScheduleSet.addAll(unableScheduleService.searchUnableSchedule(roomId));
 
+        // TODO: 2022-10-24 1. 추천 스케출 리스트 뽑기
+        // 시작하는 날 0시 0분이 첫 기준
+        AtomicReference<LocalDateTime> markTime = new AtomicReference<>(date.atTime(0, 00, 00));
 
         unableScheduleSet.stream().sorted((o1, o2) -> {
             if (o1.getStartTime().isBefore(o2.getStartTime())) {
@@ -112,15 +115,8 @@ public class TeamScheduleService {
                     return 0;
                 }
             }
-        });
+        }).forEach(scheduleDto -> {
 
-        // TODO: 2022-10-24 1. 추천 스케출 리스트 뽑기
-        // 시작하는 날 0시 0분이 첫 기준
-        AtomicReference<LocalDateTime> markTime = new AtomicReference<>(date.atTime(0, 00));
-
-        unableScheduleSet.stream().forEach(scheduleDto -> {
-
-            // 시작 시간이 마크 시간보다 나중이면 가능한 시간에 추가
             if (markTime.get().isBefore(scheduleDto.getStartTime())) {
                 recommendSchedule.add(new ScheduleDto(markTime.get(), scheduleDto.getStartTime()));
             }
