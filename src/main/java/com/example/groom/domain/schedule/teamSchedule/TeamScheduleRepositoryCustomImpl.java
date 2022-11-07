@@ -41,11 +41,11 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
                 .on(teamScheduleUser.teamSchedule.id.eq(teamSchedule.id))
                 .innerJoin(userInfo)
                 .on(teamScheduleUser.participant.id.eq(userInfo.id))
-                .having(eqUserId(teamScheduleSearchCondition.getUserId()),
+                .where(eqUserId(teamScheduleSearchCondition.getUserId()),
                         eqRoomId(teamScheduleSearchCondition.getRoomId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(pageable.getPageSize() + 1)
                 .transform(
                         groupBy(teamSchedule.id).list(
                                 Projections.constructor(
