@@ -2,6 +2,7 @@ package com.example.groom.domain.todo;
 
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
+import com.example.groom.domain.todo.Dto.TodoDetailDto;
 import com.example.groom.domain.todo.Dto.TodoDto;
 import com.example.groom.domain.todo.Dto.TodoListResponseDto;
 import com.example.groom.domain.todo.Dto.TodoSearchCondition;
@@ -11,17 +12,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-
 @Service
 @RequiredArgsConstructor
 public class TodoService {
 
     private final TodoRepository todoRepository;
 
-    public Todo getTodo(Long id) {
-        Todo todo = this.todoRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
-        return todo;
+    public TodoDetailDto getTodoDetail(Long id) {
+        return TodoDetailDto.of(this.todoRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND)));
     }
 
     public TodoListResponseDto searchByCondition(TodoSearchCondition todoSearchCondition, Pageable pageable) {
@@ -29,24 +27,20 @@ public class TodoService {
         return this.todoRepository.searchByCondition(todoSearchCondition, pageable);
     }
 
-    public Todo createTodo(TodoDto todoDto) {
-        Todo todo = new Todo();
-        todo.updateTodo(todoDto);
-        return this.todoRepository.save(todo);
+    public TodoDetailDto createTodo(TodoDto todoDto) {
+        return TodoDetailDto.of(this.todoRepository.save(Todo.of(todoDto)));
     }
 
     public void deleteTodo(Long id) {
-        Todo todo = getTodo(id);
 
-        this.todoRepository.delete(todo);
+        if (todoRepository.existsById(id)) {
+            todoRepository.deleteById(id);
+        } else {
+            throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
+        }
     }
 
-    @Transactional
-    public Todo updateTodo(Long id, TodoDto todoDto) {
-        Todo existTodo = getTodo(id);
-
-        existTodo.updateTodo(todoDto);
-
-        return existTodo;
+    public TodoDetailDto updateTodo(TodoDetailDto todoDetailDto) {
+        return TodoDetailDto.of(this.todoRepository.save(Todo.of(todoDetailDto)));
     }
 }

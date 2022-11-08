@@ -34,13 +34,12 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom {
                         todo.content,
                         todo.todoOwner.kakao.kakaoAccount.profile.nickname,
                         todo.todoOwner.kakao.kakaoAccount.profile.profileImageUrl,
-                        todo.roomSlot.id,
-                        todo.todoBox.id))
+                        todo.roomSlot))
                 .from(todo)
                 .where(eqRoomId(todoSearchCondition.getRoomId()),
-                        eqUserId(todoSearchCondition.getUserId()),
-                        eqTodoBoxId(todoSearchCondition.getTodoBoxId()),
-                        eqRoomSlotId(todoSearchCondition.getRoomSlotId()))
+                        eqUserId(todoSearchCondition.getUserId()))
+//                        eqTodoBoxId(todoSearchCondition.getTodoBoxId()),
+//                        eqRoomSlotId(todoSearchCondition.getRoomSlotId()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
@@ -58,13 +57,13 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom {
         return userId != null ? todo.todoOwner.id.eq(userId) : null;
     }
 
-    private BooleanExpression eqRoomSlotId(Long roomSlotId) {
-        return roomSlotId != null ? todo.roomSlot.id.eq(roomSlotId) : null;
-    }
-
-    private BooleanExpression eqTodoBoxId(Long todoBoxId) {
-        return todoBoxId != null ? todo.todoBox.id.eq(todoBoxId) : null;
-    }
+//    private BooleanExpression eqRoomSlotId(Long roomSlotId) {
+//        return roomSlotId != null ? todo.roomSlot.id.eq(roomSlotId) : null;
+//    }
+//
+//    private BooleanExpression eqTodoBoxId(Long todoBoxId) {
+//        return todoBoxId != null ? todo.todoBox.id.eq(todoBoxId) : null;
+//    }
 
     private <T> boolean getHasNext(List<T> content, Pageable pageable) {
         boolean hasNext = false;

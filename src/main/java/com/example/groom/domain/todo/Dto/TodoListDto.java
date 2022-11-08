@@ -1,5 +1,6 @@
 package com.example.groom.domain.todo.Dto;
 
+import com.example.groom.entity.enums.RoomSlotSample;
 import lombok.Data;
 
 @Data
@@ -15,7 +16,5 @@ public class TodoListDto {
 
     private String profileImage;
 
-    private Long roomSlotId;
-
-    private Long todoBoxId;
+    private RoomSlotSample roomSlot;
 }
