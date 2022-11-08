@@ -3,11 +3,12 @@ package com.example.groom.domain.todo;
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.todo.Dto.TodoDto;
+import com.example.groom.domain.todo.Dto.TodoListResponseDto;
+import com.example.groom.domain.todo.Dto.TodoSearchCondition;
 import com.example.groom.domain.todo.Repository.TodoRepository;
 import com.example.groom.entity.domain.todo.Todo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,18 +20,13 @@ public class TodoService {
     private final TodoRepository todoRepository;
 
     public Todo getTodo(Long id) {
-        Todo todo = this.todoRepository.findById(id).orElseThrow(()->new CustomException(ErrorCode.TODO_NOT_FOUND));
+        Todo todo = this.todoRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
         return todo;
     }
 
-    public Slice<Todo> getTodoListByRoomId(Long id, Pageable pageable) {
+    public TodoListResponseDto searchByCondition(TodoSearchCondition todoSearchCondition, Pageable pageable) {
         // 리스트는 널값 체크 안해도 됨
-        return this.todoRepository.findAllByRoomId(id, pageable);
-    }
-
-    @Transactional
-    public Slice<Todo> getTodoListByUserInfoRoomId(Long roomId, Long userInfoId, Pageable pageable) {
-        return this.todoRepository.findAllByUserIdRoomId(roomId, userInfoId, pageable);
+        return this.todoRepository.searchByCondition(todoSearchCondition, pageable);
     }
 
     public Todo createTodo(TodoDto todoDto) {

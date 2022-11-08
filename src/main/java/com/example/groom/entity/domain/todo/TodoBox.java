@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TodoBox extends CoopEntity {
-
+    //할일 서랍
     @Column
     private String name;
 

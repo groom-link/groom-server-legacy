@@ -1,10 +1,11 @@
 package com.example.groom.domain.todo;
 
 import com.example.groom.domain.todo.Dto.TodoDto;
+import com.example.groom.domain.todo.Dto.TodoListResponseDto;
+import com.example.groom.domain.todo.Dto.TodoSearchCondition;
 import com.example.groom.entity.domain.todo.Todo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,14 +15,9 @@ public class TodoController {
 
     private final TodoService todoService;
 
-    @GetMapping("/room")
-    public Slice<Todo> getRoomTodoList(@RequestParam("id") Long id, @RequestParam Pageable pageable) {
-        return todoService.getTodoListByRoomId(id, pageable);
-    }
-
-    @GetMapping("/user")
-    public Slice<Todo> getUserTodoList(@RequestParam("id") Long roomgId, @RequestParam("userId") Long userInfoId, @RequestParam Pageable pageable) {
-        return todoService.getTodoListByUserInfoRoomId(roomgId, userInfoId, pageable);
+    @GetMapping
+    public TodoListResponseDto getTodoList(TodoSearchCondition todoSearchCondition, Pageable pageable) {
+        return todoService.searchByCondition(todoSearchCondition, pageable);
     }
 
     @PostMapping
