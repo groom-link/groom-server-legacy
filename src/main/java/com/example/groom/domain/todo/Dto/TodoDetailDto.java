@@ -1,5 +1,7 @@
 package com.example.groom.domain.todo.Dto;
 
+import com.example.groom.domain.auth.userInfo.dto.TodoUserInfoDto;
+import com.example.groom.entity.domain.auth.UserInfo;
 import com.example.groom.entity.domain.todo.Todo;
 import com.example.groom.entity.enums.RoomSlotSample;
 import lombok.Builder;
@@ -15,27 +17,31 @@ public class TodoDetailDto {
 
     private String content;
 
-    private Long todoOwnerId;
-
-    private String nickname;
-
-    private String profileImage;
-
     private String fileUrl;
 
     private RoomSlotSample roomSlot;
+
+    private TodoUserInfoDto todoOwner;
+
+    public static TodoDetailDto of(Todo todo, UserInfo todoOwner) {
+        return TodoDetailDto.builder()
+                .id(todo.getId())
+                .title(todo.getTitle())
+                .content(todo.getContent())
+                .fileUrl(todo.getFileUrl())
+                .roomSlot(todo.getRoomSlot())
+                .todoOwner(TodoUserInfoDto.of(todoOwner))
+                .build();
+    }
 
     public static TodoDetailDto of(Todo todo) {
         return TodoDetailDto.builder()
                 .id(todo.getId())
                 .title(todo.getTitle())
                 .content(todo.getContent())
-                .todoOwnerId(todo.getTodoOwner().getId())
-                .nickname(todo.getTodoOwner().getKakao().getKakaoAccount().getProfile().getNickname())
-                .profileImage(todo.getTodoOwner().getKakao().getKakaoAccount().getProfile().getProfileImageUrl())
                 .fileUrl(todo.getFileUrl())
                 .roomSlot(todo.getRoomSlot())
+                .todoOwner(TodoUserInfoDto.of(todo.getTodoOwner()))
                 .build();
     }
-
 }

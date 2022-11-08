@@ -7,6 +7,7 @@ import com.example.groom.entity.common.CoopEntity;
 import com.example.groom.entity.domain.auth.UserInfo;
 import com.example.groom.entity.domain.room.Room;
 import com.example.groom.entity.enums.RoomSlotSample;
+import com.querydsl.core.annotations.QueryInit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +38,7 @@ public class Todo extends CoopEntity {
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
+    @QueryInit("kakao.kakaoAccount.profile")
     private UserInfo todoOwner;
 
 //    @JoinColumn
@@ -68,7 +70,7 @@ public class Todo extends CoopEntity {
         todo.content = todoDetailDto.getContent();
         todo.roomSlot = todoDetailDto.getRoomSlot();
         todo.fileUrl = todoDetailDto.getFileUrl();
-        todo.todoOwner = UserInfo.of(todoDetailDto.getTodoOwnerId());
+        todo.todoOwner = UserInfo.of(todoDetailDto.getTodoOwner().getTodoOwnerId());
     }
 
     public static Todo of(TodoDetailDto todoDetailDto) {

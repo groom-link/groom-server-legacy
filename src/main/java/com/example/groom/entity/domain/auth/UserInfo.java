@@ -31,7 +31,7 @@ public class UserInfo extends BaseEntity {
     private User user;
 
     @JoinColumn
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @QueryInit({"kakaoAccount.profile"})
     private KakaoInfo kakao;
