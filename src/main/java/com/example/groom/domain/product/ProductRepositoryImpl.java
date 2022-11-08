@@ -28,10 +28,8 @@ public class ProductRepositoryImpl implements ProductRepositoryCustom {
 
     @Override
     public Slice<ProductDto> search(Pageable pageable, ProductSearchCondition productSearchCondition) {
-        List<ProductDto> productDtos = query.select(Projections.constructor(ProductDto.class, product))
+        List<ProductDto> productDtos = query.select(Projections.constructor(ProductDto.class, product.id, product.thumbnailImage, product.organization, product.price, product.name))
                 .from(product)
-                .join(organization)
-                .fetchJoin()
                 .where(productSearchCondition.getCondition())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
