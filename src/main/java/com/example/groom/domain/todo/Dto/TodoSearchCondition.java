@@ -10,6 +10,6 @@ import lombok.Setter;
 public class TodoSearchCondition {
     private Long userId;
     private Long roomId;
-    private Long roomSlotId;
-    private Long todoBoxId;
+//    private Long roomSlotId;
+//    private Long todoBoxId;
 }

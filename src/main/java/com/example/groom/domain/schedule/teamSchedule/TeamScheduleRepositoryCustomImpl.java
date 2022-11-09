@@ -65,9 +65,9 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
                         )
                 );
 
-        boolean hasNext = getHasNext(content, pageable);
+        boolean isLast = getHasNext(content, pageable);
 
-        return TeamScheduleListResponseDto.of(content, pageable.getPageNumber(), hasNext);
+        return TeamScheduleListResponseDto.of(content, pageable.getPageNumber(), isLast);
     }
 
 
@@ -101,12 +101,12 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
     }
 
     private <T> boolean getHasNext(List<T> content, Pageable pageable) {
-        boolean hasNext = false;
+        boolean isLast = true;
         if (content.size() > pageable.getPageSize()) {
             content.remove(pageable.getPageSize());
-            hasNext = true;
+            isLast = false;
         }
-        return hasNext;
+        return isLast;
     }
 
     private BooleanExpression betweenScheduleTime(LocalDateTime startTime, LocalDateTime endTime) {

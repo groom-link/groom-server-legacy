@@ -70,7 +70,7 @@ public class Todo extends CoopEntity {
         todo.content = todoDetailDto.getContent();
         todo.roomSlot = todoDetailDto.getRoomSlot();
         todo.fileUrl = todoDetailDto.getFileUrl();
-        todo.todoOwner = UserInfo.of(todoDetailDto.getTodoOwner().getTodoOwnerId());
+        todo.todoOwner = UserInfo.of(todoDetailDto.getTodoOwnerId());
     }
 
     public static Todo of(TodoDetailDto todoDetailDto) {

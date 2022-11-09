@@ -44,9 +44,9 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom {
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
 
-        boolean hasNext = getHasNext(content, pageable);
+        boolean isLast = getHasNext(content, pageable);
 
-        return TodoListResponseDto.of(content, pageable.getPageNumber(), hasNext);
+        return TodoListResponseDto.of(content, pageable.getPageNumber(), isLast);
     }
 
     private BooleanExpression eqRoomId(Long roomId) {
@@ -66,11 +66,11 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom {
 //    }
 
     private <T> boolean getHasNext(List<T> content, Pageable pageable) {
-        boolean hasNext = false;
+        boolean isLast = true;
         if (content.size() > pageable.getPageSize()) {
             content.remove(pageable.getPageSize());
-            hasNext = true;
+            isLast = false;
         }
-        return hasNext;
+        return isLast;
     }
 }
