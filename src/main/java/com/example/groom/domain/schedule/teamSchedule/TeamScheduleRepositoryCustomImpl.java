@@ -4,6 +4,7 @@ import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListResponseDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
+import com.example.groom.entity.domain.schedule.TeamSchedule;
 import com.example.groom.entity.enums.RequestStatus;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -15,11 +16,8 @@ import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static com.example.groom.entity.domain.auth.QUserInfo.userInfo;
 import static com.example.groom.entity.domain.schedule.QTeamSchedule.teamSchedule;
 import static com.example.groom.entity.domain.schedule.QTeamScheduleUser.teamScheduleUser;
-import static com.querydsl.core.group.GroupBy.groupBy;
-import static com.querydsl.core.group.GroupBy.list;
 
 
 public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryCustom {
@@ -35,40 +33,45 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
 
     @Override
     public TeamScheduleListResponseDto searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
-        List<TeamScheduleListDto> content = query
-                .from(teamScheduleUser)
-                .innerJoin(teamSchedule)
-                .on(teamScheduleUser.teamSchedule.id.eq(teamSchedule.id))
-                .innerJoin(userInfo)
-                .on(teamScheduleUser.participant.id.eq(userInfo.id))
-                .groupBy(teamSchedule.id)
+//        List<TeamScheduleListDto> content = query
+//                .from(teamScheduleUser)
+//                .innerJoin(teamScheduleUser.teamSchedule, teamSchedule)
+//                .innerJoin(teamScheduleUser.participant, userInfo)
+//                .groupBy(teamSchedule.id)
+//                .where(eqUserId(teamScheduleSearchCondition.getUserId()),
+//                        eqRoomId(teamScheduleSearchCondition.getRoomId()),
+//                        betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
+//                .offset(pageable.getOffset())
+//                .limit(pageable.getPageSize() + 1)
+//                .transform(
+//                        groupBy(teamSchedule.id).list(
+//                                Projections.fields(
+//                                        TeamScheduleListDto.class,
+//                                        teamSchedule.id,
+//                                        teamSchedule.title,
+//                                        teamSchedule.startTime,
+//                                        teamSchedule.meetingLocation,
+//                                        list(userInfo.kakao.kakaoAccount.profile.profileImageUrl).as("profiles")
+//                                )
+//                        )
+//                );
+
+        List<TeamSchedule> content = query
+                .selectFrom(teamSchedule)
                 .where(eqUserId(teamScheduleSearchCondition.getUserId()),
                         eqRoomId(teamScheduleSearchCondition.getRoomId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
-                .transform(
-                        groupBy(teamSchedule.id).list(
-                                Projections.constructor(
-                                        TeamScheduleListDto.class,
-                                        teamSchedule.id,
-                                        teamSchedule.title,
-                                        teamSchedule.startTime,
-                                        teamSchedule.meetingLocation,
-                                        list(
-                                                Projections.fields(
-                                                                String.class,
-                                                                userInfo.kakao.kakaoAccount.profile.profileImageUrl
-                                                        )
-                                                        .as("profiles")
-                                        )
-                                )
-                        )
-                );
+                .fetch();
 
         boolean isLast = getIsLast(content, pageable);
 
-        return TeamScheduleListResponseDto.of(content, pageable.getPageNumber(), isLast);
+        List<TeamScheduleListDto> teamScheduleListDto = content.stream()
+                .map(TeamScheduleListDto::of)
+                .toList();
+
+        return TeamScheduleListResponseDto.of(teamScheduleListDto, pageable.getPageNumber(), isLast);
     }
 
 
