@@ -46,7 +46,7 @@ public class RoomService {
     public RoomListResponseDto getMyRoomList(Long userId) {
         RoomSearchCondition condition = new RoomSearchCondition();
         condition.setParticipantId(userId);
-        return this.roomRepository.searchByCondition(Pageable.unpaged(), condition);
+        return searchRooms(Pageable.unpaged(), condition);
     }
 
     @Transactional
