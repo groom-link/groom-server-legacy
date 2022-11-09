@@ -2,9 +2,9 @@ package com.example.groom.domain.product;
 
 import com.example.groom.domain.product.dto.ProductDto;
 import com.example.groom.domain.product.dto.ProductSearchCondition;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+
+import java.util.List;
 
 public interface ProductRepositoryCustom {
-    Slice<ProductDto> search(Pageable pageable, ProductSearchCondition productSearchCondition);
+    List<ProductDto> search(ProductSearchCondition productSearchCondition);
 }
