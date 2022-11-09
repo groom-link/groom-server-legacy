@@ -63,8 +63,8 @@ public class RoomController {
     }
 
     @GetMapping("/me")
-    public RoomListResponseDto getMyRoomList(JwtAuthentication authentication) {
-        return this.roomService.getMyRoomList(authentication.getPrincipal());
+    public RoomListResponseDto getMyRoomList(Pageable pageable, JwtAuthentication authentication) {
+        return this.roomService.getMyRoomList(pageable, authentication.getPrincipal());
     }
 
 
