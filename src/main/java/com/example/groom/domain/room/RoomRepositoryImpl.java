@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.example.groom.entity.domain.room.QRoom.room;
+import static com.example.groom.entity.domain.room.QRoomParticipants.roomParticipants;
 
 
 public class RoomRepositoryImpl implements RoomRepositoryCustom {
@@ -52,10 +53,12 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
                         room.updatedAt
                 ))
                 .from(room)
+                .innerJoin(room.roomParticipants, roomParticipants)
                 .where(containsName(condition.getName()),
                         betweenDate(condition.getDateGoe(), condition.getDateLoe()),
                         eqOwnerId(condition.getOwnerId()),
-                        containsDescription(condition.getDescription())
+                        containsDescription(condition.getDescription()),
+                        eqParticipantId(condition.getParticipantId())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -64,6 +67,10 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
         boolean isLast = getIsLast(content, pageable);
 
         return RoomListResponseDto.of(content, pageable.getPageSize(), isLast);
+    }
+
+    private BooleanExpression eqParticipantId(Long participantId) {
+        return participantId != null ? roomParticipants.roomParticipant.id.eq(participantId) : null;
     }
 
     private BooleanExpression eqOwnerId(Long ownerId) {
