@@ -43,10 +43,10 @@ public class RoomService {
         return roomParticipantsDto.getRoomId();
     }
 
-    public RoomListResponseDto getMyRoomList(Long userId) {
+    public RoomListResponseDto getMyRoomList(Pageable pageable, Long userId) {
         RoomSearchCondition condition = new RoomSearchCondition();
         condition.setParticipantId(userId);
-        return searchRooms(Pageable.unpaged(), condition);
+        return searchRooms(pageable, condition);
     }
 
     @Transactional
