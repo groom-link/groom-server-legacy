@@ -7,10 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +39,10 @@ public class Room extends OwnEntity {
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.EXTRA)
     private List<RoomParticipants> roomParticipants = new ArrayList<>();
+
+    @JoinColumn
+    @OneToOne(mappedBy = "room", cascade = CascadeType.ALL)
+    private RoomInviteCode roomInviteCode;
 
     protected Room(Long roomId) {
         super(roomId);

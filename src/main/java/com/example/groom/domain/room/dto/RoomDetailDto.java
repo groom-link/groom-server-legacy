@@ -25,7 +25,7 @@ public class RoomDetailDto {
 
     public static RoomDetailDto of(Room room) {
         List<UserInfoRoomDto> roomParticipants = room.getRoomParticipants().stream().map(
-                participant -> UserInfoRoomDto.of(participant.getUserInfo())
+                participant -> UserInfoRoomDto.of(participant.getRoomParticipant())
         ).toList();
         return new RoomDetailDto(
                 room.getId(),

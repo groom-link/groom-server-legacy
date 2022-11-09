@@ -6,6 +6,7 @@ import com.example.groom.domain.room.dto.RoomListResponseDto;
 import com.example.groom.domain.room.dto.RoomPostDto;
 import com.example.groom.domain.room.dto.RoomSearchCondition;
 import com.example.groom.domain.room.roomInviteCode.dto.CodeDto;
+import com.example.groom.domain.room.roomParticipants.dto.RoomParticipantsDto;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.dto.ScheduleResponseDto;
 import com.example.groom.domain.schedule.teamSchedule.TeamScheduleService;
@@ -33,6 +34,16 @@ public class RoomController {
     @GetMapping
     public RoomListResponseDto searchRoom(Pageable pageable, RoomSearchCondition roomSearchCondition) {
         return this.roomService.searchRooms(pageable, roomSearchCondition);
+    }
+
+    @GetMapping("/code/{code}")
+    public RoomDetailDto joinRoomByCode(@PathVariable String code) {
+        return this.roomService.joinRoomByCode(code);
+    }
+
+    @PostMapping("/participant")
+    public Long addParticipant(@RequestBody RoomParticipantsDto roomParticipantsDto) {
+        return this.roomService.addParticipant(roomParticipantsDto);
     }
 
     @GetMapping("/{id}")
