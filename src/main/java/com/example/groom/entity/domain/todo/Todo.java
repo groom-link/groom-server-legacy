@@ -65,12 +65,13 @@ public class Todo extends CoopEntity {
 
 
     protected Todo(TodoDetailDto todoDetailDto) {
-        Todo todo = new Todo(todoDetailDto.getId());
-        todo.title = todoDetailDto.getTitle();
-        todo.content = todoDetailDto.getContent();
-        todo.roomSlot = todoDetailDto.getRoomSlot();
-        todo.fileUrl = todoDetailDto.getFileUrl();
-        todo.todoOwner = UserInfo.of(todoDetailDto.getTodoOwnerId());
+        super(todoDetailDto.getId());
+        this.title = todoDetailDto.getTitle();
+        this.content = todoDetailDto.getContent();
+        this.roomSlot = todoDetailDto.getRoomSlot();
+        this.fileUrl = todoDetailDto.getFileUrl();
+        this.todoOwner = UserInfo.of(todoDetailDto.getTodoOwnerId());
+        this.fileUrl = todoDetailDto.getFileUrl();
     }
 
     public static Todo of(TodoDetailDto todoDetailDto) {

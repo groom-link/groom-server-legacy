@@ -36,7 +36,7 @@ public class TodoController {
         return id;
     }
 
-    @PutMapping
+    @PatchMapping
     public TodoDetailDto updateTodo(@RequestBody TodoDetailDto todoDetailDto) {
         return todoService.updateTodo(todoDetailDto);
     }
