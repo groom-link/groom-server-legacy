@@ -30,8 +30,8 @@ public class TodoController {
         return todoService.createTodo(todoDto);
     }
 
-    @DeleteMapping
-    public Long deleteTodo(@RequestParam("todoId") Long id) {
+    @DeleteMapping("/{id}")
+    public Long deleteTodo(@PathVariable Long id) {
         todoService.deleteTodo(id);
         return id;
     }
