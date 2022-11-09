@@ -14,7 +14,7 @@ public class RoomDto {
     private String description;
     private String mainImageUrl;
     private Long maxPeopleNumber;
-    private Long nowPeopleNumber;
+    private int nowPeopleNumber;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

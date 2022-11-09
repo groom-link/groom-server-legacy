@@ -39,7 +39,7 @@ public class Room extends OwnEntity {
 //    @Column
 //    private String summary;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     @LazyCollection(LazyCollectionOption.EXTRA)
     private List<RoomParticipants> roomParticipants = new ArrayList<>();
 

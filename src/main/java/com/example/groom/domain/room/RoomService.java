@@ -17,18 +17,16 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 public class RoomService {
 
-
     private final RoomRepository roomRepository;
     private final RoomParticipantsService roomParticipantsService;
 
     public RoomDetailDto getRoomDetailDtoByRoomId(Long id) {
-        return this.roomRepository.getRoomDetailDtoByRoomId(id);
+        return RoomDetailDto.of(this.roomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 방입니다.")));
     }
 
     public RoomListResponseDto searchRooms(Pageable pageable, RoomSearchCondition condition) {
         return this.roomRepository.searchByCondition(pageable, condition);
     }
-
 
     @Transactional
     public Room postRoom(RoomPostDto roomPostDto) {
