@@ -1,11 +1,13 @@
 package com.example.groom.domain.todo.Repository;
 
-import com.example.groom.entity.domain.todo.Todo;
+import com.example.groom.domain.todo.Dto.TodoListDto;
+import com.example.groom.domain.todo.Dto.TodoListResponseDto;
+import com.example.groom.domain.todo.Dto.TodoSearchCondition;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.SliceImpl;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -23,34 +25,52 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom {
     }
 
     @Override
-    public Slice<Todo> findAllByUserIdRoomId(Long roomId, Long userInfoId, Pageable pageable) {
-        List<Todo> todoList = query.selectFrom(todo)
-                .where(todo.owner.id.eq(userInfoId).and(todo.room.id.eq(roomId)))
-                .fetch();
+    public TodoListResponseDto searchByCondition(TodoSearchCondition todoSearchCondition, Pageable pageable) {
 
-        boolean hasNext = false;
-        if (todoList.size() > pageable.getPageSize()) {
-            todoList.remove(pageable.getPageSize());
-            hasNext = true;
-        }
-        return new SliceImpl<>(todoList, pageable, hasNext);
-    }
-
-
-    @Override
-    public Slice<Todo> findAllByRoomId(Long roomId, Pageable pageable) {
-
-        List<Todo> todoList = query.selectFrom(todo)
-                .where(todo.room.id.eq(roomId))
-                .offset(pageable.getOffset())   //N 번부터 시작
+        List<TodoListDto> content = query
+                .select(Projections.constructor(TodoListDto.class,
+                        todo.id,
+                        todo.title,
+                        todo.content,
+                        todo.todoOwner.kakao.kakaoAccount.profile.nickname,
+                        todo.todoOwner.kakao.kakaoAccount.profile.profileImageUrl,
+                        todo.roomSlot))
+                .from(todo)
+                .where(eqRoomId(todoSearchCondition.getRoomId()),
+                        eqUserId(todoSearchCondition.getUserId()))
+//                        eqTodoBoxId(todoSearchCondition.getTodoBoxId()),
+//                        eqRoomSlotId(todoSearchCondition.getRoomSlotId()))
+                .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
                 .fetch();
 
-        boolean hasNext = false;
-        if (todoList.size() > pageable.getPageSize()) {
-            todoList.remove(pageable.getPageSize());
-            hasNext = true;
+        boolean isLast = getHasNext(content, pageable);
+
+        return TodoListResponseDto.of(content, pageable.getPageNumber(), isLast);
+    }
+
+    private BooleanExpression eqRoomId(Long roomId) {
+        return roomId != null ? todo.room.id.eq(roomId) : null;
+    }
+
+    private BooleanExpression eqUserId(Long userId) {
+        return userId != null ? todo.todoOwner.id.eq(userId) : null;
+    }
+
+//    private BooleanExpression eqRoomSlotId(Long roomSlotId) {
+//        return roomSlotId != null ? todo.roomSlot.id.eq(roomSlotId) : null;
+//    }
+//
+//    private BooleanExpression eqTodoBoxId(Long todoBoxId) {
+//        return todoBoxId != null ? todo.todoBox.id.eq(todoBoxId) : null;
+//    }
+
+    private <T> boolean getHasNext(List<T> content, Pageable pageable) {
+        boolean isLast = true;
+        if (content.size() > pageable.getPageSize()) {
+            content.remove(pageable.getPageSize());
+            isLast = false;
         }
-        return new SliceImpl<>(todoList, pageable, hasNext);
+        return isLast;
     }
 }
