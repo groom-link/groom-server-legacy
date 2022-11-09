@@ -8,22 +8,22 @@ import com.example.groom.domain.product.dto.ProductPostDto;
 import com.example.groom.domain.product.dto.ProductSearchCondition;
 import com.example.groom.entity.domain.product.Product;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository gifticonRepository;
 
-    public Product save(ProductPostDto productPostDto){
+    public Product save(ProductPostDto productPostDto) {
         Product product = Product.of(productPostDto);
         return this.gifticonRepository.save(product);
     }
 
-    public Slice<ProductDto> search(Pageable pageable, ProductSearchCondition productSearchCondition){
-        return this.gifticonRepository.search(pageable, productSearchCondition);
+    public List<ProductDto> search(ProductSearchCondition productSearchCondition) {
+        return this.gifticonRepository.search(productSearchCondition);
     }
 
     public ProductDto findById(Long id) {
