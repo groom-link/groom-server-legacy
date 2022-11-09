@@ -1,6 +1,7 @@
 package com.example.groom.domain.room;
 
 
+import com.example.groom.common.auth.jwt.JwtAuthentication;
 import com.example.groom.domain.room.dto.RoomDetailDto;
 import com.example.groom.domain.room.dto.RoomListResponseDto;
 import com.example.groom.domain.room.dto.RoomPostDto;
@@ -60,6 +61,12 @@ public class RoomController {
     public List<ScheduleResponseDto> getUnableSchedule(@PathVariable Long roomId) {
         return unableScheduleService.searchSortedUnableSchedule(roomId);
     }
+
+    @GetMapping("/me")
+    public RoomListResponseDto getMyRoomList(JwtAuthentication authentication) {
+        return this.roomService.getMyRoomList(authentication.getPrincipal());
+    }
+
 
     @PostMapping
     public CodeDto postRoom(@RequestBody RoomPostDto roomPostDto) {

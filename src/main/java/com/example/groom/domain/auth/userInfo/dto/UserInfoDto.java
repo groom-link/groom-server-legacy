@@ -14,7 +14,7 @@ public class UserInfoDto {
     private KakaoInfo kakao;
     private String username;
 
-    protected UserInfoDto(UserInfo userInfo){
+    protected UserInfoDto(UserInfo userInfo) {
         this.id = userInfo.getId();
         this.kakao = userInfo.getKakao();
         this.username = userInfo.getUser().getUsername();
