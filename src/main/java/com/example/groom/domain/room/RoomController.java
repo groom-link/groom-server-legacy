@@ -5,11 +5,11 @@ import com.example.groom.domain.room.dto.RoomDetailDto;
 import com.example.groom.domain.room.dto.RoomListResponseDto;
 import com.example.groom.domain.room.dto.RoomPostDto;
 import com.example.groom.domain.room.dto.RoomSearchCondition;
+import com.example.groom.domain.room.roomInviteCode.dto.CodeDto;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.dto.ScheduleResponseDto;
 import com.example.groom.domain.schedule.teamSchedule.TeamScheduleService;
 import com.example.groom.domain.schedule.unableSchedule.UnableScheduleService;
-import com.example.groom.entity.domain.room.Room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -51,9 +51,8 @@ public class RoomController {
     }
 
     @PostMapping
-    public Long postRoom(@RequestBody RoomPostDto roomPostDto) {
-        Room room = this.roomService.postRoom(roomPostDto);
-        return room.getId();
+    public CodeDto postRoom(@RequestBody RoomPostDto roomPostDto) {
+        return this.roomService.postRoom(roomPostDto);
     }
 
 }
