@@ -54,6 +54,7 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
                 ))
                 .from(room)
                 .innerJoin(room.roomParticipants, roomParticipants)
+                .groupBy(room.id)
                 .where(containsName(condition.getName()),
                         betweenDate(condition.getDateGoe(), condition.getDateLoe()),
                         eqOwnerId(condition.getOwnerId()),
