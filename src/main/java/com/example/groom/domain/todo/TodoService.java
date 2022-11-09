@@ -13,7 +13,6 @@ import com.example.groom.entity.domain.todo.Todo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +31,6 @@ public class TodoService {
         return this.todoRepository.searchByCondition(todoSearchCondition, pageable);
     }
 
-    @Transactional
     public TodoDetailDto createTodo(TodoDto todoDto) {
         Todo todo = this.todoRepository.save(Todo.of(todoDto));
 
