@@ -2,16 +2,16 @@ package com.example.groom.domain.room;
 
 
 import com.example.groom.domain.room.dto.RoomDetailDto;
-import com.example.groom.domain.room.dto.RoomDto;
+import com.example.groom.domain.room.dto.RoomListResponseDto;
 import com.example.groom.domain.room.dto.RoomPostDto;
 import com.example.groom.domain.room.dto.RoomSearchCondition;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.dto.ScheduleResponseDto;
 import com.example.groom.domain.schedule.teamSchedule.TeamScheduleService;
 import com.example.groom.domain.schedule.unableSchedule.UnableScheduleService;
+import com.example.groom.entity.domain.room.Room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +31,7 @@ public class RoomController {
 
 
     @GetMapping
-    public Slice<RoomDto> searchRoom(Pageable pageable, RoomSearchCondition roomSearchCondition) {
+    public RoomListResponseDto searchRoom(Pageable pageable, RoomSearchCondition roomSearchCondition) {
         return this.roomService.searchRooms(pageable, roomSearchCondition);
     }
 
@@ -51,8 +51,9 @@ public class RoomController {
     }
 
     @PostMapping
-    public void postRoom(@RequestBody RoomPostDto roomPostDto) {
-        this.roomService.postRoom(roomPostDto);
+    public Long postRoom(@RequestBody RoomPostDto roomPostDto) {
+        Room room = this.roomService.postRoom(roomPostDto);
+        return room.getId();
     }
 
 }

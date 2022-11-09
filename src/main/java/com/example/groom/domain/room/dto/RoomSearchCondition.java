@@ -14,6 +14,6 @@ public class RoomSearchCondition {
     private List<String> Category;
     private LocalDateTime dateLoe;
     private LocalDateTime dateGoe;
-    private Long participantsId;
+    private Long ownerId;
 
 }

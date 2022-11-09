@@ -18,13 +18,7 @@ public class RoomPostDto {
 
     private String mainImageUrl;
 
-//    private List<String> descriptionImageUrls = new ArrayList<>();
-
-    private String summary;
-
     private Long maxPeople;
-
-//    private Long roomCategoryId;
 
     private List<Long> roomParticipants = new ArrayList<>();
 

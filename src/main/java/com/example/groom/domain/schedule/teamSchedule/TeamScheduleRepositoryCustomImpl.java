@@ -65,7 +65,7 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
                         )
                 );
 
-        boolean isLast = getHasNext(content, pageable);
+        boolean isLast = getIsLast(content, pageable);
 
         return TeamScheduleListResponseDto.of(content, pageable.getPageNumber(), isLast);
     }
@@ -100,7 +100,7 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
                 .fetch();
     }
 
-    private <T> boolean getHasNext(List<T> content, Pageable pageable) {
+    private <T> boolean getIsLast(List<T> content, Pageable pageable) {
         boolean isLast = true;
         if (content.size() > pageable.getPageSize()) {
             content.remove(pageable.getPageSize());
