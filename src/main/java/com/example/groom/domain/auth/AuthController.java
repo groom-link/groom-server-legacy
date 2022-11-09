@@ -7,6 +7,7 @@ import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.auth.dto.AuthenticationTokenResponseDTO;
 import com.example.groom.domain.auth.dto.RefreshTokenDto;
+import com.example.groom.domain.auth.userInfo.dto.UserInfoRoomDto;
 import com.example.groom.entity.domain.auth.UserInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -21,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
-@Tag(name="auth controller", description = "인증관련 엔드포인트")
+@Tag(name = "auth controller", description = "인증관련 엔드포인트")
 public class AuthController {
 
     private final AuthService authService;
@@ -31,14 +32,15 @@ public class AuthController {
             tags = {"인증", "토큰"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "재발급 성공",
-            content = @Content(schema = @Schema(implementation = AuthenticationTokenResponseDTO.class))),
+                    content = @Content(schema = @Schema(implementation = AuthenticationTokenResponseDTO.class))),
             @ApiResponse(responseCode = "401", description = "리프레쉬토큰이 서버에 존재하지 않습니다.")
     })
-    @PostMapping ("/refresh")
+    @PostMapping("/refresh")
     public AuthenticationToken refreshAuthenticationToken(
             @Parameter(description = "refresh token")
-            @RequestBody RefreshTokenDto refreshTokenDto){
-        if(refreshTokenDto.getRefreshToken() == null || refreshTokenDto.getRefreshToken().isEmpty())throw new CustomException(ErrorCode.REFRESH_TOKEN_REQUIRED);
+            @RequestBody RefreshTokenDto refreshTokenDto) {
+        if (refreshTokenDto.getRefreshToken() == null || refreshTokenDto.getRefreshToken().isEmpty())
+            throw new CustomException(ErrorCode.REFRESH_TOKEN_REQUIRED);
         return this.authService.tokenRefresh(refreshTokenDto.getRefreshToken());
     }
 
@@ -60,9 +62,10 @@ public class AuthController {
     @GetMapping("/kakao/login")
     public AuthenticationToken loginWithKakaoCode
             (@Parameter(description = "카카오 로그인에 성공하여 받아진 인가코드")
-                                                                 @RequestParam("code") String kakaoCode){
+             @RequestParam("code") String kakaoCode) {
         return this.authService.login(kakaoCode);
     }
+
     @Operation(summary = "유저 정보 가져오기",
             description = "자기 자신의 정보를 열람합니다.",
             tags = {"인증", "본인 정보 보기"})
@@ -71,7 +74,7 @@ public class AuthController {
                     content = @Content(schema = @Schema(implementation = UserInfo.class))),
     })
     @GetMapping("/me")
-    public UserInfo getMe(JwtAuthentication authentication){
+    public UserInfoRoomDto getMe(JwtAuthentication authentication) {
         return this.authService.getMe(authentication);
     }
 }

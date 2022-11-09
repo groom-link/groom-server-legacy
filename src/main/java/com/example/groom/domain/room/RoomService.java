@@ -43,6 +43,12 @@ public class RoomService {
         return roomParticipantsDto.getRoomId();
     }
 
+    public RoomListResponseDto getMyRoomList(Long userId) {
+        RoomSearchCondition condition = new RoomSearchCondition();
+        condition.setParticipantId(userId);
+        return this.roomRepository.searchByCondition(Pageable.unpaged(), condition);
+    }
+
     @Transactional
     public CodeDto postRoom(RoomPostDto roomPostDto) {
         Room room = this.roomRepository.save(Room.of(roomPostDto));
