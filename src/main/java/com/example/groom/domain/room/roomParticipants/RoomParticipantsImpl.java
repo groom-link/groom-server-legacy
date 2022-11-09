@@ -14,22 +14,23 @@ import static com.example.groom.entity.domain.room.QRoomParticipants.roomPartici
 
 public class RoomParticipantsImpl implements RoomParticipantsCustom {
 
+    private final JPAQueryFactory query;
     @Autowired
     private EntityManager em;
 
-    private final JPAQueryFactory query;
-
-    public RoomParticipantsImpl(EntityManager em){this.query = new JPAQueryFactory(em);}
+    public RoomParticipantsImpl(EntityManager em) {
+        this.query = new JPAQueryFactory(em);
+    }
 
 
     @Override
     public List<UserInfo> getParticipantsListUserInfosByRoomId(Long roomId) {
         List<UserInfo> userInfos = query
-                .select(roomParticipants.userInfo)
+                .select(roomParticipants.roomParticipant)
                 .from(roomParticipants)
-                .leftJoin(roomParticipants.userInfo, userInfo)
+                .leftJoin(roomParticipants.roomParticipant, userInfo)
                 .fetchJoin()
-                .leftJoin(roomParticipants.userInfo.kakao, kakaoInfo)
+                .leftJoin(roomParticipants.roomParticipant.kakao, kakaoInfo)
                 .fetchJoin()
                 .where(roomParticipants.room.id.eq(roomId))
                 .fetch();

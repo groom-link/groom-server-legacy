@@ -12,7 +12,7 @@ public class RoomInviteCodeService {
     private final RoomInviteCodeRepository roomInviteCodeRepository;
 
     public CodeDto findByRoomId(Long roomId) {
-        return this.roomInviteCodeRepository.findByRoomId(roomId);
+        return CodeDto.of(this.roomInviteCodeRepository.findByRoomId(roomId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 방 코드입니다.")));
     }
 
     public CodeDto save(Long roomId) {

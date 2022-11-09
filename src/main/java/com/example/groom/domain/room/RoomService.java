@@ -5,8 +5,12 @@ import com.example.groom.domain.room.dto.RoomDetailDto;
 import com.example.groom.domain.room.dto.RoomListResponseDto;
 import com.example.groom.domain.room.dto.RoomPostDto;
 import com.example.groom.domain.room.dto.RoomSearchCondition;
+import com.example.groom.domain.room.roomInviteCode.RoomInviteCodeService;
+import com.example.groom.domain.room.roomInviteCode.dto.CodeDto;
 import com.example.groom.domain.room.roomParticipants.RoomParticipantsService;
+import com.example.groom.domain.room.roomParticipants.dto.RoomParticipantsDto;
 import com.example.groom.entity.domain.room.Room;
+import com.example.groom.entity.domain.room.RoomParticipants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,12 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
     private final RoomParticipantsService roomParticipantsService;
+    private final RoomInviteCodeService roomInviteCodeService;
+
+    public RoomDetailDto joinRoomByCode(String code) {
+        Room room = roomRepository.findByCode(code).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 코드입니다."));
+        return RoomDetailDto.of(room);
+    }
 
     public RoomDetailDto getRoomDetailDtoByRoomId(Long id) {
         return RoomDetailDto.of(this.roomRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 방입니다.")));
@@ -28,11 +38,19 @@ public class RoomService {
         return this.roomRepository.searchByCondition(pageable, condition);
     }
 
+    public Long addParticipant(RoomParticipantsDto roomParticipantsDto) {
+        this.roomParticipantsService.save(RoomParticipants.of(roomParticipantsDto.getRoomId(), roomParticipantsDto.getUserId()));
+        return roomParticipantsDto.getRoomId();
+    }
+
     @Transactional
-    public Room postRoom(RoomPostDto roomPostDto) {
+    public CodeDto postRoom(RoomPostDto roomPostDto) {
         Room room = this.roomRepository.save(Room.of(roomPostDto));
         this.roomParticipantsService.saveAll(room.getId(), roomPostDto.getRoomParticipants());
 
-        return room;
+        // 코드 생성
+        CodeDto codeDto = roomInviteCodeService.save(room.getId());
+
+        return codeDto;
     }
 }

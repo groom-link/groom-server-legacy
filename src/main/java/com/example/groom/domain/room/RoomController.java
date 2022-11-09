@@ -5,11 +5,12 @@ import com.example.groom.domain.room.dto.RoomDetailDto;
 import com.example.groom.domain.room.dto.RoomListResponseDto;
 import com.example.groom.domain.room.dto.RoomPostDto;
 import com.example.groom.domain.room.dto.RoomSearchCondition;
+import com.example.groom.domain.room.roomInviteCode.dto.CodeDto;
+import com.example.groom.domain.room.roomParticipants.dto.RoomParticipantsDto;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.dto.ScheduleResponseDto;
 import com.example.groom.domain.schedule.teamSchedule.TeamScheduleService;
 import com.example.groom.domain.schedule.unableSchedule.UnableScheduleService;
-import com.example.groom.entity.domain.room.Room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -35,6 +36,16 @@ public class RoomController {
         return this.roomService.searchRooms(pageable, roomSearchCondition);
     }
 
+    @GetMapping("/code/{code}")
+    public RoomDetailDto joinRoomByCode(@PathVariable String code) {
+        return this.roomService.joinRoomByCode(code);
+    }
+
+    @PostMapping("/participant")
+    public Long addParticipant(@RequestBody RoomParticipantsDto roomParticipantsDto) {
+        return this.roomService.addParticipant(roomParticipantsDto);
+    }
+
     @GetMapping("/{id}")
     public RoomDetailDto getRoomDetail(@PathVariable("id") Long id) {
         return this.roomService.getRoomDetailDtoByRoomId(id);
@@ -51,9 +62,8 @@ public class RoomController {
     }
 
     @PostMapping
-    public Long postRoom(@RequestBody RoomPostDto roomPostDto) {
-        Room room = this.roomService.postRoom(roomPostDto);
-        return room.getId();
+    public CodeDto postRoom(@RequestBody RoomPostDto roomPostDto) {
+        return this.roomService.postRoom(roomPostDto);
     }
 
 }

@@ -6,7 +6,10 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 
 @Getter
 @Entity
@@ -16,12 +19,12 @@ public class RoomInviteCode extends InviteCode {
     @OneToOne(fetch = FetchType.LAZY)
     private Room room;
 
-    protected RoomInviteCode(Long roomId){
+    protected RoomInviteCode(Long roomId) {
         super();
         this.room = Room.of(roomId);
     }
 
-    static public RoomInviteCode of(Long roomId){
+    static public RoomInviteCode of(Long roomId) {
         return new RoomInviteCode(roomId);
     }
 //TODO

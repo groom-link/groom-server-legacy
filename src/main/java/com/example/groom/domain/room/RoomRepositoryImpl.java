@@ -4,6 +4,7 @@ import com.example.groom.domain.room.dto.RoomDto;
 import com.example.groom.domain.room.dto.RoomListResponseDto;
 import com.example.groom.domain.room.dto.RoomSearchCondition;
 import com.example.groom.domain.room.roomParticipants.RoomParticipantsRepository;
+import com.example.groom.entity.domain.room.Room;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -13,8 +14,10 @@ import org.springframework.data.domain.Pageable;
 import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static com.example.groom.entity.domain.room.QRoom.room;
+import static com.example.groom.entity.domain.room.QRoomParticipants.roomParticipants;
 
 
 public class RoomRepositoryImpl implements RoomRepositoryCustom {
@@ -27,6 +30,13 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
 
     public RoomRepositoryImpl(EntityManager em) {
         this.query = new JPAQueryFactory(em);
+    }
+
+    @Override
+    public Optional<Room> findByCode(String code) {
+        return Optional.ofNullable(query.selectFrom(room)
+                .where(room.roomInviteCode.code.eq(code))
+                .fetchOne());
     }
 
     @Override
@@ -43,10 +53,12 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
                         room.updatedAt
                 ))
                 .from(room)
+                .innerJoin(room.roomParticipants, roomParticipants)
                 .where(containsName(condition.getName()),
                         betweenDate(condition.getDateGoe(), condition.getDateLoe()),
                         eqOwnerId(condition.getOwnerId()),
-                        containsDescription(condition.getDescription())
+                        containsDescription(condition.getDescription()),
+                        eqParticipantId(condition.getParticipantId())
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -55,6 +67,10 @@ public class RoomRepositoryImpl implements RoomRepositoryCustom {
         boolean isLast = getIsLast(content, pageable);
 
         return RoomListResponseDto.of(content, pageable.getPageSize(), isLast);
+    }
+
+    private BooleanExpression eqParticipantId(Long participantId) {
+        return participantId != null ? roomParticipants.roomParticipant.id.eq(participantId) : null;
     }
 
     private BooleanExpression eqOwnerId(Long ownerId) {

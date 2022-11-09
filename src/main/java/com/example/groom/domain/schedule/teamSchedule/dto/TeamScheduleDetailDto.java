@@ -25,7 +25,7 @@ public class TeamScheduleDetailDto {
     private List<UserScheduleDto> participants;
 
     public static TeamScheduleDetailDto of(TeamSchedule teamSchedule) {
-        List<UserScheduleDto> participants = teamSchedule.getRoom().getRoomParticipants().stream().map(participant -> UserScheduleDto.of(participant.getUserInfo())).toList();
+        List<UserScheduleDto> participants = teamSchedule.getRoom().getRoomParticipants().stream().map(participant -> UserScheduleDto.of(participant.getRoomParticipant())).toList();
 
         return TeamScheduleDetailDto.builder()
                 .title(teamSchedule.getTitle())
