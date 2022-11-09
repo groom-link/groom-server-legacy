@@ -1,7 +1,6 @@
 package com.example.groom.domain.room.dto;
 
 
-import com.example.groom.domain.room.roomPenalty.dto.RoomPenaltyPostDto;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +20,4 @@ public class RoomPostDto {
     private Long maxPeople;
 
     private List<Long> roomParticipants = new ArrayList<>();
-
-    private RoomPenaltyPostDto roomPenaltyPostDto;
 }
