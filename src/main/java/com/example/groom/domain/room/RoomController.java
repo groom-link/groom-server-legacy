@@ -69,7 +69,13 @@ public class RoomController {
 
 
     @PostMapping
-    public CodeDto postRoom(@RequestBody RoomPostDto roomPostDto) {
+    public CodeDto postRoom(JwtAuthentication authentication, @RequestBody RoomPostDto roomPostDto) {
+
+        //임시
+        roomPostDto.getRoomParticipants().add(authentication.getPrincipal());
+        roomPostDto.getRoomParticipants().remove(3);
+        roomPostDto.getRoomParticipants().remove(6);
+
         return this.roomService.postRoom(roomPostDto);
     }
 
