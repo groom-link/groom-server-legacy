@@ -73,8 +73,6 @@ public class RoomController {
 
         //임시
         roomPostDto.getRoomParticipants().add(authentication.getPrincipal());
-        roomPostDto.getRoomParticipants().remove(new Long(3));
-        roomPostDto.getRoomParticipants().remove(new Long(6));
 
         return this.roomService.postRoom(roomPostDto);
     }
