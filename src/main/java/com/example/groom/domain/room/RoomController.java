@@ -47,6 +47,11 @@ public class RoomController {
         return this.roomService.addParticipant(roomParticipantsDto);
     }
 
+    @DeleteMapping("/participant")
+    public Long deleteParticipant(@RequestBody RoomParticipantsDto roomParticipantsDto) {
+        return this.roomService.deleteParticipant(roomParticipantsDto);
+    }
+
     @GetMapping("/{id}")
     public RoomDetailDto getRoomDetail(@PathVariable("id") Long id) {
         return this.roomService.getRoomDetailDtoByRoomId(id);

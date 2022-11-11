@@ -43,6 +43,11 @@ public class RoomService {
         return roomParticipantsDto.getRoomId();
     }
 
+    public Long deleteParticipant(RoomParticipantsDto roomParticipantsDto) {
+        this.roomParticipantsService.delete(roomParticipantsDto);
+        return roomParticipantsDto.getRoomId();
+    }
+
     public RoomListResponseDto getMyRoomList(Pageable pageable, Long userId) {
         RoomSearchCondition condition = new RoomSearchCondition();
         condition.setParticipantId(userId);

@@ -54,6 +54,8 @@ public class TodoService {
         todo = todo.of(todoUpdateDto);
         UserInfo todoOwner = userInfoRepository.findById(todoUpdateDto.getTodoOwnerId()).get();
 
+        // TODO: 2022-11-12 Todo todoOnwer 조회쿼리 없이 못하나..?
+
         return TodoDetailDto.of(todo, todoOwner);
     }
 }
