@@ -3,16 +3,15 @@ package com.example.groom.domain.todo;
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.auth.userInfo.UserInfoRepository;
-import com.example.groom.domain.todo.Dto.TodoDetailDto;
-import com.example.groom.domain.todo.Dto.TodoDto;
-import com.example.groom.domain.todo.Dto.TodoListResponseDto;
-import com.example.groom.domain.todo.Dto.TodoSearchCondition;
+import com.example.groom.domain.todo.Dto.*;
 import com.example.groom.domain.todo.Repository.TodoRepository;
 import com.example.groom.entity.domain.auth.UserInfo;
 import com.example.groom.entity.domain.todo.Todo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +47,15 @@ public class TodoService {
         }
     }
 
-    public TodoDetailDto updateTodo(TodoDetailDto todoDetailDto) {
-        return TodoDetailDto.of(this.todoRepository.save(Todo.of(todoDetailDto)));
+    @Transactional
+    public TodoDetailDto updateTodo(TodoUpdateDto todoUpdateDto) {
+        Todo todo = this.todoRepository.findById(todoUpdateDto.getId()).orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
+
+        todo = todo.of(todoUpdateDto);
+        UserInfo todoOwner = userInfoRepository.findById(todoUpdateDto.getTodoOwnerId()).get();
+
+        // TODO: 2022-11-12 Todo todoOnwer 조회쿼리 없이 못하나..?
+
+        return TodoDetailDto.of(todo, todoOwner);
     }
 }

@@ -1,8 +1,8 @@
 package com.example.groom.entity.domain.todo;
 
 
-import com.example.groom.domain.todo.Dto.TodoDetailDto;
 import com.example.groom.domain.todo.Dto.TodoDto;
+import com.example.groom.domain.todo.Dto.TodoUpdateDto;
 import com.example.groom.entity.common.CoopEntity;
 import com.example.groom.entity.domain.auth.UserInfo;
 import com.example.groom.entity.domain.room.Room;
@@ -63,22 +63,17 @@ public class Todo extends CoopEntity {
         super(id);
     }
 
-
-    protected Todo(TodoDetailDto todoDetailDto) {
-        super(todoDetailDto.getId());
-        this.title = todoDetailDto.getTitle();
-        this.content = todoDetailDto.getContent();
-        this.roomSlot = todoDetailDto.getRoomSlot();
-        this.fileUrl = todoDetailDto.getFileUrl();
-        this.todoOwner = UserInfo.of(todoDetailDto.getTodoOwner().getId());
-        this.fileUrl = todoDetailDto.getFileUrl();
-    }
-
-    public static Todo of(TodoDetailDto todoDetailDto) {
-        return new Todo(todoDetailDto);
-    }
-
     public static Todo of(TodoDto todoDto) {
         return new Todo(todoDto);
+    }
+
+    public Todo of(TodoUpdateDto todoUpdateDto) {
+        this.title = todoUpdateDto.getTitle();
+        this.content = todoUpdateDto.getContent();
+        this.roomSlot = todoUpdateDto.getRoomSlot();
+        this.fileUrl = todoUpdateDto.getFileUrl();
+        this.todoOwner = UserInfo.of(todoUpdateDto.getTodoOwnerId());
+
+        return this;
     }
 }

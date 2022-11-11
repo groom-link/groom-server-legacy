@@ -2,10 +2,7 @@ package com.example.groom.domain.room;
 
 
 import com.example.groom.common.auth.jwt.JwtAuthentication;
-import com.example.groom.domain.room.dto.RoomDetailDto;
-import com.example.groom.domain.room.dto.RoomListResponseDto;
-import com.example.groom.domain.room.dto.RoomPostDto;
-import com.example.groom.domain.room.dto.RoomSearchCondition;
+import com.example.groom.domain.room.dto.*;
 import com.example.groom.domain.room.roomInviteCode.dto.CodeDto;
 import com.example.groom.domain.room.roomParticipants.dto.RoomParticipantsDto;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
@@ -31,6 +28,10 @@ public class RoomController {
 
     private final UnableScheduleService unableScheduleService;
 
+    @PatchMapping
+    public RoomDetailDto updateRoom(@RequestBody RoomUpdateDto roomUpdateDto) {
+        return roomService.updateRoom(roomUpdateDto);
+    }
 
     @GetMapping
     public RoomListResponseDto searchRoom(Pageable pageable, RoomSearchCondition roomSearchCondition) {
@@ -45,6 +46,16 @@ public class RoomController {
     @PostMapping("/participant")
     public Long addParticipant(@RequestBody RoomParticipantsDto roomParticipantsDto) {
         return this.roomService.addParticipant(roomParticipantsDto);
+    }
+
+    @DeleteMapping("/participant/me")
+    public Long exitRoom(JwtAuthentication authentication, @RequestParam Long roomId) {
+        return this.roomService.deleteParticipant(RoomParticipantsDto.of(roomId, authentication.getPrincipal()));
+    }
+
+    @DeleteMapping("/participant")
+    public Long deleteParticipant(@RequestBody RoomParticipantsDto roomParticipantsDto) {
+        return this.roomService.deleteParticipant(roomParticipantsDto);
     }
 
     @GetMapping("/{id}")

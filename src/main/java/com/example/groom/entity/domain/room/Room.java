@@ -2,6 +2,7 @@ package com.example.groom.entity.domain.room;
 
 
 import com.example.groom.domain.room.dto.RoomPostDto;
+import com.example.groom.domain.room.dto.RoomUpdateDto;
 import com.example.groom.entity.common.OwnEntity;
 import lombok.*;
 import org.hibernate.annotations.LazyCollection;
@@ -63,5 +64,13 @@ public class Room extends OwnEntity {
 
     public static Room of(Long roomId) {
         return new Room(roomId);
+    }
+
+    public Room of(RoomUpdateDto roomUpdateDto) {
+        this.name = roomUpdateDto.getName();
+        this.description = roomUpdateDto.getDescription();
+        this.mainImageUrl = roomUpdateDto.getMainImageUrl();
+        this.maxPeople = roomUpdateDto.getMaxPeople();
+        return this;
     }
 }

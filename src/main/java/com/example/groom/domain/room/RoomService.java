@@ -1,10 +1,7 @@
 package com.example.groom.domain.room;
 
 
-import com.example.groom.domain.room.dto.RoomDetailDto;
-import com.example.groom.domain.room.dto.RoomListResponseDto;
-import com.example.groom.domain.room.dto.RoomPostDto;
-import com.example.groom.domain.room.dto.RoomSearchCondition;
+import com.example.groom.domain.room.dto.*;
 import com.example.groom.domain.room.roomInviteCode.RoomInviteCodeService;
 import com.example.groom.domain.room.roomInviteCode.dto.CodeDto;
 import com.example.groom.domain.room.roomParticipants.RoomParticipantsService;
@@ -43,6 +40,11 @@ public class RoomService {
         return roomParticipantsDto.getRoomId();
     }
 
+    public Long deleteParticipant(RoomParticipantsDto roomParticipantsDto) {
+        this.roomParticipantsService.delete(roomParticipantsDto);
+        return roomParticipantsDto.getRoomId();
+    }
+
     public RoomListResponseDto getMyRoomList(Pageable pageable, Long userId) {
         RoomSearchCondition condition = new RoomSearchCondition();
         condition.setParticipantId(userId);
@@ -58,5 +60,12 @@ public class RoomService {
         CodeDto codeDto = roomInviteCodeService.save(room.getId());
 
         return codeDto;
+    }
+
+    @Transactional
+    public RoomDetailDto updateRoom(RoomUpdateDto roomUpdateDto) {
+        Room room = this.roomRepository.findById(roomUpdateDto.getId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 방입니다."));
+
+        return RoomDetailDto.of(room.of(roomUpdateDto));
     }
 }
