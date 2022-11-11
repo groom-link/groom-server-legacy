@@ -47,6 +47,11 @@ public class RoomController {
         return this.roomService.addParticipant(roomParticipantsDto);
     }
 
+    @DeleteMapping("/participant/me")
+    public Long exitRoom(JwtAuthentication authentication, @RequestParam Long roomId) {
+        return this.roomService.deleteParticipant(RoomParticipantsDto.of(roomId, authentication.getPrincipal()));
+    }
+
     @DeleteMapping("/participant")
     public Long deleteParticipant(@RequestBody RoomParticipantsDto roomParticipantsDto) {
         return this.roomService.deleteParticipant(roomParticipantsDto);
