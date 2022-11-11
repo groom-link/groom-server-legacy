@@ -1,9 +1,6 @@
 package com.example.groom.domain.todo;
 
-import com.example.groom.domain.todo.Dto.TodoDetailDto;
-import com.example.groom.domain.todo.Dto.TodoDto;
-import com.example.groom.domain.todo.Dto.TodoListResponseDto;
-import com.example.groom.domain.todo.Dto.TodoSearchCondition;
+import com.example.groom.domain.todo.Dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +34,7 @@ public class TodoController {
     }
 
     @PatchMapping
-    public TodoDetailDto updateTodo(@RequestBody TodoDetailDto todoDetailDto) {
-        return todoService.updateTodo(todoDetailDto);
+    public TodoDetailDto updateTodo(@RequestBody TodoUpdateDto todoUpdateDto) {
+        return todoService.updateTodo(todoUpdateDto);
     }
 }
