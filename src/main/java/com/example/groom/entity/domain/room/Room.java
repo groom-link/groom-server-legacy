@@ -70,7 +70,7 @@ public class Room extends OwnEntity {
         this.name = roomUpdateDto.getName();
         this.description = roomUpdateDto.getDescription();
         this.mainImageUrl = roomUpdateDto.getMainImageUrl();
-        this.maxPeople = roomUpdateDto.getMaxPeopleNumber();
+        this.maxPeople = roomUpdateDto.getMaxPeople();
         return this;
     }
 }
