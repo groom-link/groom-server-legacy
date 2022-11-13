@@ -14,6 +14,8 @@ import java.util.List;
 @Builder
 public class TeamScheduleDetailDto {
 
+    private Long id;
+
     private String title;
 
     private String startTime;
@@ -25,9 +27,10 @@ public class TeamScheduleDetailDto {
     private List<UserScheduleDto> participants;
 
     public static TeamScheduleDetailDto of(TeamSchedule teamSchedule) {
-        List<UserScheduleDto> participants = teamSchedule.getRoom().getRoomParticipants().stream().map(participant -> UserScheduleDto.of(participant.getRoomParticipant())).toList();
+        List<UserScheduleDto> participants = teamSchedule.getParticipants().stream().map(participant -> UserScheduleDto.of(participant.getParticipant())).toList();
 
         return TeamScheduleDetailDto.builder()
+                .id(teamSchedule.getId())
                 .title(teamSchedule.getTitle())
                 .startTime(teamSchedule.getStartTime().toString())
                 .endTime(teamSchedule.getEndTime().toString())

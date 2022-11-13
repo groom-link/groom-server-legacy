@@ -19,7 +19,7 @@ public class UserScheduleDto {
     public static UserScheduleDto of(UserInfo userInfo) {
         return UserScheduleDto.builder()
                 .id(userInfo.getId())
-                .username(userInfo.getUser().getUsername())
+                .username(userInfo.getKakao().getKakaoAccount().getProfile().getNickname())
                 .profileImage(userInfo.getKakao().getKakaoAccount().getProfile().getProfileImageUrl())
                 .build();
     }
