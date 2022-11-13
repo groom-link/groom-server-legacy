@@ -67,6 +67,11 @@ public class Todo extends CoopEntity {
         return new Todo(todoDto);
     }
 
+    public Todo of(RoomSlotSample roomSlot) {
+        this.roomSlot = roomSlot;
+        return this;
+    }
+
     public Todo of(TodoUpdateDto todoUpdateDto) {
         this.title = todoUpdateDto.getTitle();
         this.content = todoUpdateDto.getContent();

@@ -37,4 +37,9 @@ public class TodoController {
     public TodoDetailDto updateTodo(@RequestBody TodoUpdateDto todoUpdateDto) {
         return todoService.updateTodo(todoUpdateDto);
     }
+
+    @PatchMapping("/roomSlot")
+    public TodoDetailDto updateRoomSlot(@RequestBody RoomSlotDto roomSlotDto) {
+        return todoService.updateTodo(roomSlotDto);
+    }
 }

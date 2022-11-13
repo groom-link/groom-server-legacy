@@ -58,4 +58,13 @@ public class TodoService {
 
         return TodoDetailDto.of(todo, todoOwner);
     }
+
+    @Transactional
+    public TodoDetailDto updateTodo(RoomSlotDto roomSlotDto) {
+        Todo todo = this.todoRepository.findById(roomSlotDto.getId()).orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
+
+        todo = todo.of(roomSlotDto.getRoomSlot());
+
+        return TodoDetailDto.of(todo);
+    }
 }
