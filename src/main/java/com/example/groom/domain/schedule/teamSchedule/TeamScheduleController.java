@@ -1,9 +1,6 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDetailDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListResponseDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
+import com.example.groom.domain.schedule.teamSchedule.dto.*;
 import com.example.groom.entity.enums.RequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +26,11 @@ public class TeamScheduleController {
         teamScheduleService.deleteTeamSchedule(id);
 
         return id;
+    }
+
+    @PatchMapping
+    public TeamScheduleDetailDto patchTeamSchedule(@RequestBody TeamScheduleUpdateDto teamScheduleUpdateDto) {
+        return teamScheduleService.updateTeamSchedule(teamScheduleUpdateDto);
     }
 
     @PatchMapping("/{teamScheduleId}/participation/{userId}")

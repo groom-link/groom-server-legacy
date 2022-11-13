@@ -2,6 +2,7 @@ package com.example.groom.entity.domain.schedule;
 
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
+import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleUpdateDto;
 import com.example.groom.entity.domain.room.Room;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -47,5 +48,14 @@ public class TeamSchedule extends Schedule {
 
     static public TeamSchedule of(Long id) {
         return new TeamSchedule(id);
+    }
+
+    public TeamSchedule of(TeamScheduleUpdateDto teamScheduleUpdateDto) {
+        super.setStartTime(teamScheduleUpdateDto.getStartTime());
+        super.setEndTime(teamScheduleUpdateDto.getEndTime());
+        this.title = teamScheduleUpdateDto.getTitle();
+        this.meetingLocation = teamScheduleUpdateDto.getMeetingLocation();
+
+        return this;
     }
 }

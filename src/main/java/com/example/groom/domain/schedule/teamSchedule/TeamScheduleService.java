@@ -3,10 +3,7 @@ package com.example.groom.domain.schedule.teamSchedule;
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDetailDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListResponseDto;
-import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
+import com.example.groom.domain.schedule.teamSchedule.dto.*;
 import com.example.groom.domain.schedule.teamScheduleUser.TeamScheduleUserService;
 import com.example.groom.domain.schedule.teamScheduleUser.dto.TeamScheduleUserDto;
 import com.example.groom.domain.schedule.unableSchedule.UnableScheduleService;
@@ -16,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -58,6 +56,16 @@ public class TeamScheduleService {
         } else {
             throw new CustomException(ErrorCode.SCHEDULE_NOT_FOUND);
         }
+    }
+
+    @Transactional
+    public TeamScheduleDetailDto updateTeamSchedule(TeamScheduleUpdateDto teamScheduleUpdateDto) {
+        TeamSchedule teamSchedule = teamScheduleRepository.findById(teamScheduleUpdateDto.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
+
+        teamSchedule = teamSchedule.of(teamScheduleUpdateDto);
+
+        return TeamScheduleDetailDto.of(teamSchedule);
     }
 
     public void updateParticipation(Long teamScheduleId, Long userId, RequestStatus status) {
