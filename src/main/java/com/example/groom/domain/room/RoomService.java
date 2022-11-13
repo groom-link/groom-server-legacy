@@ -62,6 +62,10 @@ public class RoomService {
         return codeDto;
     }
 
+    public void deleteRoom(Long id) {
+        this.roomRepository.deleteById(id);
+    }
+
     @Transactional
     public RoomDetailDto updateRoom(RoomUpdateDto roomUpdateDto) {
         Room room = this.roomRepository.findById(roomUpdateDto.getId()).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 방입니다."));
