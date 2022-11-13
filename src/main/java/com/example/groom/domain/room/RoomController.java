@@ -33,6 +33,13 @@ public class RoomController {
         return roomService.updateRoom(roomUpdateDto);
     }
 
+    @DeleteMapping("/{id}")
+    public Long deleteRoom(@PathVariable Long id) {
+        roomService.deleteRoom(id);
+        return id;
+    }
+
+
     @GetMapping
     public RoomListResponseDto searchRoom(Pageable pageable, RoomSearchCondition roomSearchCondition) {
         return this.roomService.searchRooms(pageable, roomSearchCondition);

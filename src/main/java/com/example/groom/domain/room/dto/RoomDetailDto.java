@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RoomDetailDto {
     private Long id;
+    private Long ownerId;
     private String name;
     private String description;
     private String mainImageUrl;
@@ -29,6 +30,7 @@ public class RoomDetailDto {
         ).toList();
         return new RoomDetailDto(
                 room.getId(),
+                room.getOwner().getId(),
                 room.getName(),
                 room.getDescription(),
                 room.getMainImageUrl(),
