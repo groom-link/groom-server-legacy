@@ -29,7 +29,7 @@ public class TeamScheduleController {
     }
 
     @PatchMapping
-    public TeamScheduleDetailDto patchTeamSchedule(@RequestBody TeamScheduleUpdateDto teamScheduleUpdateDto) {
+    public Long patchTeamSchedule(@RequestBody TeamScheduleUpdateDto teamScheduleUpdateDto) {
         return teamScheduleService.updateTeamSchedule(teamScheduleUpdateDto);
     }
 

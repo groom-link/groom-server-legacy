@@ -39,10 +39,7 @@ public class TeamScheduleService {
 
         // 팀 스케줄 참여자 중간테이블 생성
         teamScheduleDto.getParticipantsIds().forEach(participantId -> {
-            TeamScheduleUserDto teamScheduleUserDto = new TeamScheduleUserDto();
-            teamScheduleUserDto.setTeamScheduleId(teamSchedule.getId());
-            teamScheduleUserDto.setUserId(participantId);
-            teamScheduleUserDto.setStatus(RequestStatus.PENDING);
+            TeamScheduleUserDto teamScheduleUserDto = new TeamScheduleUserDto(teamSchedule.getId(), participantId, RequestStatus.PENDING);
 
             teamScheduleUserService.createTeamScheduleUser(teamScheduleUserDto);
         });
@@ -59,13 +56,35 @@ public class TeamScheduleService {
     }
 
     @Transactional
-    public TeamScheduleDetailDto updateTeamSchedule(TeamScheduleUpdateDto teamScheduleUpdateDto) {
+    public Long updateTeamSchedule(TeamScheduleUpdateDto teamScheduleUpdateDto) {
         TeamSchedule teamSchedule = teamScheduleRepository.findById(teamScheduleUpdateDto.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.SCHEDULE_NOT_FOUND));
 
         teamSchedule = teamSchedule.of(teamScheduleUpdateDto);
+        Long teamScheduleId = teamSchedule.getId();
 
-        return TeamScheduleDetailDto.of(teamSchedule);
+        List<Long> participatingIds = teamSchedule.getParticipants().stream()
+                .map(participant -> participant.getParticipant().getId())
+                .toList();
+
+        participatingIds.forEach(participantId -> {
+            // 참여자가 삭제된 경우
+            if (!teamScheduleUpdateDto.getParticipants().contains(participantId)) {
+
+                teamScheduleUserService.deleteTeamScheduleUser(participantId, teamScheduleId);
+            }
+        });
+
+        teamScheduleUpdateDto.getParticipants().forEach(participantId -> {
+            // 참여자가 추가된 경우
+            if (!participatingIds.contains(participantId)) {
+                TeamScheduleUserDto teamScheduleUserDto = new TeamScheduleUserDto(teamScheduleId, participantId, RequestStatus.PENDING);
+
+                teamScheduleUserService.createTeamScheduleUser(teamScheduleUserDto);
+            }
+        });
+
+        return teamScheduleId;
     }
 
     public void updateParticipation(Long teamScheduleId, Long userId, RequestStatus status) {
@@ -96,7 +115,7 @@ public class TeamScheduleService {
         unableScheduleSet.add(new ScheduleDto(teamScheduleSearchCondition.getEndTime(), teamScheduleSearchCondition.getEndTime()));
 
         // 팀원들의 불가한 시간
-        participants.stream().forEach(participant -> {
+        participants.forEach(participant -> {
             teamScheduleSearchCondition.setUserId(participant);
 
             unableScheduleSet.addAll(teamScheduleRepository.searchByCondition(teamScheduleSearchCondition));
