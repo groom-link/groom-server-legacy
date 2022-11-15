@@ -32,7 +32,7 @@ public class FileController {
     private final FileService fileService;
 
     @PostMapping()
-    public Long fileUpload(
+    public String fileUpload(
             @RequestPart MultipartFile file
     ) throws IOException {
 
@@ -40,19 +40,19 @@ public class FileController {
 
     }
 
-    @GetMapping("/{id}")
-    public Resource downloadFile(@PathVariable Long id)
+    @GetMapping("/{name}")
+    public Resource downloadFile(@PathVariable String name)
             throws FileNotFoundException {
 
-        Resource resource = fileService.loadFile(id);
+        Resource resource = fileService.loadFile(name);
 
         return resource;
     }
 
-    @DeleteMapping("/{id}")
-    public void removeFile(@PathVariable Long id)
-            throws FileNotFoundException {
+    @DeleteMapping("/{name}")
+    public void removeFile(@PathVariable String name)
+            {
 
-        fileService.deleteFile(id);
+        fileService.deleteFile(name);
     }
 }

@@ -30,7 +30,7 @@ public class FileService {
     @Value("${upload-path}")
     private String uploadDir;
 
-    public Long fileUpload(MultipartFile multipartFile) throws IOException {
+    public String  fileUpload(MultipartFile multipartFile) throws IOException {
         // File.seperator 는 OS종속적이다.
         // Spring에서 제공하는 cleanPath()를 통해서 ../ 내부 점들에 대해서 사용을 억제한다
         Attachment attachment = Attachment.of(uploadDir, multipartFile);
@@ -40,7 +40,7 @@ public class FileService {
             FileOutputStream output = new FileOutputStream(imagePath+attachment.getUuidFileName());
             output.write(multipartFile.getBytes());
             fileRepository.save(attachment);
-            return attachment.getId();
+            return attachment.getUuidFileName();
         } catch (IOException e) {
             e.printStackTrace();
             throw new CustomException(ErrorCode.FILE_UPLOAD_FAILED);
@@ -48,8 +48,8 @@ public class FileService {
 
     }
 
-    public Resource loadFile(Long id) throws FileNotFoundException {
-        Attachment attachment = this.fileRepository.findById(id).orElseThrow(()-> new CustomException(ErrorCode.FILE_UPLOAD_FAILED));
+    public Resource loadFile(String name) throws FileNotFoundException {
+        Attachment attachment = this.fileRepository.findByUuidFileName(name).orElseThrow(()-> new CustomException(ErrorCode.FILE_UPLOAD_FAILED));
         try {
             Path file = Path.of(this.uploadDir).resolve(attachment.getUuidFileName()).normalize();
             Resource resource = new UrlResource(file.toUri());
@@ -65,8 +65,8 @@ public class FileService {
 
     }
 
-    public void deleteFile(Long id) {
-        Attachment attachment = this.fileRepository.findById(id).orElseThrow(()-> new CustomException(ErrorCode.FILE_UPLOAD_FAILED));
+    public void deleteFile(String name) {
+        Attachment attachment = this.fileRepository.findByUuidFileName(name).orElseThrow(()-> new CustomException(ErrorCode.FILE_UPLOAD_FAILED));
         File file = new File(attachment.getUrl());
         if( file.delete() ){
             System.out.println(file.getName()+" 삭제성공");
