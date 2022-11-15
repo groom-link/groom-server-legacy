@@ -4,6 +4,7 @@ import com.example.groom.entity.domain.schedule.MeetingLocation;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class TeamScheduleUpdateDto {
@@ -16,4 +17,6 @@ public class TeamScheduleUpdateDto {
     private LocalDateTime endTime;
 
     private MeetingLocation meetingLocation;
+
+    private List<Long> participants;
 }
