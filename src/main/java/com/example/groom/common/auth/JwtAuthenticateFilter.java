@@ -36,6 +36,7 @@ public class JwtAuthenticateFilter extends OncePerRequestFilter {
         ContentCachingResponseWrapper wrappingResponse = new ContentCachingResponseWrapper(response);
         AuthenticationToken token = jwtAuthenticationTokenProvider.getTokenFromHeader(request);
         if (token.getAccessToken() == null) {
+
             filterChain.doFilter(wrappingRequest, wrappingResponse);
             wrappingResponse.copyBodyToResponse();
             return;
