@@ -5,6 +5,7 @@ import com.example.groom.domain.room.dto.RoomPostDto;
 import com.example.groom.domain.room.dto.RoomUpdateDto;
 import com.example.groom.entity.common.OwnEntity;
 import com.example.groom.entity.domain.schedule.TeamSchedule;
+import com.example.groom.entity.domain.todo.Todo;
 import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -44,6 +45,9 @@ public class Room extends OwnEntity {
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private List<TeamSchedule> teamSchedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private List<Todo> todos = new ArrayList<>();
 
     @JoinColumn
     @OneToOne(mappedBy = "room", cascade = CascadeType.ALL)
