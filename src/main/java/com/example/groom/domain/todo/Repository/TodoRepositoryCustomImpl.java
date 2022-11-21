@@ -1,8 +1,8 @@
 package com.example.groom.domain.todo.Repository;
 
-import com.example.groom.domain.todo.Dto.TodoListDto;
-import com.example.groom.domain.todo.Dto.TodoListResponseDto;
-import com.example.groom.domain.todo.Dto.TodoSearchCondition;
+import com.example.groom.domain.todo.dto.TodoListDto;
+import com.example.groom.domain.todo.dto.TodoListResponseDto;
+import com.example.groom.domain.todo.dto.TodoSearchCondition;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;

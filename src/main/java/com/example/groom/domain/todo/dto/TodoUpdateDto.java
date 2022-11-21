@@ -1,4 +1,4 @@
-package com.example.groom.domain.todo.Dto;
+package com.example.groom.domain.todo.dto;
 
 import com.example.groom.entity.enums.RoomSlotSample;
 import lombok.Builder;

@@ -1,4 +1,4 @@
-package com.example.groom.domain.todo.Dto;
+package com.example.groom.domain.todo.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

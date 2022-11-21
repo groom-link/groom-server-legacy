@@ -2,6 +2,7 @@ package com.example.groom.entity.common;
 
 
 import com.example.groom.entity.domain.auth.UserInfo;
+import com.querydsl.core.annotations.QueryInit;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +19,11 @@ import javax.persistence.MappedSuperclass;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class OwnEntity extends BaseEntity{
+public class OwnEntity extends BaseEntity {
     @CreatedBy
     @JoinColumn
     @ManyToOne
+    @QueryInit("kakao.kakaoAccount.profile")
     private UserInfo owner;
 
     protected OwnEntity(Long id) {
