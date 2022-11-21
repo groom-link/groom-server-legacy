@@ -1,9 +1,9 @@
 package com.example.groom.entity.domain.todo;
 
 
-import com.example.groom.domain.todo.Dto.TodoDto;
-import com.example.groom.domain.todo.Dto.TodoFileDto;
-import com.example.groom.domain.todo.Dto.TodoUpdateDto;
+import com.example.groom.domain.todo.dto.TodoDto;
+import com.example.groom.domain.todo.dto.TodoFileDto;
+import com.example.groom.domain.todo.dto.TodoUpdateDto;
 import com.example.groom.entity.common.CoopEntity;
 import com.example.groom.entity.domain.auth.UserInfo;
 import com.example.groom.entity.domain.room.Room;
@@ -14,6 +14,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -53,6 +55,9 @@ public class Todo extends CoopEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Room room;
 
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
+    private List<Evaluation> evaluations = new ArrayList<>();
+
     protected Todo(TodoDto todoDto) {
         this.title = todoDto.getTitle();
         this.content = todoDto.getContent();
@@ -63,12 +68,16 @@ public class Todo extends CoopEntity {
         //this.roomSlot = RoomSlot.of(todoDto.getRoomSlotId());
     }
 
-    public Todo(Long id) {
+    protected Todo(Long id) {
         super(id);
     }
 
     public static Todo of(TodoDto todoDto) {
         return new Todo(todoDto);
+    }
+
+    public static Todo of(Long id) {
+        return new Todo(id);
     }
 
     public Todo of(RoomSlotSample roomSlot) {

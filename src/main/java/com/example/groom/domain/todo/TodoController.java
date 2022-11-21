@@ -1,6 +1,6 @@
 package com.example.groom.domain.todo;
 
-import com.example.groom.domain.todo.Dto.*;
+import com.example.groom.domain.todo.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
