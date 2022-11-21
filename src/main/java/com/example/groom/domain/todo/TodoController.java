@@ -38,6 +38,11 @@ public class TodoController {
         return todoService.updateTodo(todoUpdateDto);
     }
 
+    @PatchMapping("/file")
+    public TodoDetailDto uploadFile(@RequestBody TodoFileDto todoFileDto) {
+        return todoService.updateFile(todoFileDto);
+    }
+
     @PatchMapping("/roomSlot")
     public TodoDetailDto updateRoomSlot(@RequestBody RoomSlotDto roomSlotDto) {
         return todoService.updateTodo(roomSlotDto);

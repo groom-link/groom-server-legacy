@@ -2,6 +2,7 @@ package com.example.groom.entity.domain.todo;
 
 
 import com.example.groom.domain.todo.Dto.TodoDto;
+import com.example.groom.domain.todo.Dto.TodoFileDto;
 import com.example.groom.domain.todo.Dto.TodoUpdateDto;
 import com.example.groom.entity.common.CoopEntity;
 import com.example.groom.entity.domain.auth.UserInfo;
@@ -31,6 +32,9 @@ public class Todo extends CoopEntity {
 
     @Column
     private String fileUrl;
+
+    @Column
+    private String fileName;
 
 //    @JoinColumn
 //    @ManyToOne(fetch = FetchType.LAZY)
@@ -72,11 +76,18 @@ public class Todo extends CoopEntity {
         return this;
     }
 
+    public Todo of(TodoFileDto todoFileDto) {
+        this.fileUrl = todoFileDto.getFileUrl();
+        this.fileName = todoFileDto.getFileName();
+        return this;
+    }
+
     public Todo of(TodoUpdateDto todoUpdateDto) {
         this.title = todoUpdateDto.getTitle();
         this.content = todoUpdateDto.getContent();
         this.roomSlot = todoUpdateDto.getRoomSlot();
         this.fileUrl = todoUpdateDto.getFileUrl();
+        this.fileName = todoUpdateDto.getFileName();
         this.todoOwner = UserInfo.of(todoUpdateDto.getTodoOwnerId());
 
         return this;

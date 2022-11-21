@@ -19,6 +19,8 @@ public class TodoDetailDto {
 
     private String fileUrl;
 
+    private String fileName;
+
     private RoomSlotSample roomSlot;
 
     private UserInfoRoomDto todoOwner;
@@ -29,6 +31,7 @@ public class TodoDetailDto {
                 .title(todo.getTitle())
                 .content(todo.getContent())
                 .fileUrl(todo.getFileUrl())
+                .fileName(todo.getFileName())
                 .roomSlot(todo.getRoomSlot())
                 .todoOwner(UserInfoRoomDto.of(todoOwner))
                 .build();
@@ -40,6 +43,7 @@ public class TodoDetailDto {
                 .title(todo.getTitle())
                 .content(todo.getContent())
                 .fileUrl(todo.getFileUrl())
+                .fileName(todo.getFileName())
                 .roomSlot(todo.getRoomSlot())
                 .todoOwner(UserInfoRoomDto.of(todo))
                 .build();

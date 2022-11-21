@@ -48,6 +48,15 @@ public class TodoService {
     }
 
     @Transactional
+    public TodoDetailDto updateFile(TodoFileDto todoFileDto) {
+        Todo todo = this.todoRepository.findById(todoFileDto.getId()).orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
+
+        todo.of(todoFileDto);
+
+        return TodoDetailDto.of(todo);
+    }
+
+    @Transactional
     public TodoDetailDto updateTodo(TodoUpdateDto todoUpdateDto) {
         Todo todo = this.todoRepository.findById(todoUpdateDto.getId()).orElseThrow(() -> new CustomException(ErrorCode.TODO_NOT_FOUND));
 
