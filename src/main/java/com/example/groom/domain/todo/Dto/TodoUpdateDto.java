@@ -16,6 +16,8 @@ public class TodoUpdateDto {
 
     private String fileUrl;
 
+    private String fileName;
+
     private RoomSlotSample roomSlot;
 
     private Long todoOwnerId;
