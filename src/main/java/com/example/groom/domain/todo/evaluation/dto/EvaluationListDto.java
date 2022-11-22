@@ -18,13 +18,16 @@ public class EvaluationListDto {
 
     private String comment;
 
+    private Long ownerId;
+
     public static EvaluationListDto of(Evaluation evaluation) {
         return new EvaluationListDto(
                 evaluation.getId(),
                 evaluation.getOwner().getKakao().getKakaoAccount().getProfile().getNickname(),
                 evaluation.getOwner().getKakao().getKakaoAccount().getProfile().getProfileImageUrl(),
                 evaluation.getScore(),
-                evaluation.getComment()
+                evaluation.getComment(),
+                evaluation.getOwner().getId()
         );
     }
 }
