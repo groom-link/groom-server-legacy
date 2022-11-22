@@ -34,7 +34,8 @@ public class TodoRepositoryCustomImpl implements TodoRepositoryCustom {
                         todo.content,
                         todo.todoOwner.kakao.kakaoAccount.profile.nickname,
                         todo.todoOwner.kakao.kakaoAccount.profile.profileImageUrl,
-                        todo.roomSlot))
+                        todo.roomSlot,
+                        todo.todoOwner.id))
                 .from(todo)
                 .where(eqRoomId(todoSearchCondition.getRoomId()),
                         eqUserId(todoSearchCondition.getUserId()))
