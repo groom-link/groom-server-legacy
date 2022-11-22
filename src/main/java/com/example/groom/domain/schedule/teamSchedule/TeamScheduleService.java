@@ -2,6 +2,7 @@ package com.example.groom.domain.schedule.teamSchedule;
 
 import com.example.groom.common.exception.CustomException;
 import com.example.groom.common.exception.ErrorCode;
+import com.example.groom.domain.room.roomParticipants.RoomParticipantsService;
 import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.*;
 import com.example.groom.domain.schedule.teamScheduleUser.TeamScheduleUserService;
@@ -28,7 +29,7 @@ public class TeamScheduleService {
 
     private final TeamScheduleRepository teamScheduleRepository;
     private final TeamScheduleUserService teamScheduleUserService;
-
+    private final RoomParticipantsService roomParticipantsService;
     private final UnableScheduleService unableScheduleService;
 
     public TeamScheduleDetailDto createTeamSchedule(TeamScheduleDto teamScheduleDto) {
@@ -87,16 +88,8 @@ public class TeamScheduleService {
         return teamScheduleId;
     }
 
-    public void updateParticipation(Long teamScheduleId, Long userId, RequestStatus status) {
-        teamScheduleRepository.updateParticipation(teamScheduleId, userId, status);
-    }
-
     public TeamScheduleListResponseDto searchByCondition(Pageable pageable, TeamScheduleSearchCondition teamScheduleSearchCondition) {
         return teamScheduleRepository.searchByCondition(pageable, teamScheduleSearchCondition);
-    }
-
-    public List<Long> getParticipants(Long teamScheduleId) {
-        return teamScheduleRepository.getParticipants(teamScheduleId);
     }
 
     public List<ScheduleDto> getRecommendSchedule(Long roomId, LocalDate date) {
@@ -105,7 +98,7 @@ public class TeamScheduleService {
 
         // TODO: 2022-10-21 1. 불가능한 스케줄 리스트 가져오기
 
-        List<Long> participants = teamScheduleRepository.getParticipants(roomId);
+        List<Long> participants = roomParticipantsService.getParticipantsIds(roomId);
 
         TeamScheduleSearchCondition teamScheduleSearchCondition = new TeamScheduleSearchCondition();
         teamScheduleSearchCondition.setStartTime(date.atTime(0, 00, 00));
@@ -118,7 +111,7 @@ public class TeamScheduleService {
         participants.forEach(participant -> {
             teamScheduleSearchCondition.setUserId(participant);
 
-            unableScheduleSet.addAll(teamScheduleRepository.searchByCondition(teamScheduleSearchCondition));
+            unableScheduleSet.addAll(teamScheduleUserService.searchByCondition(teamScheduleSearchCondition));
         });
 
         // 모임의 불가한 시간

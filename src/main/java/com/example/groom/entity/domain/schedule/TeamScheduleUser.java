@@ -18,6 +18,7 @@ public class TeamScheduleUser extends BaseEntity {
 
     @JoinColumn
     @ManyToOne(fetch = FetchType.LAZY)
+    @QueryInit("room")
     private TeamSchedule teamSchedule;
 
     @JoinColumn

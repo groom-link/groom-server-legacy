@@ -1,7 +1,6 @@
 package com.example.groom.domain.room.roomParticipants;
 
 import com.example.groom.domain.room.roomParticipants.dto.RoomParticipantsDto;
-import com.example.groom.entity.domain.auth.UserInfo;
 import com.example.groom.entity.domain.room.RoomParticipants;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,13 +13,8 @@ import java.util.List;
 public class RoomParticipantsService {
     private final RoomParticipantsRepository roomParticipantsRepository;
 
-    public List<UserInfo> getParticipantsByRoomId(Long roomId) {
-
-        return this.roomParticipantsRepository.getParticipantsListUserInfosByRoomId(roomId);
-    }
-
-    public Long countParticipantsByRoomId(Long roomId) {
-        return this.roomParticipantsRepository.countParticipantsByRoomId(roomId);
+    public List<Long> getParticipantsIds(Long roomId) {
+        return this.roomParticipantsRepository.getParticipantsIds(roomId);
     }
 
     @Transactional
