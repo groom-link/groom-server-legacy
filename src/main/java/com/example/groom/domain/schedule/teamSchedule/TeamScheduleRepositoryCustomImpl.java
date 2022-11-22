@@ -1,12 +1,9 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
-import com.example.groom.domain.schedule.dto.ScheduleDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleListResponseDto;
 import com.example.groom.domain.schedule.teamSchedule.dto.TeamScheduleSearchCondition;
 import com.example.groom.entity.domain.schedule.TeamSchedule;
-import com.example.groom.entity.enums.RequestStatus;
-import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +14,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.example.groom.entity.domain.schedule.QTeamSchedule.teamSchedule;
-import static com.example.groom.entity.domain.schedule.QTeamScheduleUser.teamScheduleUser;
 
 
 public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryCustom {
@@ -58,8 +54,7 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
 
         List<TeamSchedule> content = query
                 .selectFrom(teamSchedule)
-                .where(eqUserId(teamScheduleSearchCondition.getUserId()),
-                        eqRoomId(teamScheduleSearchCondition.getRoomId()),
+                .where(eqRoomId(teamScheduleSearchCondition.getRoomId()),
                         betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
@@ -72,36 +67,6 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
                 .toList();
 
         return TeamScheduleListResponseDto.of(teamScheduleListDto, pageable.getPageNumber(), isLast);
-    }
-
-
-    @Override
-    public void updateParticipation(Long teamScheduleId, Long userId, RequestStatus status) {
-        query.update(teamScheduleUser)
-                .set(teamScheduleUser.status, status)
-                .where(teamScheduleUser.id.eq(teamScheduleId), teamScheduleUser.participant.id.eq(userId))
-                .execute();
-    }
-
-    @Override
-    public List<Long> getParticipants(Long teamScheduleId) {
-        return query.select(teamScheduleUser.participant.id)
-                .from(teamScheduleUser)
-                .where(teamScheduleUser.teamSchedule.id.eq(teamScheduleId))
-                .fetch();
-    }
-
-    @Override
-    public List<ScheduleDto> searchByCondition(TeamScheduleSearchCondition teamScheduleSearchCondition) {
-        return query.select(Projections.constructor(ScheduleDto.class,
-                        teamSchedule.startTime,
-                        teamSchedule.endTime
-                ))
-                .from(teamSchedule)
-                .where(eqUserId(teamScheduleSearchCondition.getUserId()),
-                        eqRoomId(teamScheduleSearchCondition.getRoomId()),
-                        betweenScheduleTime(teamScheduleSearchCondition.getStartTime(), teamScheduleSearchCondition.getEndTime()))
-                .fetch();
     }
 
     private <T> boolean getIsLast(List<T> content, Pageable pageable) {
@@ -130,12 +95,5 @@ public class TeamScheduleRepositoryCustomImpl implements TeamScheduleRepositoryC
             return null;
         }
         return teamSchedule.room.id.eq(roomId);
-    }
-
-    private BooleanExpression eqUserId(Long userId) {
-        if (userId == null) {
-            return null;
-        }
-        return teamScheduleUser.participant.id.eq(userId);
     }
 }

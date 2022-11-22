@@ -1,6 +1,7 @@
 package com.example.groom.domain.schedule.teamSchedule;
 
 import com.example.groom.domain.schedule.teamSchedule.dto.*;
+import com.example.groom.domain.schedule.teamScheduleUser.TeamScheduleUserService;
 import com.example.groom.entity.enums.RequestStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +15,8 @@ import java.util.List;
 public class TeamScheduleController {
 
     private final TeamScheduleService teamScheduleService;
+
+    private final TeamScheduleUserService teamScheduleUserService;
 
     @PostMapping
     public TeamScheduleDetailDto postTeamSchedule(@RequestBody TeamScheduleDto teamScheduleDto) {
@@ -35,7 +38,7 @@ public class TeamScheduleController {
 
     @PatchMapping("/{teamScheduleId}/participation/{userId}")
     public void updateParticipation(@PathVariable Long teamScheduleId, @PathVariable Long userId, @RequestParam RequestStatus status) {
-        teamScheduleService.updateParticipation(teamScheduleId, userId, status);
+        teamScheduleUserService.updateParticipation(teamScheduleId, userId, status);
     }
 
     @GetMapping
@@ -45,7 +48,7 @@ public class TeamScheduleController {
 
     @GetMapping("/participants/{teamScheduleId}")
     public List<Long> getParticipants(@PathVariable Long teamScheduleId) {
-        return teamScheduleService.getParticipants(teamScheduleId);
+        return teamScheduleUserService.getParticipants(teamScheduleId);
     }
 
     @GetMapping("/{teamScheduleId}")
