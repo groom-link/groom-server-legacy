@@ -25,7 +25,7 @@ public class SecurityConfig {
     }
 
     private static final String[] PUBLIC_URI = {
-            "/auth/**","/swagger-ui/**", "/v3/**", "/api-docs","/**", "/auth/me"
+            "/auth/**","/swagger-ui/**", "/v3/**", "/api-docs","/**", "/auth/me", "/upload/**"
     };
 
     @Bean
