@@ -19,4 +19,6 @@ public class TodoListDto {
     private String profileImage;
 
     private RoomSlotSample roomSlot;
+
+    private Long todoOwnerId;
 }
